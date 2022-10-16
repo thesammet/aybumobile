@@ -1,6 +1,6 @@
-import {View, Text, ScrollView} from 'react-native';
-import {useEffect, useState} from 'react';
-import {aybuUrl} from '../constants';
+import { View, Text, ScrollView } from 'react-native';
+import { useEffect, useState } from 'react';
+import { aybuUrl } from '../constants';
 import cheerio from 'cheerio-without-node-native';
 import moment from 'moment';
 
