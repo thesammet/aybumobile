@@ -56,7 +56,7 @@ const Food = () => {
     dayList.forEach((element, index) => {
       foodListWithDay.push({
         day: element,
-        food: foodList[index],
+        meal: foodList[index],
       });
     });
 
