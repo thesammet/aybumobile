@@ -6,9 +6,14 @@ import {toastConfig} from '@/config/toast';
 import Toast from 'react-native-toast-message';
 import {AuthProvider} from './context/Auth';
 import Navigation from '@/navigation';
-import {ThemeProvider} from '@/context/Theme';
+import DeviceInfo from 'react-native-device-info';
 
 const App = () => {
+  const [deviceId, setDeviceId] = useState(null);
+  const getdeviceId = () => {
+    var uniqueId = DeviceInfo.getUniqueId();
+    setDeviceId(uniqueId);
+  };
   return (
     <SafeAreaProvider>
       <AuthProvider>
