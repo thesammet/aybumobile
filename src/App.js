@@ -6,19 +6,22 @@ import {toastConfig} from '@/config/toast';
 import Toast from 'react-native-toast-message';
 import {AuthProvider} from './context/Auth';
 import Navigation from '@/navigation';
+import {ThemeProvider} from '@/context/Theme';
 
 const App = () => {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <SafeAreaView
-          style={{
-            flex: 1,
-            backgroundColor: 'white',
-          }}>
-          <StatusBar animated={true} barStyle="dark-content" />
-          <Navigation />
-        </SafeAreaView>
+        <ThemeProvider>
+          <SafeAreaView
+            style={{
+              flex: 1,
+              backgroundColor: 'white',
+            }}>
+            <StatusBar animated={true} barStyle="dark-content" />
+            <Navigation />
+          </SafeAreaView>
+        </ThemeProvider>
       </AuthProvider>
       <Toast config={toastConfig} />
     </SafeAreaProvider>

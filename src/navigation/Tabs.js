@@ -1,21 +1,26 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View} from 'react-native';
-import {Setting, Fav, Globe} from '../components/icons';
+import {Main, User, Book, Bakery} from '../components/icons';
 import Home from '@/screens/Home';
-import Food from '@/screens/Food';
-import Settings from '@/screens/Settings';
-import {COLORS} from '@/utils/colors';
+// import Food from '@/screens/Food';
 import {tabHeight} from '../constants';
+import Meal from '@/screens/Meal';
+import Profile from '@/screens/Profile';
+import Academic from '@/screens/Academic';
+import {tabIconSize} from '@/constants';
+import {useTheme} from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
+  const {colors} = useTheme();
+
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: COLORS.white,
+          backgroundColor: colors.background,
           height: tabHeight,
           justifyContent: 'center',
           alignItems: 'center',
@@ -33,10 +38,10 @@ const Tabs = () => {
           headerShown: false,
           tabBarIcon: ({focused}) => {
             return focused ? (
-              <Globe width={32} height={32} color="black" />
+              <Main width={tabIconSize} height={tabIconSize} color="black" />
             ) : (
               <View style={{opacity: 0.5}}>
-                <Globe width={32} height={32} color="black" />
+                <Main width={tabIconSize} height={tabIconSize} color="black" />
               </View>
             );
           },
@@ -48,17 +53,21 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Food"
-        component={Food}
+        name="Meal"
+        component={Meal}
         options={{
           title: 'Food',
           headerShown: false,
           tabBarIcon: ({focused}) => {
             return focused ? (
-              <Fav width={32} height={32} color="black" />
+              <Bakery width={tabIconSize} height={tabIconSize} color="black" />
             ) : (
               <View style={{opacity: 0.5}}>
-                <Fav width={32} height={32} color="black" />
+                <Bakery
+                  width={tabIconSize}
+                  height={tabIconSize}
+                  color="black"
+                />
               </View>
             );
           },
@@ -70,17 +79,39 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={Settings}
+        name="Academix"
+        component={Academic}
         options={{
-          title: 'Settings',
+          title: 'Academic Calendar',
           headerShown: false,
           tabBarIcon: ({focused}) => {
             return focused ? (
-              <Setting width={32} height={32} color="black" />
+              <Book width={tabIconSize} height={tabIconSize} color="black" />
             ) : (
               <View style={{opacity: 0.5}}>
-                <Setting width={32} height={32} color="black" />
+                <Book width={tabIconSize} height={tabIconSize} color="black" />
+              </View>
+            );
+          },
+          tabBarActiveTintColor: '#00BC6B',
+          tabBarLabelStyle: {
+            fontSize: 10,
+            fontFamily: 'Montserrat-Medium',
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          title: 'Profile',
+          headerShown: false,
+          tabBarIcon: ({focused}) => {
+            return focused ? (
+              <User width={tabIconSize} height={tabIconSize} color="black" />
+            ) : (
+              <View style={{opacity: 0.5}}>
+                <User width={tabIconSize} height={tabIconSize} color="black" />
               </View>
             );
           },

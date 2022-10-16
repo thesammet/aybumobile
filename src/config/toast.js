@@ -1,5 +1,6 @@
 import {BaseToast} from 'react-native-toast-message';
 
+// add extra toast type
 export const toastConfig = {
   warning: props => (
     <BaseToast

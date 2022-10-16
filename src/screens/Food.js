@@ -1,14 +1,26 @@
-import {View, Text, ScrollView} from 'react-native';
-import {useEffect, useState} from 'react';
-import {aybuUrl} from '../constants';
+import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import {useEffect, useState, useCallback, useMemo, useRef} from 'react';
+import {animationConfigsSpring, aybuUrl} from '../constants';
 import cheerio from 'cheerio-without-node-native';
 import moment from 'moment';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 const Food = () => {
   const [dayAndMeal, setDayAndMeal] = useState([]);
 
   useEffect(() => {
     getFoodList();
+  }, []);
+
+  // ref
+  const bottomSheetRef = useRef(null);
+
+  // variables
+  const snapPoints = useMemo(() => ['25%', '50%', '75%'], []);
+
+  // callbacks
+  const handleSheetChanges = useCallback(index => {
+    console.log('handleSheetChanges', index);
   }, []);
 
   const getFoodList = async () => {
@@ -66,10 +78,33 @@ const Food = () => {
   };
 
   return (
-    <ScrollView>
-      <Text>{JSON.stringify(dayAndMeal, null, 2)}</Text>
-    </ScrollView>
+    <View style={styles.container}>
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={0}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        enablePanDownToClose={false}
+        detached={true}
+        animationConfigs={animationConfigsSpring}>
+        <View style={styles.contentContainer}>
+          <Text>Awesome 🎉</Text>
+        </View>
+      </BottomSheet>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: 'grey',
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+});
 
 export default Food;
