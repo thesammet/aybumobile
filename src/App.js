@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useState} from 'react';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {StatusBar, StyleSheet} from 'react-native';
 import {toastConfig} from '@/config/toast';
@@ -7,13 +7,16 @@ import Toast from 'react-native-toast-message';
 import {AuthProvider} from './context/Auth';
 import Navigation from '@/navigation';
 import DeviceInfo from 'react-native-device-info';
+import {ThemeProvider} from '@/context/Theme';
 
 const App = () => {
   const [deviceId, setDeviceId] = useState(null);
+
   const getdeviceId = () => {
     var uniqueId = DeviceInfo.getUniqueId();
     setDeviceId(uniqueId);
   };
+
   return (
     <SafeAreaProvider>
       <AuthProvider>
