@@ -1,25 +1,27 @@
 const baseURL = 'http://localhost:3000';
 
-export const getDailyFood = async (
+export const postComment = async (
     token,
-    food_date  //Date format should be: DD.MM.YYYY
-) => {
+    comment) => {
     try {
         const response = await fetch(
-            `${baseURL}/food?date=${food_date}`,
+            `${baseURL}/comments`,
             {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
+                body: JSON.stringify({
+                    comment
+                }),
             },
         );
 
         const json = await response.json();
         return json;
     } catch (error) {
-        console.log('Get Daily Food Error: ', error);
+        console.log('Post Comment Error: ', error);
         return { error: true };
     }
 };
