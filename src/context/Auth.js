@@ -1,20 +1,33 @@
-import React, {useState, createContext, useEffect} from 'react';
-import {storage} from '../config/storage';
+import React, { useState, createContext, useEffect } from 'react';
+import { storage } from '../config/storage';
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
+  const [usernameInit, setUsernameInit] = useState(null);
 
   useEffect(() => {
     tokenControl();
-  }, [token]);
+    usernameInitControl();
+  }, [token, usernameInit]);
 
   const tokenControl = async () => {
     try {
       const token = storage.getString('token');
       if (token) {
         setToken(token);
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
+  const usernameInitControl = async () => {
+    try {
+      const usernameInit = storage.getString('usernameInit');
+      if (usernameInit) {
+        setUsernameInit(usernameInit);
       }
     } catch (error) {
       console.warn(error);
@@ -34,6 +47,24 @@ export const AuthProvider = ({children}) => {
     setToken(null);
     try {
       storage.delete('token');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addUsernameInit = async value => {
+    setUsernameInit(value);
+    try {
+      storage.set('usernameInit', value);
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
+  const removeUsernameInit = async () => {
+    setUsernameInit(null);
+    try {
+      storage.delete('usernameInit');
     } catch (error) {
       console.log(error);
     }
