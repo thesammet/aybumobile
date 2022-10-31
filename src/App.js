@@ -8,6 +8,7 @@ import {AuthProvider} from './context/Auth';
 import Navigation from '@/navigation';
 import DeviceInfo from 'react-native-device-info';
 import {ThemeProvider} from '@/context/Theme';
+import Onboarding from './components/Onboarding';
 
 const App = () => {
   const [deviceId, setDeviceId] = useState(null);
@@ -18,21 +19,27 @@ const App = () => {
   };
 
   return (
-    <SafeAreaProvider>
-      <AuthProvider>
-        <ThemeProvider>
-          <SafeAreaView
-            style={{
-              flex: 1,
-              backgroundColor: 'white',
-            }}>
-            <StatusBar animated={true} barStyle="dark-content" />
-            <Navigation />
-          </SafeAreaView>
-        </ThemeProvider>
-      </AuthProvider>
-      <Toast config={toastConfig} />
-    </SafeAreaProvider>
+    <>
+      {true ? (
+        <SafeAreaProvider>
+          <AuthProvider>
+            <ThemeProvider>
+              <SafeAreaView
+                style={{
+                  flex: 1,
+                  backgroundColor: 'white',
+                }}>
+                <StatusBar animated={true} barStyle="dark-content" />
+                <Navigation />
+              </SafeAreaView>
+            </ThemeProvider>
+          </AuthProvider>
+          <Toast config={toastConfig} />
+        </SafeAreaProvider>
+      ) : (
+        <Onboarding />
+      )}
+    </>
   );
 };
 

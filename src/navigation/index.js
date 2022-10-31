@@ -5,6 +5,7 @@ import DeviceInfo from 'react-native-device-info';
 import {ThemeContext} from '../context/Theme';
 import customDefaultTheme from '../theme/DefaultTheme';
 import customDarkTheme from '../theme/DarkTheme';
+import Onboarding from '../components/Onboarding/';
 
 const Navigation = () => {
   const [deviceId, setDeviceId] = useState(null);
