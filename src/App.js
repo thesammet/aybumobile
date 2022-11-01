@@ -1,14 +1,10 @@
 import 'react-native-gesture-handler';
-import React, {useState} from 'react';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import {StatusBar, StyleSheet} from 'react-native';
-import {toastConfig} from '@/config/toast';
-import Toast from 'react-native-toast-message';
-import {AuthProvider} from './context/Auth';
+import {useState} from 'react';
+import {StyleSheet} from 'react-native';
+import {AuthProvider} from '@/context/Auth';
 import Navigation from '@/navigation';
 import DeviceInfo from 'react-native-device-info';
 import {ThemeProvider} from '@/context/Theme';
-import Onboarding from './components/Onboarding';
 
 const App = () => {
   const [deviceId, setDeviceId] = useState(null);
@@ -20,25 +16,11 @@ const App = () => {
 
   return (
     <>
-      {true ? (
-        <SafeAreaProvider>
-          <AuthProvider>
-            <ThemeProvider>
-              <SafeAreaView
-                style={{
-                  flex: 1,
-                  backgroundColor: 'white',
-                }}>
-                <StatusBar animated={true} barStyle="dark-content" />
-                <Navigation />
-              </SafeAreaView>
-            </ThemeProvider>
-          </AuthProvider>
-          <Toast config={toastConfig} />
-        </SafeAreaProvider>
-      ) : (
-        <Onboarding />
-      )}
+      <AuthProvider>
+        <ThemeProvider>
+          <Navigation />
+        </ThemeProvider>
+      </AuthProvider>
     </>
   );
 };

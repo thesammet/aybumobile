@@ -1,4 +1,4 @@
-import {useRef} from 'react';
+import React, {useContext, useRef} from 'react';
 import {
   StatusBar,
   Animated,
@@ -7,24 +7,33 @@ import {
   View,
   StyleSheet,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 
 import Backdrop from './Backdrop';
 import Indicator from './Indicator';
 import Square from './Square';
 
-import {data} from '../../helpers/onboarding-helper';
+import {data} from '@/helpers/onboarding-helper';
+import AppText from '../AppText';
+import {AuthContext} from '../../context/Auth';
 
 const {width, height} = Dimensions.get('screen');
 
 const Onboarding = () => {
+  const {skipOnboarding} = useContext(AuthContext);
+
   const scrollx = useRef(new Animated.Value(0)).current;
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
+      <TouchableOpacity style={styles.skipButton} onPress={skipOnboarding}>
+        <AppText style={styles.skipButtonText}>SKIP</AppText>
+      </TouchableOpacity>
       <Backdrop scrollx={scrollx} />
       <Square scrollx={scrollx} />
+
       <Animated.FlatList
         data={data}
         keyExtractor={item => item.key}
@@ -69,6 +78,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  skipButton: {
+    position: 'absolute',
+    top: 100,
+    right: 20,
+    zIndex: 100,
+    elevation: 100,
+    paddingHorizontal: 22,
+    paddingVertical: 8,
+    backgroundColor: '#fff',
+    borderWidth: 0.8,
+    borderColor: '#ddd',
+    borderRadius: 5,
+  },
+  skipButtonText: {
+    fontWeight: '600',
+    letterSpacing: 1,
   },
   animatedFlatListContainer: {
     paddingBottom: 100,
