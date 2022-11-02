@@ -8,8 +8,10 @@ const SvgChevronDown = props => (
     accessibilityRole="image"
     {...props}>
     <Path
+      fillRule="evenodd"
       clipRule="evenodd"
-      d="M5.646 8.646a.5.5 0 0 1 .708 0L12 14.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708Z"
+      d="M18.707 8.293a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 1.414-1.414L12 13.586l5.293-5.293a1 1 0 0 1 1.414 0Z"
+      fill="currentColor"
     />
   </Svg>
 );

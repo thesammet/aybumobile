@@ -15,4 +15,7 @@ export const size = {
   mini: rw(8),
   box: rw(280),
   boxHeight: rh(200),
+
+  tabWidth: rw(344),
+  tabHeight: rh(80),
 };

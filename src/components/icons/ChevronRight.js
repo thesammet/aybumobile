@@ -10,7 +10,7 @@ const SvgChevronRight = props => (
     <Path
       fillRule="evenodd"
       clipRule="evenodd"
-      d="M8.646 18.354a.5.5 0 0 1 0-.708L14.293 12 8.646 6.354a.5.5 0 1 1 .708-.708l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708 0Z"
+      d="M9.293 5.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414L14.586 12 9.293 6.707a1 1 0 0 1 0-1.414Z"
       fill="currentColor"
     />
   </Svg>

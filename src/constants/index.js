@@ -4,10 +4,9 @@ import {
 } from '@gorhom/bottom-sheet';
 import {Easing} from 'react-native-reanimated';
 
-export const designWidth = 375;
-export const designHeight = 812;
+export const designWidth = 390;
+export const designHeight = 844;
 
-export const tabHeight = 70;
 export const tabIconSize = 28;
 
 export const aybuUrl =

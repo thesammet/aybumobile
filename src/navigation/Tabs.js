@@ -1,15 +1,15 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View} from 'react-native';
-import {Main, User, Book, Bakery} from '../components/icons';
 import Home from '@/screens/Home';
 // import Food from '@/screens/Food';
 import {tabHeight} from '../constants';
-import Meal from '@/screens/Meal';
 import Profile from '@/screens/Profile';
-import Academic from '@/screens/Academic';
 import {tabIconSize} from '@/constants';
 import {useTheme} from '@react-navigation/native';
+import TabBar from '../components/TabBar';
+import Calendar from '../screens/Calendar';
+import Obs from '../screens/Obs';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,6 +17,19 @@ const Tabs = () => {
   const {colors} = useTheme();
 
   return (
+    <Tab.Navigator
+      initialRouteName="Search"
+      screenOptions={{
+        headerShown: false,
+      }}
+      tabBar={props => <TabBar {...props} />}>
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Obs" component={Obs} />
+      <Tab.Screen name="Calendar" component={Calendar} />
+      <Tab.Screen name="Profile" component={Profile} />
+    </Tab.Navigator>
+
+    /*
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
@@ -123,6 +136,7 @@ const Tabs = () => {
         }}
       />
     </Tab.Navigator>
+    */
   );
 };
 
