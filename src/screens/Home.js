@@ -1,39 +1,162 @@
-import {View, Text, Touchable} from 'react-native';
-import React, {useContext, useEffect} from 'react';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+  Dimensions,
+} from 'react-native';
+import React, {useContext, useState, useEffect, useRef} from 'react';
 import {
   errorMessage,
   infoMessage,
   successMessage,
   warningMessage,
 } from '../utils/showToast';
+import {
+  responsiveWidth as rw,
+  responsiveHeight as rh,
+} from '@/utils/responsive';
 import {AuthContext} from '../context/Auth';
+import DateBox from '@/components/DateBox';
+import Header from '../components/Header';
+import MealBox from '../components/MealBox';
+import ReactionBox from '../components/ReactionBox';
+import {Heart} from '../components/icons';
+import {useTheme} from '@react-navigation/native';
+
+const {width, height} = Dimensions.get('screen');
 
 const Home = () => {
   const {token, addToken, removeToken} = useContext(AuthContext);
+  const [meals, setMeals] = useState([]);
+  const {colors} = useTheme();
+
+  const scrollx = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    // get meal data
+    setMeals([
+      {
+        id: 1,
+        name: 'Mercimek Çorba, Bulgur Pilav, Domates Salata, Üzüm Hoşafı',
+      },
+      {
+        id: 2,
+        name: 'Tarhana Çorba, Bulgur Pilav, Domates Salata, Üzüm Hoşafı',
+      },
+      {
+        id: 3,
+        name: 'Domates Çorba, Bulgur Pilav, Domates Salata, Üzüm Hoşafı',
+      },
+      {
+        id: 4,
+        name: 'Boş Çorba, Bulgur Pilav, Domates Salata, Üzüm Hoşafı',
+      },
+      {
+        id: 5,
+        name: 'Ev Yapımı Çorba, Bulgur Pilav, Domates Salata, Üzüm Hoşafı',
+      },
+    ]);
+  }, []);
 
   const popMessage = () => {
     warningMessage('Message 1', 'This is a message');
   };
 
+  const likeMeal = item => {
+    console.log('like item: ', item);
+  };
+
   return (
-    <View>
-      <Text>Home</Text>
-      <TouchableOpacity onPress={() => popMessage()}>
-        <Text>Popup</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => console.log('token: ', token)}>
-        <Text>Get Storage</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => addToken('my token')}>
-        <Text>Add Storage</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => removeToken()}>
-        <Text>Delete Storage</Text>
-      </TouchableOpacity>
+    <View style={styles.homeContainer}>
+      <Header type="inside" />
+      <DateBox />
+      <View style={styles.homeInsideContainer}>
+        <Text style={[styles.mealListText, {color: colors.text}]}>
+          Yemek Listesi
+        </Text>
+
+        <Animated.FlatList
+          data={meals}
+          keyExtractor={item => item.id}
+          horizontal
+          scrollEventThrottle={32}
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {x: scrollx}}}],
+            {useNativeDriver: false},
+          )}
+          contentContainerStyle={styles.flatListContainer}
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled
+          renderItem={({item}) => {
+            return (
+              <View
+                style={[styles.mealBoxContainer, {width: rw(264)}]}
+                key={item.id}>
+                <View style={styles.mealBoxHead}>
+                  <Text>Today</Text>
+                  <Text>24.10.2022</Text>
+                </View>
+                <View style={styles.mealBoxBottom}>
+                  <View style={styles.mealBoxItem}>
+                    <Text style={styles.mealBoxItemTitle}>
+                      {item.name.split(',')}
+                    </Text>
+                    <TouchableOpacity onPress={() => likeMeal(item)}>
+                      <Heart width="24" height="24" />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            );
+          }}
+        />
+
+        <ReactionBox />
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  homeContainer: {
+    flex: 1,
+  },
+  homeInsideContainer: {
+    marginTop: 36,
+  },
+  mealListText: {
+    fontSize: 28,
+    textAlign: 'center',
+    lineHeight: 32,
+    fontWeight: '600',
+  },
+
+  flatListContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  //
+  mealBoxContainer: {
+    // alignItems: 'center',
+    // padding: 20,
+    borderWidth: 1,
+    marginHorizontal: 0,
+  },
+  mealBoxHead: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  mealBoxBottom: {},
+  mealBoxItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  mealBoxItemTitle: {},
+});
 
 export default Home;
 

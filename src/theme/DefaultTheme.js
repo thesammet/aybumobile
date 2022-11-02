@@ -5,6 +5,7 @@ const customDefaultTheme = {
   colors: {
     ...DefaultTheme.colors,
     background: '#fff',
+    text: '#001A43',
     tabBarText: '#C5C8CD',
     tabBarTextActive: '#000',
     tabBarButtonBackground: '#fff',

@@ -5,6 +5,7 @@ const customDarkTheme = {
   colors: {
     ...DarkTheme.colors,
     background: '#090909',
+    text: '#fff',
     tabBarText: '#565656',
     tabBarTextActive: '#fff',
     tabBarButtonBackground: '#000',

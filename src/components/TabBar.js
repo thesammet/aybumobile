@@ -25,9 +25,6 @@ const TabBar = ({state, descriptors, navigation}) => {
   };
 
   const tabButtonDynamicIconStyle = focused => {
-    console.log(
-      focused ? colors.tabBarIconColorActive : colors.tabBarIconColor,
-    );
     return {
       color: focused ? colors.tabBarIconColorActive : colors.tabBarIconColor,
     };
@@ -146,6 +143,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
+    zIndex: 3,
     elevation: 3,
   },
   tabButton: {

@@ -47,7 +47,6 @@ const Navigation = () => {
             <StatusBar animated={true} barStyle="dark-content" />
 
             <NavigationContainer theme={getCurrentTheme()}>
-              <Header type="inside" />
               <Tabs />
             </NavigationContainer>
           </SafeAreaView>

@@ -19,9 +19,15 @@ const Header = ({type = 'inside'}) => {
       ]}>
       {type === 'inside' &&
         (theme === 'light' ? (
-          <Image source={require('../assets/images/aybumobilelight.png')} />
+          <Image
+            source={require('@/assets/images/aybumobilelight.png')}
+            style={{marginTop: 16, width: rw(176), height: rh(48)}}
+          />
         ) : (
-          <Image source={require('../assets/images/aybumobiledark.png')} />
+          <Image
+            source={require('@/assets/images/aybumobiledark.png')}
+            style={{marginTop: 16, width: rw(176), height: rh(48)}}
+          />
         ))}
       {type === 'outside' && <Text>WELCOME</Text>}
     </View>
@@ -35,5 +41,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: -1,
+    elevation: -1,
   },
 });

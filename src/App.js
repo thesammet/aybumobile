@@ -1,4 +1,4 @@
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import 'react-native-gesture-handler';
 import {useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {AuthProvider} from '@/context/Auth';
@@ -18,13 +18,11 @@ const App = () => {
   // Wrap your app with the new GestureHandler
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <AuthProvider>
-        <ThemeProvider>
-          <Navigation />
-        </ThemeProvider>
-      </AuthProvider>
-    </GestureHandlerRootView>
+    <AuthProvider>
+      <ThemeProvider>
+        <Navigation />
+      </ThemeProvider>
+    </AuthProvider>
   );
 };
 
