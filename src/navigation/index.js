@@ -12,6 +12,7 @@ import Onboarding from '../components/Onboarding/';
 
 import Toast from 'react-native-toast-message';
 import {toastConfig} from '@/config/toast';
+import Header from '@/components/Header';
 
 const Navigation = () => {
   const [deviceId, setDeviceId] = useState(null);
@@ -46,6 +47,7 @@ const Navigation = () => {
             <StatusBar animated={true} barStyle="dark-content" />
 
             <NavigationContainer theme={getCurrentTheme()}>
+              <Header type="inside" />
               <Tabs />
             </NavigationContainer>
           </SafeAreaView>
