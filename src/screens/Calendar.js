@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { StyleSheet, View, Dimensions, } from 'react-native';
+import { StyleSheet, View, Dimensions, ActivityIndicator } from 'react-native';
 import { getAcademic } from '../api/academic'
 import { AuthContext } from '../context/Auth';
 import { errorMessage } from '../utils/showToast'
@@ -28,9 +28,11 @@ const Calendar = () => {
 
   return (
     <View style={styles.container}>
-      <Pdf
-        source={source}
-        style={styles.pdf} />
+      {loading ?
+        <ActivityIndicator /> :
+        <Pdf
+          source={source}
+          style={styles.pdf} />}
     </View>
   )
 }
@@ -41,7 +43,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 25,
   },
   pdf: {
     flex: 1,
