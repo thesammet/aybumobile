@@ -6,7 +6,7 @@ import {
   Animated,
   Dimensions,
 } from 'react-native';
-import React, {useContext, useState, useEffect, useRef} from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import {
   errorMessage,
   infoMessage,
@@ -17,20 +17,20 @@ import {
   responsiveWidth as rw,
   responsiveHeight as rh,
 } from '@/utils/responsive';
-import {AuthContext} from '../context/Auth';
+import { AuthContext } from '../context/Auth';
 import DateBox from '@/components/DateBox';
 import Header from '../components/Header';
 import MealBox from '../components/MealBox';
 import ReactionBox from '../components/ReactionBox';
-import {Heart} from '../components/icons';
-import {useTheme} from '@react-navigation/native';
+import { Heart } from '../components/icons';
+import { useTheme } from '@react-navigation/native';
 
-const {width, height} = Dimensions.get('screen');
+const { width, height } = Dimensions.get('screen');
 
 const Home = () => {
-  const {token, addToken, removeToken} = useContext(AuthContext);
+  const { token, addToken, removeToken } = useContext(AuthContext);
   const [meals, setMeals] = useState([]);
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   const scrollx = useRef(new Animated.Value(0)).current;
 
@@ -73,7 +73,7 @@ const Home = () => {
       <Header type="inside" />
       <DateBox />
       <View style={styles.homeInsideContainer}>
-        <Text style={[styles.mealListText, {color: colors.text}]}>
+        <Text style={[styles.mealListText, { color: colors.text }]}>
           Yemek Listesi
         </Text>
 
@@ -83,16 +83,16 @@ const Home = () => {
           horizontal
           scrollEventThrottle={32}
           onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {x: scrollx}}}],
-            {useNativeDriver: false},
+            [{ nativeEvent: { contentOffset: { x: scrollx } } }],
+            { useNativeDriver: false },
           )}
           contentContainerStyle={styles.flatListContainer}
           showsHorizontalScrollIndicator={false}
           pagingEnabled
-          renderItem={({item}) => {
+          renderItem={({ item }) => {
             return (
               <View
-                style={[styles.mealBoxContainer, {width: rw(264)}]}
+                style={[styles.mealBoxContainer, { width: rw(264) }]}
                 key={item.id}>
                 <View style={styles.mealBoxHead}>
                   <Text>Today</Text>
