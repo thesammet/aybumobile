@@ -16,7 +16,7 @@ const Header = ({ type = 'inside' }) => {
     <View
       style={[
         styles.headerContainer,
-        { backgroundColor: colors.headerBg, height: rh(136) },
+        { backgroundColor: colors.headerBg, height: type === 'outside' ? rh(100) : rh(136) },
       ]}>
       {type === 'inside' &&
         (theme === 'light' ? (

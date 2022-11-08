@@ -4,9 +4,8 @@ const h1Size = 36
 const h2Size = 28
 const h3Size = 24
 const h4Size = 20
-const h5Size = 17
+const h5Size = 16
 const h6Size = 15
-const h7Size = 13
 
 export default StyleSheet.create({
     H1Regular: {
@@ -71,6 +70,11 @@ export default StyleSheet.create({
     },
     H5Regular: {
         fontSize: h5Size,
+        fontWeight: '400',
+        fontFamily: 'Rubik-Regular'
+    },
+    H55Regular: {
+        fontSize: 17,
         fontWeight: '400',
         fontFamily: 'Rubik-Regular'
     },

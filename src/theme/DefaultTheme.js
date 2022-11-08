@@ -1,4 +1,4 @@
-import {DefaultTheme} from '@react-navigation/native';
+import { DefaultTheme } from '@react-navigation/native';
 
 const customDefaultTheme = {
   ...DefaultTheme,
@@ -13,6 +13,7 @@ const customDefaultTheme = {
     tabBarIconColor: '#002D74',
     tabBarIconColorActive: '#fff',
     headerBg: '#001A43',
+    welcomeBg: '#001A43'
   },
 };
 
