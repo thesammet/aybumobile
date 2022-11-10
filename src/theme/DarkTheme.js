@@ -18,6 +18,7 @@ const customDarkTheme = {
     tabBarIconColorActive: '#fff',
     headerBg: '#0AD4EE',
     reactionBg: '#0F0F0F',
+    welcomeBg: '#001A43',
   },
 };
 

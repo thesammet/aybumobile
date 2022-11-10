@@ -18,6 +18,7 @@ const customDefaultTheme = {
     tabBarIconColorActive: '#fff',
     headerBg: '#001A43',
     reactionBg: '#001A43',
+    welcomeBg: '#001A43',
   },
 };
 
