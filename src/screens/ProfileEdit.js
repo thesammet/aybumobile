@@ -10,7 +10,6 @@ import {
 } from 'react-native'
 import { register } from '../api/user';
 import { AuthContext } from '../context/Auth'
-import { ProfileContext } from '../context/Profile';
 import { useTheme } from '@react-navigation/native';
 import DeviceInfo from 'react-native-device-info';
 import TYPOGRAPHY from '../constants/typography';
@@ -18,14 +17,9 @@ import Header from '../components/Header';
 import { ChevronDown, Check } from '../components/icons'
 import BottomSheet from 'react-native-gesture-bottom-sheet';
 import { sections } from '../assets/sources/sections'
-import {
-    errorMessage,
-    successMessage,
-} from '../utils/showToast';
 
-export default function Auth() {
+export default function ProfileEdit() {
     const { addToken } = useContext(AuthContext);
-    const { addUsername, addFaculty, addDepartment } = useContext(ProfileContext)
     const { colors } = useTheme();
     const bottomSheetFaculty = useRef();
     const bottomSheetDepartment = useRef();
@@ -37,28 +31,19 @@ export default function Auth() {
     const [isValid, setValid] = useState(false)
     const [borderColor, setBorderColor] = useState('gray')
 
-    const popSuccessMessage = () => {
-        successMessage('Message 1', 'AYBÜ Mobil hesabınız başarıyla oluşturuldu.');
-    };
-    const popFaiLMessage = () => {
-        errorMessage('Message 2', 'Giriş yapılamadı. Lütfen tekrar deneyiniz');
-    };
-
     const validMethod = () => {
         username.length > 0 && department && faculty ?
-            setValid(true) : setValid(false)
+            setValid(true)
+            :
+            setValid(false)
     }
-
     const registerToken = async (deviceId) => {
-        let response = await register(deviceId, username, department, faculty);
+        let response = await register(deviceId, username, department);
         if (response.error) {
-            //todo fail message
+            //TODO: toast message
+            console.log(response)
         } else {
-            addToken(response.token)
-            addUsername(username)
-            addFaculty(faculty)
-            addDepartment(department)
-            //todo success toast
+            addToken(response.data.token)
         }
     };
 
@@ -97,7 +82,7 @@ export default function Auth() {
                     marginRight: 20,
                     flex: 1
                 }]}>{item.name}</Text>
-                <Check width={24} height={24} color={item.name == department ? '#0AD4EE' : '#EBEBEB'} />
+                <Check width={24} height={24} color={item.faculty == faculty ? '#0AD4EE' : '#EBEBEB'} />
             </View>
         </TouchableOpacity>
     );
@@ -180,9 +165,9 @@ export default function Auth() {
 
                 <TouchableOpacity activeOpacity={.7} disabled={isValid ? false : true}
                     onPress={() => {
-                        DeviceInfo.getUniqueId().then((uniqueId) => {
+                        /* DeviceInfo.getUniqueId().then((uniqueId) => {
                             registerToken(uniqueId)
-                        });
+                        }); */
                     }
                     }>
                     <View style={[styles.startButton, { borderColor: isValid ? '#0AD4EE' : '#EBEBEB' },

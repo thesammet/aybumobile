@@ -2,20 +2,24 @@ import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, View, Dimensions, ActivityIndicator } from 'react-native';
 import { getAcademic } from '../api/academic'
 import { AuthContext } from '../context/Auth';
+import { ProfileContext } from '../context/Profile';
 import { errorMessage } from '../utils/showToast'
 import Pdf from 'react-native-pdf';
+
 const Calendar = () => {
   const { token } = useContext(AuthContext)
+  const { department } = useContext(ProfileContext)
   const [academicData, setAcademicData] = useState([])
   const [loading, setLoading] = useState(false)
-
+  const [source, setSource] = useState(null)
   const getAcademicMethod = async () => {
     setLoading(true)
-    let response = await getAcademic("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzYyODNkNGRjMjhjZDk0NTQyMWM0ZDgiLCJpYXQiOjE2Njc0MDA2NjB9.G3mV4IY6SXYWG2hbPNi_iu62j2zmVBHpnh1vL0TLxxk", "Bilgisayar Mühendisliği");
+    let response = await getAcademic(token, department);
     console.log(response)
     if (response.error) {
     } else {
       setAcademicData(response.data)
+      setSource({ uri: `data:application/pdf;base64,${response.data.content}` })
     }
     setLoading(false)
   };
@@ -23,9 +27,7 @@ const Calendar = () => {
   useEffect(() => {
     getAcademicMethod()
   }, []);
-
-  const source = { uri: `${academicData.url}`, cache: true };
-
+  ;
   return (
     <View style={styles.container}>
       {loading ?

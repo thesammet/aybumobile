@@ -1,9 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import Tabs from './Tabs';
-import DeviceInfo from 'react-native-device-info';
 import { ThemeContext } from '@/context/Theme';
 import { AuthContext } from '@/context/Auth';
 import customDefaultTheme from '../theme/DefaultTheme';
@@ -12,10 +11,8 @@ import Onboarding from '../components/Onboarding/';
 import Auth from '../screens/Auth';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from '@/config/toast';
-import Header from '@/components/Header';
 
 const Navigation = () => {
-  const [deviceId, setDeviceId] = useState(null);
   const { theme } = useContext(ThemeContext);
   const { isOnboarding } = useContext(AuthContext);
   const { token } = useContext(AuthContext);
@@ -27,12 +24,6 @@ const Navigation = () => {
     }
   };
 
-  const getdeviceId = () => {
-    var uniqueId = DeviceInfo.getUniqueId();
-    setDeviceId(uniqueId);
-  };
-
-  //if token does not exist: user post to login api with device info
   return (
     <>
       {isOnboarding ? (

@@ -1,27 +1,19 @@
 import 'react-native-gesture-handler';
-import {useState} from 'react';
-import {StyleSheet} from 'react-native';
-import {AuthProvider} from '@/context/Auth';
+import { useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { AuthProvider } from '@/context/Auth';
 import Navigation from '@/navigation';
-//import DeviceInfo from 'react-native-device-info';
-import {ThemeProvider} from '@/context/Theme';
+import { ThemeProvider } from '@/context/Theme';
+import { ProfileProvider } from './context/Profile';
 
 const App = () => {
-  // const [deviceId, setDeviceId] = useState(null);
-
-  // const getdeviceId = () => {
-  //   var uniqueId = DeviceInfo.getUniqueId();
-  //   setDeviceId(uniqueId);
-  // };
-
-  /* ... */
-  // Wrap your app with the new GestureHandler
-
   return (
     <AuthProvider>
-      <ThemeProvider>
-        <Navigation />
-      </ThemeProvider>
+      <ProfileProvider>
+        <ThemeProvider>
+          <Navigation />
+        </ThemeProvider>
+      </ProfileProvider>
     </AuthProvider>
   );
 };
