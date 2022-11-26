@@ -19,9 +19,9 @@ import {
 } from '@/utils/responsive';
 import {AuthContext} from '../context/Auth';
 import DateBox from '@/components/DateBox';
-import Header from '../components/Header';
-import MealBox from '../components/MealBox';
-import ReactionBox from '../components/ReactionBox';
+import Header from '@/components/Header';
+import MealBox from '@/components/MealBox';
+import ReactionBox from '@/components/ReactionBox';
 import {useTheme} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('screen');

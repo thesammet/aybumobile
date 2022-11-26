@@ -17,6 +17,7 @@ export {default as Star} from './Star';
 export {default as Sun} from './Sun';
 export {default as ThumbsDown} from './ThumbsDown';
 export {default as ThumbsUpEmpty} from './ThumbsUpEmpty';
+export {default as ThumbsDownEmpty} from './ThumbsDownEmpty';
 export {default as ThumbsUpFill} from './ThumbsUpFill';
 export {default as ThumbsUp} from './ThumbsUp';
 export {default as Trend} from './Trend';
