@@ -1,9 +1,9 @@
-const baseURL = 'http://localhost:3000';
+const baseURL = 'https://aybu-mobile.herokuapp.com';
 
 export const rating = async (
     token,
-    rating,
-    food_date  //Date format should be: DD/MM/YYYY
+    rating, //'like' or 'dislike'
+    food_id
 ) => {
     try {
         const response = await fetch(`${baseURL}/rating`, {
@@ -14,7 +14,7 @@ export const rating = async (
             },
             body: JSON.stringify({
                 rating,
-                food_date
+                food: food_id
             }),
         });
 

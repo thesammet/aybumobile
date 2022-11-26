@@ -1,4 +1,4 @@
-const baseURL = 'http://localhost:3000';
+const baseURL = 'https://aybu-mobile.herokuapp.com';
 
 export const getAcademic = async (token, department_name) => {
   try {
@@ -14,11 +14,11 @@ export const getAcademic = async (token, department_name) => {
     return json;
   } catch (error) {
     console.log('Get Academic Error: ', error);
-    return {error: true};
+    return { error: true };
   }
 };
 
-//ONLY ADMIN
+//ONLY ADMIN. it could be using on postman.
 export const postAcademic = async (token, title, url) => {
   try {
     const response = await fetch(`${baseURL}/academic`, {
@@ -37,6 +37,6 @@ export const postAcademic = async (token, title, url) => {
     return json;
   } catch (error) {
     console.log('Post Academic Error: ', error);
-    return {error: true};
+    return { error: true };
   }
 };

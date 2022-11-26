@@ -1,12 +1,35 @@
-const baseURL = 'http://localhost:3000';
+const baseURL = 'https://aybu-mobile.herokuapp.com';
 
-export const getDailyFood = async (
+export const getMonthlyFood = async (
     token,
-    food_date  //Date format should be: DD.MM.YYYY
 ) => {
     try {
         const response = await fetch(
-            `${baseURL}/food?date=${food_date}`,
+            `${baseURL}/food`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            },
+        );
+
+        const json = await response.json();
+        return json;
+    } catch (error) {
+        console.log('Get Daily Food Error: ', error);
+        return { error: true };
+    }
+};
+
+export const getTrends = async (
+    token,
+    food_id
+) => {
+    try {
+        const response = await fetch(
+            `${baseURL}/trend`,
             {
                 method: 'GET',
                 headers: {
