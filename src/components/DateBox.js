@@ -16,11 +16,11 @@ const DateBox = () => {
         styles.dateBoxContainer,
         { width: rw(344), height: rh(56), marginTop: -rh(28), backgroundColor: colors.boxBg },
       ]}>
-      <ChevronLeft width="28" height="28" style={{ color: colors.text }} />
-      <Text style={[styles.dateText, { color: colors.text }]}>
+      <ChevronLeft width="28" height="28" style={{ color: colors.dateBoxElement }} />
+      <Text style={[styles.dateText, { color: colors.dateBoxElement }]}>
         24.10.2022 - 28.10.2022
       </Text>
-      <ChevronRight width="28" height="28" style={{ color: colors.text }} />
+      <ChevronRight width="28" height="28" style={{ color: colors.dateBoxElement }} />
     </View>
   );
 };
