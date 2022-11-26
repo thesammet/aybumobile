@@ -38,19 +38,6 @@ const Calendar = () => {
   useEffect(() => {
     getAcademicMethod();
   }, []);
-
-  const getAcademicMethod = async () => {
-    setLoading(true);
-    let response = await getAcademic(token, department);
-    console.log(response);
-    if (response.error) {
-    } else {
-      setAcademicData(response.data);
-      setSource({uri: `data:application/pdf;base64,${response.data.content}`});
-    }
-    setLoading(false);
-  };
-
   return (
     <View style={[styles.container, {backgroundColor: colors.headerBg}]}>
       {loading ? (
