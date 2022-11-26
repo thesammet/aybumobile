@@ -22,7 +22,7 @@ import {
 import {useTheme} from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
 
-const ReactionBox = ({item, likeMeal, disslikeMeal}) => {
+const ReactionBox = ({item, likeMeal, disslikeMeal, goToComments}) => {
   const {colors} = useTheme();
   const [like, setLike] = useState(false);
   const [disslike, setDisslike] = useState(false);
@@ -127,7 +127,9 @@ const ReactionBox = ({item, likeMeal, disslikeMeal}) => {
           {item?.social?.likes}
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.reactionItem}>
+      <TouchableOpacity
+        style={styles.reactionItem}
+        onPress={() => goToComments(item)}>
         <MessageCircle width="28" height="28" color="white" />
         <Text style={styles.reactionText}>{item?.meal?.commentCount}</Text>
       </TouchableOpacity>

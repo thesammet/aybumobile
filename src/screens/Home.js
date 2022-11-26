@@ -26,7 +26,7 @@ import {useTheme} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('screen');
 
-const Home = () => {
+const Home = ({navigation}) => {
   const {token, addToken, removeToken} = useContext(AuthContext);
   const [meals, setMeals] = useState([]);
   const {colors} = useTheme();
@@ -113,6 +113,11 @@ const Home = () => {
     console.log('dissliked Meal: ', disslikedMeal);
   };
 
+  const goToComments = goingItem => {
+    console.log('goingItem: ', goingItem);
+    navigation.navigate('Comments', {item: goingItem});
+  };
+
   return (
     <View style={styles.homeContainer}>
       <Header type="inside" />
@@ -176,6 +181,7 @@ const Home = () => {
                     item={item}
                     likeMeal={likedItem => likeMeal(likedItem)}
                     disslikeMeal={disslikedItem => disslikeMeal(disslikedItem)}
+                    goToComments={goingItem => goToComments(goingItem)}
                   />
                 </Animated.View>
               </View>
