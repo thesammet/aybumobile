@@ -1,5 +1,4 @@
 export {default as ArrowLeft} from './ArrowLeft';
-export {default as Aybumobil} from './Aybumobil';
 export {default as Calendar} from './Calendar';
 export {default as Check} from './Check';
 export {default as ChevronDown} from './ChevronDown';
