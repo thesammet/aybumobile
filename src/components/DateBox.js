@@ -1,26 +1,26 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import {
   responsiveWidth as rw,
   responsiveHeight as rh,
 } from '@/utils/responsive';
-import {ChevronLeft, ChevronRight} from './icons';
-import {useTheme} from '@react-navigation/native';
+import { ChevronLeft, ChevronRight } from './icons';
+import { useTheme } from '@react-navigation/native';
 
 const DateBox = () => {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   return (
     <View
       style={[
         styles.dateBoxContainer,
-        {width: rw(344), height: rh(56), marginTop: -rh(28)},
+        { width: rw(344), height: rh(56), marginTop: -rh(28), backgroundColor: colors.boxBg },
       ]}>
-      <ChevronLeft width="28" height="28" style={{color: colors.text}} />
-      <Text style={[styles.dateText, {color: colors.text}]}>
+      <ChevronLeft width="28" height="28" style={{ color: colors.text }} />
+      <Text style={[styles.dateText, { color: colors.text }]}>
         24.10.2022 - 28.10.2022
       </Text>
-      <ChevronRight width="28" height="28" style={{color: colors.text}} />
+      <ChevronRight width="28" height="28" style={{ color: colors.text }} />
     </View>
   );
 };
@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 12,
-    backgroundColor: '#fff',
     borderRadius: 32,
     marginLeft: 'auto',
     marginRight: 'auto',

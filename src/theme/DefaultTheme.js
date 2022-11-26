@@ -24,7 +24,8 @@ const customDefaultTheme = {
     editBorderColor: '#EBEBEB',
     editBackgroundColor: '#FFFFFF',
     boxBg: '#FFFFFF',
-    boxBorder: '#EBEBEB'
+    boxBorder: '#EBEBEB',
+    dateBoxElement: '#001A43'
   },
 };
 

@@ -49,7 +49,7 @@ const Calendar = () => {
                 style={{ marginTop: 16, height: rh(48), alignSelf: 'center' }}
               />
             )}
-            <Text style={{ marginHorizontal: 36, textAlign: 'center', color: 'white', marginTop: 12 }}>Fakültenizin programı bulunamadı.{"\n"}En kısa zamanda eklenecektir.</Text>
+            <Text style={{ marginHorizontal: 36, textAlign: 'center', color: 'white', marginTop: 12 }}>{department} fakültesinin programı bulunamadı.{"\n"}En kısa zamanda eklenecektir.</Text>
           </View> :
           <Pdf
             source={{ uri: `data:application/pdf;base64,${academicData.content}` }}

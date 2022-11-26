@@ -24,7 +24,8 @@ const customDarkTheme = {
     editBorderColor: '#2C2C2C',
     editBackgroundColor: '#151515',
     boxBg: '#2C2C2C',
-    boxBorder: '#2C2C2C'
+    boxBorder: '#2C2C2C',
+    dateBoxElement: '#FFFFFF'
   },
 };
 
