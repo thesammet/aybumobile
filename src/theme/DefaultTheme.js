@@ -19,7 +19,12 @@ const customDefaultTheme = {
     headerBg: '#001A43',
     reactionBg: '#001A43',
     welcomeBg: '#001A43',
-    toggleBack: '#F0F0F0'
+    toggleBack: '#F0F0F0',
+    usernameText: '#001A43',
+    editBorderColor: '#EBEBEB',
+    editBackgroundColor: '#FFFFFF',
+    boxBg: '#FFFFFF',
+    boxBorder: '#EBEBEB'
   },
 };
 

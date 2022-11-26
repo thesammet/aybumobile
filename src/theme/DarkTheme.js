@@ -19,7 +19,12 @@ const customDarkTheme = {
     headerBg: '#0AD4EE',
     reactionBg: '#0F0F0F',
     welcomeBg: '#001A43',
-    toggleBack: '#2C2C2C'
+    toggleBack: '#2C2C2C',
+    usernameText: '#FFFFFF',
+    editBorderColor: '#2C2C2C',
+    editBackgroundColor: '#151515',
+    boxBg: '#2C2C2C',
+    boxBorder: '#2C2C2C'
   },
 };
 

@@ -16,18 +16,18 @@ const Profile = ({ navigation }) => {
   const [toggleValue, setToggleValue] = useState(theme == 'light' ? true : false)
 
   return (
-    <View style={styles.homeContainer}>
+    <View style={[styles.homeContainer, { backgroundColor: colors.background }]}>
       <Header type="inside" />
       <UsernameBox username={username} />
       <View style={styles.innerView}>
         <View >
           <Text style={styles.fieldText}>Fakülte</Text>
-          <View style={styles.departmentArea}>
-            <Text numberOfLines={2} style={styles.departmentInnerText}>{faculty}</Text>
+          <View style={[styles.departmentArea, { borderColor: colors.boxBorder, backgroundColor: colors.boxBg }]}>
+            <Text numberOfLines={2} style={[styles.departmentInnerText, { color: colors.usernameText }]}>{faculty}</Text>
           </View>
           <Text style={[styles.fieldText, { marginTop: 20 }]}>Bölüm</Text>
-          <View style={styles.departmentArea}>
-            <Text numberOfLines={2} style={styles.departmentInnerText}>{department}</Text>
+          <View style={[styles.departmentArea, { borderColor: colors.boxBorder, backgroundColor: colors.boxBg }]}>
+            <Text numberOfLines={2} style={[styles.departmentInnerText, { color: colors.usernameText }]}>{department}</Text>
           </View>
           <Text style={[styles.fieldText, { marginTop: 20 }]}>Mod</Text>
           <ToggleButton
@@ -53,9 +53,9 @@ const Profile = ({ navigation }) => {
           />
         </View>
         <TouchableOpacity activeOpacity={.7} onPress={() => { navigation.navigate('ProfileEdit') }}>
-          <View style={[styles.startButton, { borderColor: '#EBEBEB' },
+          <View style={[styles.editButton, { borderColor: colors.editBorderColor, backgroundColor: colors.editBackgroundColor },
           ]}>
-            <Text style={[styles.startText, { color: '#0AD4EE', }]}>Düzenle</Text>
+            <Text style={[styles.editText, { color: '#0AD4EE' }]}>Düzenle</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
 
   },
-  startButton: {
+  editButton: {
     borderRadius: 32,
     width: '50%',
     borderWidth: 1,
@@ -80,11 +80,11 @@ const styles = StyleSheet.create({
     shadowColor: '#0AD4EE',
     shadowOffset: {
       width: 0,
-      height: 10,
+      height: .1,
     },
     shadowOpacity: 0.3,
-    shadowRadius: 3.95,
-    elevation: 5,
+    shadowRadius: .1,
+    elevation: 1,
     zIndex: 5,
   },
   fieldText: [
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
       alignSelf: 'center'
     },
   ],
-  startText: [
+  editText: [
     TYPOGRAPHY.H4Regular,
     {
       alignSelf: 'center',
@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
     }],
   departmentArea: {
     flexDirection: 'row',
-    borderColor: "#EBEBEB",
     borderWidth: 1,
     borderRadius: 32,
     padding: 20,
@@ -115,7 +114,6 @@ const styles = StyleSheet.create({
   departmentInnerText: [
     TYPOGRAPHY.H55Regular,
     {
-      color: '#001A43',
       flex: 1,
       textAlign: 'center'
     }],

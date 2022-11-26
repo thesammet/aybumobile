@@ -15,9 +15,9 @@ const UsernameBox = (props) => {
         <View
             style={[
                 styles.dateBoxContainer,
-                { width: rw(266), height: rh(56), marginTop: -rh(28) },
+                { width: rw(266), height: rh(64), marginTop: -rh(28), backgroundColor: colors.boxBg },
             ]}>
-            <Text style={[styles.dateText, { color: colors.text, }, typography.H4Regular]}>
+            <Text style={[styles.dateText, { color: colors.usernameText, }, typography.H4Regular]}>
                 {props.username}
             </Text>
         </View>
@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 12,
-        backgroundColor: '#fff',
         borderRadius: 32,
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
     },
     dateText: {
         fontSize: 16,
-        lineHeight: 20,
+
         fontWeight: '400',
     },
 });
