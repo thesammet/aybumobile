@@ -1,11 +1,12 @@
 const baseURL = 'http://localhost:3000';
 
 export const getAcademic = async (
-    token
+    token,
+    department_name
 ) => {
     try {
         const response = await fetch(
-            `${baseURL}/academic`,
+            `${baseURL}/academic/${department_name}`,
             {
                 method: 'GET',
                 headers: {

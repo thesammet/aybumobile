@@ -2,7 +2,9 @@ const baseURL = 'http://localhost:3000';
 
 export const register = async (
     deviceId,
-    username
+    username,
+    department,
+    faculty
 ) => {
     try {
         const response = await fetch(`${baseURL}/users`, {
@@ -12,7 +14,9 @@ export const register = async (
             },
             body: JSON.stringify({
                 deviceId,
-                username
+                username,
+                department,
+                faculty
             }),
         });
 

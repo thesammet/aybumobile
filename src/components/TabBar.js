@@ -25,9 +25,6 @@ const TabBar = ({state, descriptors, navigation}) => {
   };
 
   const tabButtonDynamicIconStyle = focused => {
-    console.log(
-      focused ? colors.tabBarIconColorActive : colors.tabBarIconColor,
-    );
     return {
       color: focused ? colors.tabBarIconColorActive : colors.tabBarIconColor,
     };
@@ -100,7 +97,7 @@ const TabBar = ({state, descriptors, navigation}) => {
                 style={tabButtonDynamicIconStyle(isFocused)}
               />
             )}
-            {label === 'Calendar' && (
+            {label === 'Syllabus' && (
               <Calendar
                 width="28"
                 height="28"
@@ -146,6 +143,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
+    zIndex: 3,
     elevation: 3,
   },
   tabButton: {

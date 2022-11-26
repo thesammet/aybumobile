@@ -1,12 +1,12 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View} from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View } from 'react-native';
 import Home from '@/screens/Home';
 // import Food from '@/screens/Food';
-import {tabHeight} from '../constants';
+import { tabHeight } from '../constants';
 import Profile from '@/screens/Profile';
-import {tabIconSize} from '@/constants';
-import {useTheme} from '@react-navigation/native';
+import { tabIconSize } from '@/constants';
+import { useTheme } from '@react-navigation/native';
 import TabBar from '../components/TabBar';
 import Calendar from '../screens/Calendar';
 import Obs from '../screens/Obs';
@@ -14,7 +14,7 @@ import Obs from '../screens/Obs';
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   return (
     <Tab.Navigator
@@ -25,7 +25,7 @@ const Tabs = () => {
       tabBar={props => <TabBar {...props} />}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Obs" component={Obs} />
-      <Tab.Screen name="Calendar" component={Calendar} />
+      <Tab.Screen name="Syllabus" component={Calendar} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
 
