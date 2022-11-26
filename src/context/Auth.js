@@ -17,6 +17,30 @@ export const AuthProvider = ({children}) => {
     usernameInitControl();
   }, [token, usernameInit]);
 
+  const onBoardingControl = async () => {
+    //storage.delete('onboarding');
+    try {
+      let onboarding = storage.getString('onboarding');
+      console.log('onboarding', onboarding);
+      if (onboarding === undefined) {
+        setIsOnboarding(true);
+      } else {
+        setIsOnboarding(false);
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
+  const skipOnboarding = async () => {
+    setIsOnboarding(false);
+    try {
+      storage.set('onboarding', 'false');
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
   const tokenControl = async () => {
     try {
       const token = storage.getString('token');
@@ -72,30 +96,6 @@ export const AuthProvider = ({children}) => {
       storage.delete('usernameInit');
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const onBoardingControl = async () => {
-    //storage.delete('onboarding');
-    try {
-      const onboarding = storage.getString('onboarding');
-      console.log('onboarding', onboarding);
-      if (onboarding === undefined) {
-        setIsOnboarding(true);
-      } else {
-        setIsOnboarding(false);
-      }
-    } catch (error) {
-      console.warn(error);
-    }
-  };
-
-  const skipOnboarding = async () => {
-    setIsOnboarding(false);
-    try {
-      storage.set('onboarding', 'false');
-    } catch (error) {
-      console.warn(error);
     }
   };
 

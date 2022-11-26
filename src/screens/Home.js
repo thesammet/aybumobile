@@ -22,7 +22,6 @@ import DateBox from '@/components/DateBox';
 import Header from '../components/Header';
 import MealBox from '../components/MealBox';
 import ReactionBox from '../components/ReactionBox';
-
 import {useTheme} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('screen');
@@ -106,8 +105,12 @@ const Home = () => {
     warningMessage('Message 1', 'This is a message');
   };
 
-  const likeMeal = item => {
-    console.log('like item: ', item);
+  const likeMeal = likedMeal => {
+    console.log('liked Meal: ', likedMeal);
+  };
+
+  const disslikeMeal = disslikedMeal => {
+    console.log('dissliked Meal: ', disslikedMeal);
   };
 
   return (
@@ -123,7 +126,7 @@ const Home = () => {
           data={meals}
           keyExtractor={item => item?.meal?.id}
           horizontal
-          snapToInterval={rw(264)}
+          snapToInterval={rw(264)} // rw(264)
           decelerationRate={0}
           bounces={false}
           onScroll={Animated.event(
@@ -135,7 +138,9 @@ const Home = () => {
           showsHorizontalScrollIndicator={false}
           renderItem={({item, index}) => {
             if (!item.meal || !item.social) {
-              return <View style={{width: (width - rw(264)) / 2}} />;
+              return (
+                <View key={item?.key} style={{width: (width - rw(264)) / 2}} />
+              );
             }
 
             const inputRange = [
@@ -143,12 +148,16 @@ const Home = () => {
               (index - 1) * rw(264),
               index * rw(264),
             ];
+
             const translateY = scrollx.interpolate({
               inputRange,
               outputRange: [0, -16, 0],
             });
+
             return (
-              <View style={[styles.mealOutsideContainer, {width: rw(264)}]}>
+              <View
+                style={[styles.mealOutsideContainer, {width: rw(264)}]}
+                key={item?.meal?.id}>
                 <Animated.View
                   style={{
                     transform: [{translateY}],
@@ -163,7 +172,11 @@ const Home = () => {
                     item={item}
                     style={styles.mealBox}
                   />
-                  <ReactionBox item={item} />
+                  <ReactionBox
+                    item={item}
+                    likeMeal={likedItem => likeMeal(likedItem)}
+                    disslikeMeal={disslikedItem => disslikeMeal(disslikedItem)}
+                  />
                 </Animated.View>
               </View>
             );

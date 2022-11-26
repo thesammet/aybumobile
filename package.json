@@ -23,6 +23,7 @@
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
     "cheerio-without-node-native": "0.20.2",
+    "lottie-react-native": "^5.1.4",
     "moment": "^2.29.4",
     "react": "18.1.0",
     "react-native": "0.70.3",

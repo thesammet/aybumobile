@@ -7,18 +7,19 @@ export const ThemeProvider = ({children}) => {
   const [theme, setTheme] = useState('light');
 
   useEffect(() => {
-    const themeControl = async () => {
-      try {
-        let theme = storage.getString('theme');
-        if (theme) {
-          setTheme(theme);
-        }
-      } catch (error) {
-        console.warn(error);
-      }
-    };
     themeControl();
   }, []);
+
+  const themeControl = async () => {
+    try {
+      let theme = storage.getString('theme');
+      if (theme) {
+        setTheme(theme);
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  };
 
   const changeTheme = async value => {
     setTheme(value);

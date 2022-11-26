@@ -1,14 +1,65 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useRef, useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+  Easing,
+  TouchableOpacity,
+} from 'react-native';
 import {
   responsiveWidth as rw,
   responsiveHeight as rh,
 } from '@/utils/responsive';
-import {MessageCircle, ThumbsDown, ThumbsUp} from './icons';
+import {
+  MessageCircle,
+  ThumbsDown,
+  ThumbsUp,
+  ThumbsUpFill,
+  ThumbsUpEmpty,
+  ThumbsDownEmpty,
+} from './icons';
 import {useTheme} from '@react-navigation/native';
+import Lottie from 'lottie-react-native';
 
-const ReactionBox = ({item}) => {
+const ReactionBox = ({item, likeMeal, disslikeMeal}) => {
   const {colors} = useTheme();
+  const [like, setLike] = useState(false);
+  const [disslike, setDisslike] = useState(false);
+
+  const animationProgress = useRef(new Animated.Value(0));
+
+  useEffect(() => {
+    console.log('itemmm: ', item);
+  }, []);
+
+  const makeLikeAnimation = () => {
+    setLike(!like);
+    Animated.timing(animationProgress.current, {
+      toValue: 1,
+      duration: 1500,
+      easing: Easing.linear,
+      useNativeDriver: false,
+    }).start();
+    // end animation
+    setTimeout(() => {
+      animationProgress.current.setValue(0);
+    }, 1500);
+  };
+
+  const makeDisslikeAnimation = () => {
+    setDisslike(!disslike);
+    Animated.timing(animationProgress.current, {
+      toValue: 1,
+      duration: 1500,
+      easing: Easing.linear,
+      useNativeDriver: false,
+    }).start();
+    // end animation
+    setTimeout(() => {
+      animationProgress.current.setValue(0);
+    }, 1500);
+  };
 
   return (
     <View
@@ -16,23 +67,73 @@ const ReactionBox = ({item}) => {
         styles.reactionContainer,
         {backgroundColor: colors.reactionBg, width: rw(224), height: rh(56)},
       ]}>
-      <View style={styles.reactionItem}>
-        <ThumbsUp width="24" height="24" />
-        <Text style={styles.reactionText}>{item?.social?.likes}</Text>
-      </View>
-      <View style={[styles.reactionItem, {marginHorizontal: 28}]}>
-        <ThumbsDown width="24" height="24" color="white" />
-        <Text style={styles.reactionText}>{item?.social?.dislikes}</Text>
-      </View>
-      <View style={styles.reactionItem}>
-        <MessageCircle width="24" height="24" color="white" />
+      <TouchableOpacity
+        style={[styles.reactionItem, {position: 'relative'}]}
+        onPress={() => {
+          makeLikeAnimation();
+          likeMeal(item);
+        }}>
+        {!like ? (
+          <ThumbsUpEmpty width="28" height="28" />
+        ) : (
+          <View
+            style={{
+              width: 80,
+              height: 80,
+              borderWidth: 1,
+            }}>
+            <Lottie
+              source={require('@/assets/sources/like.json')}
+              progress={animationProgress.current}
+            />
+          </View>
+        )}
+
+        <Text
+          style={[
+            styles.reactionText,
+            like && {position: 'absolute', left: 60, top: 32},
+          ]}>
+          {item?.social?.likes}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.reactionItem, {marginHorizontal: 32}]}
+        onPress={() => {
+          makeDisslikeAnimation();
+          disslikeMeal(item);
+        }}>
+        {!disslike ? (
+          <ThumbsDownEmpty width="28" height="28" />
+        ) : (
+          <View
+            style={{
+              width: 80,
+              height: 80,
+              borderWidth: 1,
+            }}>
+            <Lottie
+              source={require('@/assets/sources/like.json')}
+              progress={animationProgress.current}
+            />
+          </View>
+        )}
+
+        <Text
+          style={[
+            styles.reactionText,
+            like && {position: 'absolute', left: 60, top: 32},
+          ]}>
+          {item?.social?.likes}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.reactionItem}>
+        <MessageCircle width="28" height="28" color="white" />
         <Text style={styles.reactionText}>{item?.meal?.commentCount}</Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
-
-export default ReactionBox;
 
 const styles = StyleSheet.create({
   reactionContainer: {
@@ -49,6 +150,8 @@ const styles = StyleSheet.create({
   reactionText: {
     color: '#fff',
     fontSize: 16,
-    marginLeft: 4,
+    marginLeft: 6,
   },
 });
+
+export default ReactionBox;
