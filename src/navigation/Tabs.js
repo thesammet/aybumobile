@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import Home from '@/screens/Home';
 // import Food from '@/screens/Food';
 import { tabHeight } from '../constants';
-import Profile from '@/screens/Profile';
+import Profile from '@/stacks/ProfileStack';
 import { tabIconSize } from '@/constants';
 import { useTheme } from '@react-navigation/native';
 import TabBar from '../components/TabBar';
