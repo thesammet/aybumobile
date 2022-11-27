@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Animated,
   Dimensions,
+  Platform,
 } from 'react-native';
 import React, {useContext, useState, useEffect, useRef} from 'react';
 import {
@@ -26,20 +27,24 @@ import {useTheme} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('screen');
 
+const SPACING = 10;
+const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.76 : width * 0.78;
+const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
+
 const Home = ({navigation}) => {
   const {token, addToken, removeToken} = useContext(AuthContext);
-  const [meals, setMeals] = useState([]);
   const {colors} = useTheme();
-
   const scrollx = useRef(new Animated.Value(0)).current;
+
+  const [meals, setMeals] = useState([]);
 
   useEffect(() => {
     // get meal data
     setMeals([
-      {key: 'left-spacer'},
+      {meal: {id: '231243'}, key: 'left-spacer'},
       {
         meal: {
-          id: '636281211fd7abf23bafbb2a',
+          id: '136281211fd7abf23bafbb2a',
           meal: ', Ezogelin Çorba, Tavuk Şinitzel, Peynirli Erişte, Ayran,',
           date: '31.10.2022',
           commentCount: 2,
@@ -51,7 +56,7 @@ const Home = ({navigation}) => {
       },
       {
         meal: {
-          id: '636281211fd7abf23bafbb2c',
+          id: '236281211fd7abf23bafbb2c',
           meal: ', Ezogelin Çorba, Tavuk Şinitzel, Peynirli Erişte, Ayran,',
           date: '31.10.2022',
           commentCount: 2,
@@ -63,7 +68,7 @@ const Home = ({navigation}) => {
       },
       {
         meal: {
-          id: '636281211fd7abf23bafbb30',
+          id: '336281211fd7abf23bafbb30',
           meal: ', Ezogelin Çorba, Tavuk Şinitzel, Peynirli Erişte, Ayran,',
           date: '31.10.2022',
           commentCount: 2,
@@ -75,7 +80,7 @@ const Home = ({navigation}) => {
       },
       {
         meal: {
-          id: '636281211fd7abf23bafbb26',
+          id: '436281211fd7abf23bafbb26',
           meal: ', Ezogelin Çorba, Tavuk Şinitzel, Peynirli Erişte, Ayran,',
           date: '31.10.2022',
           commentCount: 2,
@@ -87,7 +92,7 @@ const Home = ({navigation}) => {
       },
       {
         meal: {
-          id: '636281211fd7abf23bafbb32',
+          id: '536281211fd7abf23bafbb32',
           meal: ', Ezogelin Çorba, Tavuk Şinitzel, Peynirli Erişte, Ayran,',
           date: '31.10.2022',
           commentCount: 2,
@@ -97,7 +102,7 @@ const Home = ({navigation}) => {
           dislikes: 1,
         },
       },
-      {key: 'right-spacer'},
+      {meal: {id: '23123243'}, key: 'right-spacer'},
     ]);
   }, []);
 
@@ -131,7 +136,7 @@ const Home = ({navigation}) => {
           data={meals}
           keyExtractor={item => item?.meal?.id}
           horizontal
-          snapToInterval={rw(264)} // rw(264)
+          snapToInterval={ITEM_SIZE} // rw(264)
           decelerationRate={0}
           bounces={false}
           onScroll={Animated.event(
@@ -143,15 +148,13 @@ const Home = ({navigation}) => {
           showsHorizontalScrollIndicator={false}
           renderItem={({item, index}) => {
             if (!item.meal || !item.social) {
-              return (
-                <View key={item?.key} style={{width: (width - rw(264)) / 2}} />
-              );
+              return <View key={item?.key} style={{width: EMPTY_ITEM_SIZE}} />;
             }
 
             const inputRange = [
-              (index - 2) * rw(264),
-              (index - 1) * rw(264),
-              index * rw(264),
+              (index - 2) * ITEM_SIZE,
+              (index - 1) * ITEM_SIZE,
+              index * ITEM_SIZE,
             ];
 
             const translateY = scrollx.interpolate({
@@ -161,13 +164,13 @@ const Home = ({navigation}) => {
 
             return (
               <View
-                style={[styles.mealOutsideContainer, {width: rw(264)}]}
-                key={item?.meal?.id}>
+                style={[styles.mealOutsideContainer, {width: ITEM_SIZE}]}
+                key={item.meal.id}>
                 <Animated.View
                   style={{
                     transform: [{translateY}],
-                    marginHorizontal: 6,
-                    padding: rw(8),
+                    marginHorizontal: SPACING,
+                    padding: SPACING * 2,
                     borderRadius: 34,
                     alignItems: 'center',
                     width: '100%',

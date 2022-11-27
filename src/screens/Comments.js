@@ -1,12 +1,26 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {View, Text, FlatList, RefreshControl} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  RefreshControl,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Platform,
+} from 'react-native';
 import BasicHeader from '../components/BasicHeader';
 import Comment from '../components/Comment';
+import {Send} from '../components/icons';
 
 const Comments = ({route, navigation}) => {
   const {item} = route.params;
 
   const [comments, setComments] = useState([]);
+  const [comment, onChangeComment] = useState('');
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
@@ -69,22 +83,77 @@ const Comments = ({route, navigation}) => {
     }, 1000);
   }, []);
 
+  const sendComment = async () => {
+    // send comment
+  };
+
   return (
-    <View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{paddingBottom: 80, flex: 1, position: 'relative'}}>
       <BasicHeader info={item} navigation={navigation} />
-      <FlatList
-        data={comments}
-        keyExtractor={item => item.id}
-        key={item => item.id}
-        renderItem={({item}) => <Comment comment={item} />}
-        contentContainerStyle={{paddingHorizontal: 35, paddingVertical: 24}}
-        ItemSeparatorComponent={() => <View style={{height: 34}} />}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      />
-    </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{flex: 1}}>
+          <FlatList
+            data={comments}
+            keyExtractor={item => item.id}
+            key={item => item.id}
+            renderItem={({item}) => <Comment comment={item} />}
+            contentContainerStyle={{paddingHorizontal: 35, paddingVertical: 24}}
+            ItemSeparatorComponent={() => <View style={{height: 34}} />}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
+          <View style={styles.commentInputContainer}>
+            <TextInput
+              style={styles.commentInput}
+              onChangeText={onChangeComment}
+              value={comment}
+              placeholder="Yorum Yaz"
+              keyboardType="default"
+            />
+            <TouchableOpacity onPress={() => sendComment()} activeOpacity={0.8}>
+              <Send width="24" height="24" color="#001A43" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
+
+const styles = StyleSheet.create({
+  commentInputContainer: {
+    height: 48,
+    borderRadius: 24,
+    paddingRight: 16,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.17,
+    shadowRadius: 3.65,
+    elevation: 999,
+    zIndex: 999,
+    position: 'absolute',
+    bottom: 10,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginHorizontal: 24,
+  },
+  commentInput: {
+    flex: 1,
+    height: 48,
+    fontSize: 16,
+    paddingHorizontal: 16,
+    color: '#001A43',
+  },
+});
 
 export default Comments;

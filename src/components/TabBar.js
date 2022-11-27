@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
-import {Calendar, Meal, Profil, User} from './icons';
+import {Calendar, Meal, Profil, Trend, User} from './icons';
 import {
   responsiveWidth as rw,
   responsiveHeight as rh,
@@ -97,6 +97,20 @@ const TabBar = ({state, descriptors, navigation}) => {
                 style={tabButtonDynamicIconStyle(isFocused)}
               />
             )}
+            {label === 'Trends' && (
+              <View
+                style={[
+                  styles.trendsWrapper,
+                  {backgroundColor: isFocused ? '#FF4A22' : '#fff'},
+                ]}>
+                <Trend
+                  width="32"
+                  height="32"
+                  color="#FFE922"
+                  // style={tabButtonDynamicIconStyle(isFocused)}
+                />
+              </View>
+            )}
             {label === 'Syllabus' && (
               <Calendar
                 width="28"
@@ -111,7 +125,7 @@ const TabBar = ({state, descriptors, navigation}) => {
                 style={tabButtonDynamicIconStyle(isFocused)}
               />
             )}
-            {!isFocused && (
+            {/*!isFocused && (
               <Text
                 style={[
                   styles.buttonText,
@@ -119,7 +133,7 @@ const TabBar = ({state, descriptors, navigation}) => {
                 ]}>
                 {label}
               </Text>
-            )}
+            )*/}
           </TouchableOpacity>
         );
       })}
@@ -132,7 +146,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderWidth: 0,
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     marginLeft: 'auto',
     marginRight: 'auto',
     borderRadius: 40,
@@ -156,6 +170,14 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     lineHeight: 16,
     marginTop: 4,
+  },
+  trendsWrapper: {
+    width: 60,
+    height: 60,
+    borderRadius: 999,
+    backgroundColor: '#FF4A22',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

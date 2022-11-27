@@ -11,6 +11,7 @@ import TabBar from '../components/TabBar';
 import Calendar from '../screens/Calendar';
 import Obs from '../screens/Obs';
 import HomeStack from '../stacks/HomeStack';
+import Trends from '../screens/Trends';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +27,7 @@ const Tabs = () => {
       tabBar={props => <TabBar {...props} />}>
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Obs" component={Obs} />
+      <Tab.Screen name="Trends" component={Trends} />
       <Tab.Screen name="Syllabus" component={Calendar} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>

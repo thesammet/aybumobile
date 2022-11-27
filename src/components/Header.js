@@ -62,8 +62,6 @@ const Header = ({type = 'inside', navigation}) => {
   );
 };
 
-export default Header;
-
 const styles = StyleSheet.create({
   headerContainer: {
     width: '100%',
@@ -78,3 +76,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+export default Header;

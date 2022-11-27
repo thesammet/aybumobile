@@ -48,9 +48,7 @@ const MealBox = ({item, likeMeal, style, ...props}) => {
       <View style={styles.mealBoxBottom}>
         {meal.map((item, index) => (
           <View style={styles.mealBoxBottomItem} key={index}>
-            <Text
-              key={index}
-              style={[styles.mealBoxBottomText, {color: colors.text}]}>
+            <Text style={[styles.mealBoxBottomText, {color: colors.text}]}>
               {item}
             </Text>
             <TouchableOpacity onPress={() => likeMealItem(index)}>
