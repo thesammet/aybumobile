@@ -17,6 +17,7 @@ import {
   responsiveWidth as rw,
   responsiveHeight as rh,
 } from '@/utils/responsive';
+import { strings } from '../constants/localization';
 const Calendar = () => {
   const { token } = useContext(AuthContext);
   const { department } = useContext(ProfileContext);
@@ -62,8 +63,7 @@ const Calendar = () => {
               color: 'white',
               marginTop: 12,
             }}>
-            {department} fakültesinin programı bulunamadı.{'\n'}En kısa zamanda
-            eklenecektir.
+            {department} {strings.calendarString1}{'\n'}{strings.calendarString2}
           </Text>
         </View>
       ) : (

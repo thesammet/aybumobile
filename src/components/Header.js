@@ -8,6 +8,8 @@ import { useTheme } from '@react-navigation/native';
 import { ThemeContext } from '@/context/Theme';
 import TYPOGRAPHY from '../constants/typography';
 import { ArrowLeft } from '../components/icons/';
+import { strings } from '../constants/localization';
+
 const Header = ({ type = 'inside', navigation }) => {
   const { colors } = useTheme();
   const { theme } = useContext(ThemeContext);
@@ -40,7 +42,7 @@ const Header = ({ type = 'inside', navigation }) => {
         ))}
       {type === 'outside' && (
         <Text style={[TYPOGRAPHY.H1Semibold, { color: '#0AD4EE' }]}>
-          Hoşgeldiniz
+          {strings.welcome}
         </Text>
       )}
       {type === 'editProfile' && (
@@ -54,7 +56,7 @@ const Header = ({ type = 'inside', navigation }) => {
           </TouchableOpacity>
           <Text
             style={[TYPOGRAPHY.H2Semibold, { color: 'white', marginLeft: 8 }]}>
-            Profil Düzenle
+            {strings.editProfile}
           </Text>
         </View>
       )}

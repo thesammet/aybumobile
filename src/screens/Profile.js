@@ -8,6 +8,7 @@ import TYPOGRAPHY from '../constants/typography';
 import ToggleButton from 'react-native-toggle-element';
 import { Sun, Moon } from '../components/icons/'
 import { useTheme } from '@react-navigation/native';
+import { strings } from '../constants/localization';
 
 const Profile = ({ navigation }) => {
   const { colors } = useTheme()
@@ -21,15 +22,15 @@ const Profile = ({ navigation }) => {
       <UsernameBox username={username} />
       <View style={styles.innerView}>
         <View >
-          <Text style={styles.fieldText}>Fakülte</Text>
+          <Text style={styles.fieldText}>{strings.faculty}</Text>
           <View style={[styles.departmentArea, { borderColor: colors.boxBorder, backgroundColor: colors.boxBg }]}>
             <Text numberOfLines={2} style={[styles.departmentInnerText, { color: colors.usernameText }]}>{faculty}</Text>
           </View>
-          <Text style={[styles.fieldText, { marginTop: 20 }]}>Bölüm</Text>
+          <Text style={[styles.fieldText, { marginTop: 20 }]}>{strings.department}</Text>
           <View style={[styles.departmentArea, { borderColor: colors.boxBorder, backgroundColor: colors.boxBg }]}>
             <Text numberOfLines={2} style={[styles.departmentInnerText, { color: colors.usernameText }]}>{department}</Text>
           </View>
-          <Text style={[styles.fieldText, { marginTop: 20 }]}>Mod</Text>
+          <Text style={[styles.fieldText, { marginTop: 20 }]}>{strings.mood}</Text>
           <ToggleButton
             value={toggleValue}
             onPress={(newState) => { setToggleValue(newState); toggleValue ? changeTheme('dark') : changeTheme('light') }}
@@ -55,7 +56,7 @@ const Profile = ({ navigation }) => {
         <TouchableOpacity activeOpacity={.7} onPress={() => { navigation.navigate('ProfileEdit') }}>
           <View style={[styles.editButton, { borderColor: colors.editBorderColor, backgroundColor: colors.editBackgroundColor },
           ]}>
-            <Text style={[styles.editText, { color: '#0AD4EE' }]}>Düzenle</Text>
+            <Text style={[styles.editText, { color: '#0AD4EE' }]}>{strings.edit}</Text>
           </View>
         </TouchableOpacity>
       </View>
