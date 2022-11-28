@@ -5,6 +5,5 @@ export const getDay = date => {
 };
 
 export const getDayName = date => {
-  console.log('d: ', date);
   return moment(new Date(date.replace(/\./g, '-'))).format('dddd');
 };

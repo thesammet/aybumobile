@@ -27,6 +27,7 @@ const customDarkTheme = {
     boxBorder: '#2C2C2C',
     dateBoxElement: '#FFFFFF',
     dateText: '#474747',
+    trendHeader: '#FF4A22',
   },
 };
 

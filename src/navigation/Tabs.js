@@ -26,7 +26,7 @@ const Tabs = () => {
       }}
       tabBar={props => <TabBar {...props} />}>
       <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Obs" component={Obs} />
+      {/* <Tab.Screen name="Obs" component={Obs} /> */}
       <Tab.Screen name="Trends" component={Trends} />
       <Tab.Screen name="Syllabus" component={Calendar} />
       <Tab.Screen name="Profile" component={Profile} />

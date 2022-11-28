@@ -91,7 +91,11 @@ const Comments = ({route, navigation}) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{paddingBottom: 80, flex: 1, position: 'relative'}}>
-      <BasicHeader info={item} navigation={navigation} />
+      <BasicHeader
+        text={item?.meal?.date}
+        navigation={navigation}
+        type="isThree"
+      />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{flex: 1}}>
           <FlatList

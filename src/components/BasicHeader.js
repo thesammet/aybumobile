@@ -8,8 +8,17 @@ import {useTheme} from '@react-navigation/native';
 import moment from 'moment';
 import {getDay, getDayName} from '../helpers/day-helper';
 import {ArrowLeft} from './icons';
+import AyButton from './AyButton';
 
-const BasicHeader = ({navigation, info}) => {
+const BasicHeader = ({
+  navigation,
+  text,
+  type = '',
+  isBack = true,
+  style,
+  textStyle,
+  ...props
+}) => {
   const {colors} = useTheme();
 
   const goToBack = () => {
@@ -21,16 +30,23 @@ const BasicHeader = ({navigation, info}) => {
       style={[
         styles.container,
         {height: rh(96), backgroundColor: colors.headerBg},
-      ]}>
-      <TouchableOpacity onPress={() => goToBack()} style={styles.backButton}>
-        <ArrowLeft width="24" height="24" color="#fff" />
-      </TouchableOpacity>
-      <Text style={[styles.headerText, styles.dateText]}>
-        {info?.meal?.date}
+        style,
+      ]}
+      {...props}>
+      {isBack && (
+        <AyButton pressedButton={goToBack} style={styles.backButton}>
+          <ArrowLeft width="24" height="24" color="#fff" />
+        </AyButton>
+      )}
+
+      <Text style={[styles.headerText, styles.dateText, textStyle]}>
+        {text}
       </Text>
-      <Text style={[styles.headerText, styles.dayText]}>
-        {getDayName(info?.meal?.date)}
-      </Text>
+      {type === 'isThree' && (
+        <Text style={[styles.headerText, styles.dayText]}>
+          {getDayName(text)}
+        </Text>
+      )}
     </View>
   );
 };
@@ -49,6 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 40,
     justifyContent: 'flex-end',
+    borderWidth: 1,
   },
   headerText: {
     color: '#fff',

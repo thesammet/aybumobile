@@ -27,6 +27,7 @@ const customDefaultTheme = {
     boxBorder: '#EBEBEB',
     dateBoxElement: '#001A43',
     dateText: '#909090',
+    trendHeader: '#FF4A22',
   },
 };
 

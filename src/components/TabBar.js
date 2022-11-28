@@ -90,26 +90,19 @@ const TabBar = ({state, descriptors, navigation}) => {
                 style={tabButtonDynamicIconStyle(isFocused)}
               />
             )}
-            {label === 'Obs' && (
+            {/*label === 'Obs' && (
               <Profil
                 width="28"
                 height="28"
                 style={tabButtonDynamicIconStyle(isFocused)}
               />
-            )}
+            )*/}
             {label === 'Trends' && (
-              <View
-                style={[
-                  styles.trendsWrapper,
-                  {backgroundColor: isFocused ? '#FF4A22' : '#fff'},
-                ]}>
-                <Trend
-                  width="32"
-                  height="32"
-                  color="#FFE922"
-                  // style={tabButtonDynamicIconStyle(isFocused)}
-                />
-              </View>
+              <Trend
+                width="32"
+                height="32"
+                style={tabButtonDynamicIconStyle(isFocused)}
+              />
             )}
             {label === 'Syllabus' && (
               <Calendar

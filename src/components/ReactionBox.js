@@ -29,10 +29,6 @@ const ReactionBox = ({item, likeMeal, disslikeMeal, goToComments}) => {
 
   const animationProgress = useRef(new Animated.Value(0));
 
-  useEffect(() => {
-    console.log('itemmm: ', item);
-  }, []);
-
   const makeLikeAnimation = () => {
     setLike(!like);
     Animated.timing(animationProgress.current, {
