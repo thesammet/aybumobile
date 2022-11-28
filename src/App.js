@@ -1,12 +1,16 @@
 import 'react-native-gesture-handler';
-import { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { useEffect } from 'react';
+import { StyleSheet, Platform } from 'react-native';
 import { AuthProvider } from '@/context/Auth';
 import Navigation from '@/navigation';
 import { ThemeProvider } from '@/context/Theme';
 import { ProfileProvider } from './context/Profile';
+import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
+  useEffect(() => {
+    Platform.OS === 'ios' && SplashScreen.hide();
+  }, []);
   return (
     <AuthProvider>
       <ProfileProvider>
