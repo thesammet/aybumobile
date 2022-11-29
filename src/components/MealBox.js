@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {
   responsiveWidth as rw,
@@ -9,9 +9,13 @@ import {useTheme} from '@react-navigation/native';
 import {handleMeals} from '../helpers/meal-helper';
 import ReactionBox from './ReactionBox';
 import {getDayName} from '../helpers/day-helper';
+import {rating} from '../api/rating';
+import {errorMessage} from '../utils/showToast';
+import {AuthContext} from '../context/Auth';
 
-const MealBox = ({item, style, navigation, ...props}) => {
+const MealBox = ({item, style, navigation, type = '', ...props}) => {
   const {colors} = useTheme();
+  const {token} = useContext(AuthContext);
 
   const [mealList, setMealList] = useState([]);
 
@@ -27,17 +31,45 @@ const MealBox = ({item, style, navigation, ...props}) => {
   //   }
   // };
 
-  const likeMeal = likedMeal => {
-    console.log('liked Meal: ', likedMeal);
+  const getMeaningfulDayNames = dayName => {
+    switch (dayName) {
+      case 'Monday':
+        return 'Pazartesi';
+      case 'Tuesday':
+        return 'Salı';
+      case 'Wednesday':
+        return 'Çarşamba';
+      case 'Thursday':
+        return 'Perşembe';
+      case 'Friday':
+        return 'Cuma';
+      case 'Saturday':
+        return 'Cumartesi';
+      case 'Sunday':
+        return 'Pazar';
+      default:
+        return dayName;
+    }
   };
 
-  const disslikeMeal = disslikedMeal => {
-    console.log('dissliked Meal: ', disslikedMeal);
+  const toggleLikeMeal = async itemLiked => {
+    console.log('like item: ', i);
+    let response = await rating(token, 'like', itemLiked?.meal?.id);
+    if (response.error) {
+      errorMessage('Bir hata oluştu');
+    } else {
+      console.log('like response: ', response);
+    }
   };
 
-  const goToComments = goingItem => {
-    console.log('goingItem: ', goingItem);
-    navigation.navigate('Comments', {item: goingItem});
+  const toggleDislikeMeal = async itemDisliked => {
+    console.log('dislike item: ', i);
+    let response = await rating(token, 'dislike', itemDisliked?.meal?.id);
+    if (response.error) {
+      errorMessage('Bir hata oluştu');
+    } else {
+      console.log('dislike response: ', response);
+    }
   };
 
   return (
@@ -55,7 +87,7 @@ const MealBox = ({item, style, navigation, ...props}) => {
         {...props}>
         <View style={[styles.mealBoxHead, {backgroundColor: colors.lightBlue}]}>
           <Text style={[styles.mealBoxHeadText, styles.mealBoxHeadDayText]}>
-            {getDayName(item?.meal?.date)}
+            {getMeaningfulDayNames(getDayName(item?.meal?.date))}
           </Text>
           <Text style={[styles.mealBoxHeadText, styles.mealBoxHeadDateText]}>
             {item?.meal?.date}
@@ -77,10 +109,11 @@ const MealBox = ({item, style, navigation, ...props}) => {
         </View>
       </View>
       <ReactionBox
+        navigation={navigation}
         item={item}
-        likeMeal={likedItem => likeMeal(likedItem)}
-        disslikeMeal={disslikedItem => disslikeMeal(disslikedItem)}
-        goToComments={goingItem => goToComments(goingItem)}
+        toggleLikeMeal={likedItem => toggleLikeMeal(likedItem)}
+        toggleDislikeMeal={disslikedItem => toggleDislikeMeal(disslikedItem)}
+        type={type}
       />
     </View>
   );
@@ -91,7 +124,6 @@ export default MealBox;
 const styles = StyleSheet.create({
   mealBoxContainer: {
     width: '100%',
-    flex: 1,
     marginHorizontal: 0,
     paddingVertical: 8,
     borderRadius: 24,

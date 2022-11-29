@@ -45,6 +45,7 @@ export const AuthProvider = ({children}) => {
     try {
       const token = storage.getString('token');
       if (token) {
+        console.log('t:', token);
         setToken(token);
       }
     } catch (error) {

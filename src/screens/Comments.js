@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useContext} from 'react';
 import {
   View,
   Text,
@@ -12,19 +12,29 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
+import {commentRating, getSingleFoodComment} from '../api/comment';
 import BasicHeader from '../components/BasicHeader';
 import Comment from '../components/Comment';
 import {Send} from '../components/icons';
+import Loading from '../components/Loading';
+import {AuthContext} from '../context/Auth';
+import {errorMessage} from '../utils/showToast';
 
 const Comments = ({route, navigation}) => {
   const {item} = route.params;
 
+  const {token} = useContext(AuthContext);
+
   const [comments, setComments] = useState([]);
   const [comment, onChangeComment] = useState('');
+  const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     // get comments with id
+
+    getFoodComments();
+    /*
     setComments([
       {
         id: '636281211fd7abf23bafbb2a',
@@ -71,7 +81,26 @@ const Comments = ({route, navigation}) => {
         },
       },
     ]);
+    */
   }, []);
+
+  const getFoodComments = async () => {
+    setLoading(true);
+    try {
+      let response = await getSingleFoodComment(token, item?.meal?._id);
+      if (response.error) {
+        errorMessage('Yorumlar getirilemedi');
+      } else {
+        console.log('response: ', response?.data);
+        setComments(response?.data);
+      }
+    } catch (error) {
+      console.log('error: ', error);
+      errorMessage('Yorumlar getirilemedi');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -87,6 +116,29 @@ const Comments = ({route, navigation}) => {
     // send comment
   };
 
+  const likeComment = async (_id, likeStatus) => {
+    console.log('like comment id: ', _id);
+    console.log('like status: ', likeStatus);
+
+    let response = await commentRating(token, _id, likeStatus);
+
+    if (response.error) {
+      errorMessage('Something went wrong');
+    } else {
+      console.log('response: ', response);
+
+      setComments(() => {
+        return comments.map(commentItem => {
+          if (commentItem.comment._id === _id) {
+            return {...commentItem, isLike: !commentItem.isLike};
+          }
+
+          return commentItem;
+        });
+      });
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -96,13 +148,21 @@ const Comments = ({route, navigation}) => {
         navigation={navigation}
         type="isThree"
       />
+      {loading && <Loading />}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{flex: 1}}>
           <FlatList
             data={comments}
             keyExtractor={item => item.id}
             key={item => item.id}
-            renderItem={({item}) => <Comment comment={item} />}
+            renderItem={({item}) => (
+              <Comment
+                comment={item}
+                onLikeComment={(_id, likeStatus) =>
+                  likeComment(_id, likeStatus)
+                }
+              />
+            )}
             contentContainerStyle={{paddingHorizontal: 35, paddingVertical: 24}}
             ItemSeparatorComponent={() => <View style={{height: 34}} />}
             refreshControl={

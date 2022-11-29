@@ -42,72 +42,6 @@ const Home = ({navigation}) => {
   const [meals, setMeals] = useState([]);
 
   useEffect(() => {
-    /*
-    setMeals([
-      {meal: {id: '231243'}, key: 'left-spacer'},
-      {
-        meal: {
-          id: '136281211fd7abf23bafbb2a',
-          meal: ', Ezogelin Çorba, Tavuk Şinitzel, Peynirli Erişte, Ayran,',
-          date: '31.10.2022',
-          commentCount: 2,
-        },
-        social: {
-          likes: 1,
-          dislikes: 1,
-        },
-      },
-      {
-        meal: {
-          id: '236281211fd7abf23bafbb2c',
-          meal: ', Ezogelin Çorba, Tavuk Şinitzel, Peynirli Erişte, Ayran,',
-          date: '31.10.2022',
-          commentCount: 2,
-        },
-        social: {
-          likes: 1,
-          dislikes: 1,
-        },
-      },
-      {
-        meal: {
-          id: '336281211fd7abf23bafbb30',
-          meal: ', Ezogelin Çorba, Tavuk Şinitzel, Peynirli Erişte, Ayran,',
-          date: '31.10.2022',
-          commentCount: 2,
-        },
-        social: {
-          likes: 1,
-          dislikes: 1,
-        },
-      },
-      {
-        meal: {
-          id: '436281211fd7abf23bafbb26',
-          meal: ', Ezogelin Çorba, Tavuk Şinitzel, Peynirli Erişte, Ayran,',
-          date: '31.10.2022',
-          commentCount: 2,
-        },
-        social: {
-          likes: 1,
-          dislikes: 1,
-        },
-      },
-      {
-        meal: {
-          id: '536281211fd7abf23bafbb32',
-          meal: ', Ezogelin Çorba, Tavuk Şinitzel, Peynirli Erişte, Ayran,',
-          date: '31.10.2022',
-          commentCount: 2,
-        },
-        social: {
-          likes: 1,
-          dislikes: 1,
-        },
-      },
-      {meal: {id: '23123243'}, key: 'right-spacer'},
-    ]);
-    */
     getFoodList();
   }, []);
 
@@ -191,7 +125,6 @@ const Home = ({navigation}) => {
                         marginHorizontal: SPACING,
                         padding: SPACING * 2,
                         borderRadius: 34,
-                        alignItems: 'center',
                         width: '100%',
                       }}>
                       <MealBox
@@ -199,6 +132,7 @@ const Home = ({navigation}) => {
                         item={item}
                         style={styles.mealBox}
                         navigation={navigation}
+                        type="home"
                       />
                     </Animated.View>
                   </View>

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useContext} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,74 +9,71 @@ import {
 } from 'react-native';
 import {Heart} from './icons';
 import {useTheme} from '@react-navigation/native';
-// import Lottie from 'lottie-react-native';
+import Lottie from 'lottie-react-native';
+// import LottieView from 'lottie-react-native';
+import moment from 'moment';
+import {AuthContext} from '../context/Auth';
+import {errorMessage} from '../utils/showToast';
 
-const Comment = ({comment}) => {
+const Comment = ({comment, onLikeComment = () => {}}) => {
   const {colors} = useTheme();
-  // const animationProgress = useRef(new Animated.Value(0));
-  const [isLike, setIsLike] = useState(false);
+
+  const animation = useRef(null);
+  const isFirstRun = useRef(true);
 
   useEffect(() => {
-    // setIsLike
-  }, []);
-
-  const toggleComment = () => {
-    //makeLikeAnimation();
-    setIsLike(!isLike);
-    console.log('like comment: ', comment);
-  };
+    if (isFirstRun.current) {
+      if (comment?.isLike) {
+        animation.current.play(66, 66);
+      } else {
+        animation.current.play(19, 19);
+      }
+      isFirstRun.current = false;
+    } else if (comment?.isLike) {
+      animation.current.play(19, 50);
+    } else {
+      animation.current.play(0, 19);
+    }
+  }, [comment?.isLike]);
 
   useEffect(() => {
-    console.log('comment: ', comment);
+    // if comment like is true
+    console.log('comment: ', comment?.comment);
   }, []);
 
-  /*
-  const makeLikeAnimation = () => {
-    // setLike(!like);
-    Animated.timing(animationProgress.current, {
-      toValue: 1,
-      duration: 1500,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start();
-    // end animation
-    setTimeout(() => {
-      animationProgress.current.setValue(0);
-    }, 1500);
+  const toggleLikeComment = async () => {
+    let likeStatus = comment?.isLike ? false : true;
+    onLikeComment(comment?.comment?._id, likeStatus);
   };
-  */
 
   return (
     <View style={styles.container}>
       <View style={styles.commentHead}>
         <Text style={[styles.commentNameText, {color: colors.usernameText}]}>
-          {comment?.user?.name}
+          {comment?.username}
         </Text>
         <Text style={[styles.commentDateText, {color: colors.dateText}]}>
-          {comment?.date}
+          {moment(comment?.comment?.date).fromNow()}
         </Text>
       </View>
       <View style={styles.commentBody}>
-        <Text>{comment?.comment}</Text>
+        <Text>{comment?.comment?.comment}</Text>
       </View>
       <View style={styles.commentFooter}>
         <TouchableOpacity
-          onPress={() => toggleComment()}
+          onPress={() => toggleLikeComment()}
           activeOpacity={0.8}
           style={styles.commentLikeButton}>
-          <Heart
-            width="24"
-            height="24"
-            color={isLike ? '#F62053' : '#EBEBEB'}
-          />
-          {/* <Lottie
+          <Lottie
+            ref={animation}
+            style={styles.heartLottie}
             source={require('@/assets/sources/heart.json')}
-            progress={animationProgress.current}
-            style={{width: 48, height: 48, borderWidth: 1}}
-          /> */}
+            autoPlay={false}
+            loop={false}
+          />
           <Text
             style={[styles.commentLikeCount, {color: colors.dateBoxElement}]}>
-            2
+            {comment?.comment?.likeCount}
           </Text>
         </TouchableOpacity>
       </View>
@@ -110,12 +107,18 @@ const styles = StyleSheet.create({
   commentLikeButton: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: -5,
+    marginLeft: -14,
   },
   commentLikeCount: {
-    marginLeft: 8,
+    marginLeft: 4,
     fontSize: 16,
     lineHeight: 20,
     fontWeight: '400',
+  },
+  heartLottie: {
+    width: 50,
+    height: 50,
   },
 });
 

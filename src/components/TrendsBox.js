@@ -16,7 +16,7 @@ const {width, height} = Dimensions.get('screen');
 
 const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.74 : width * 0.76;
 
-const TrendsBox = ({title, data, style, ...props}) => {
+const TrendsBox = ({title, data, style, navigation, ...props}) => {
   const {colors} = useTheme();
 
   useEffect(() => {
@@ -44,7 +44,9 @@ const TrendsBox = ({title, data, style, ...props}) => {
             <MealBox
               key={uuid.v4()}
               item={item}
+              navigation={navigation}
               style={[styles.mealBox, {width: ITEM_SIZE}]}
+              type="trends"
             />
           </View>
         )}

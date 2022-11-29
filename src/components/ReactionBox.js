@@ -13,48 +13,31 @@ import {
 } from '@/utils/responsive';
 import {
   MessageCircle,
-  ThumbsDown,
-  ThumbsUp,
   ThumbsUpFill,
   ThumbsUpEmpty,
   ThumbsDownEmpty,
+  ThumbsDownFill,
 } from './icons';
 import {useTheme} from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
 
-const ReactionBox = ({item, likeMeal, disslikeMeal, goToComments}) => {
+const ReactionBox = ({
+  item,
+  toggleLikeMeal,
+  toggleDislikeMeal,
+  type,
+  navigation,
+}) => {
   const {colors} = useTheme();
   const [like, setLike] = useState(false);
   const [disslike, setDisslike] = useState(false);
 
-  const animationProgress = useRef(new Animated.Value(0));
+  useEffect(() => {
+    console.log('item: ', item);
+  }, [item]);
 
-  const makeLikeAnimation = () => {
-    setLike(!like);
-    Animated.timing(animationProgress.current, {
-      toValue: 1,
-      duration: 1500,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start();
-    // end animation
-    setTimeout(() => {
-      animationProgress.current.setValue(0);
-    }, 1500);
-  };
-
-  const makeDisslikeAnimation = () => {
-    setDisslike(!disslike);
-    Animated.timing(animationProgress.current, {
-      toValue: 1,
-      duration: 1500,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start();
-    // end animation
-    setTimeout(() => {
-      animationProgress.current.setValue(0);
-    }, 1500);
+  const goToComments = () => {
+    navigation.navigate('Comments', {item: item});
   };
 
   return (
@@ -65,69 +48,46 @@ const ReactionBox = ({item, likeMeal, disslikeMeal, goToComments}) => {
       ]}>
       <TouchableOpacity
         style={[styles.reactionItem, {position: 'relative'}]}
-        onPress={() => {
-          makeLikeAnimation();
-          likeMeal(item);
-        }}>
-        {!like ? (
-          <ThumbsUpEmpty width="28" height="28" />
+        onPress={() => toggleLikeMeal(item)}>
+        {item?.social?.ratingStatus === 'like' ? (
+          <ThumbsUpFill width="28" height="28" color="#0AD4EE" />
         ) : (
-          <View
-            style={{
-              width: 80,
-              height: 80,
-              borderWidth: 1,
-            }}>
-            <Lottie
-              source={require('@/assets/sources/like.json')}
-              progress={animationProgress.current}
-            />
-          </View>
+          <ThumbsUpEmpty width="28" height="28" />
         )}
-
         <Text
           style={[
             styles.reactionText,
             like && {position: 'absolute', left: 60, top: 32},
           ]}>
-          {item?.social?.likes}
+          {type === 'home' && item?.social?.likes}
+          {type === 'trends' && item?.likes}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.reactionItem, {marginHorizontal: 32}]}
-        onPress={() => {
-          makeDisslikeAnimation();
-          disslikeMeal(item);
-        }}>
-        {!disslike ? (
-          <ThumbsDownEmpty width="28" height="28" />
+        onPress={() => toggleDislikeMeal(item)}>
+        {item?.social?.ratingStatus === 'dislike' ? (
+          <ThumbsDownFill width="28" height="28" color="#0AD4EE" />
         ) : (
-          <View
-            style={{
-              width: 80,
-              height: 80,
-              borderWidth: 1,
-            }}>
-            <Lottie
-              source={require('@/assets/sources/like.json')}
-              progress={animationProgress.current}
-            />
-          </View>
+          <ThumbsDownEmpty width="28" height="28" />
         )}
-
         <Text
           style={[
             styles.reactionText,
             like && {position: 'absolute', left: 60, top: 32},
           ]}>
-          {item?.social?.likes}
+          {type === 'home' && item?.social?.dislikes}
+          {type === 'trends' && item?.dislikes}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.reactionItem}
         onPress={() => goToComments(item)}>
         <MessageCircle width="28" height="28" color="white" />
-        <Text style={styles.reactionText}>{item?.meal?.commentCount}</Text>
+        <Text style={styles.reactionText}>
+          {type === 'home' && item?.meal?.commentCount}
+          {type === 'trends' && item?.comments}
+        </Text>
       </TouchableOpacity>
     </View>
   );
