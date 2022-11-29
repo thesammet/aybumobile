@@ -7,8 +7,10 @@ import {
   TouchableOpacity,
   Dimensions,
   FlatList,
-  ScrollView,
-  ActivityIndicator
+  Keyboard,
+  KeyboardAvoidingView,
+  ActivityIndicator,
+  TouchableWithoutFeedback
 } from 'react-native';
 import { updateProfile } from '../api/user';
 import { AuthContext } from '../context/Auth';
@@ -19,6 +21,7 @@ import Header from '../components/Header';
 import { ChevronDown, Check } from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
 import { sections } from '../assets/sources/sections';
+import { strings } from '../constants/localization';
 
 export default function ProfileEdit({ navigation }) {
   const { addToken, token } = useContext(AuthContext);
@@ -135,9 +138,11 @@ export default function ProfileEdit({ navigation }) {
   }, [usernameVal, departmentVal, facultyVal]);
 
   return (
+
     <View style={[{ backgroundColor: colors.background }, styles.container]}>
       <Header type="editProfile" navigation={navigation} />
-      <ScrollView
+
+      <View
         style={[styles.innerContainer, { backgroundColor: colors.background }]}>
         <BottomSheet
           hasDraggableIcon={true}
@@ -167,57 +172,65 @@ export default function ProfileEdit({ navigation }) {
             keyExtractor={item => item.name}
           />
         </BottomSheet>
-        <Text style={[styles.fillTheGapsText, { color: colors.text }]}>
-          Düzenleme yapabilirsiniz.
-        </Text>
-        <View style={styles.infoView}>
-          <Text style={styles.fieldText}>Kullanıcı Adı</Text>
-          <TextInput
-            style={[
-              TYPOGRAPHY.H4Regular,
-              styles.input,
-              { borderColor: borderColor, color: '#909090' },
-            ]}
-            placeholder={'Kullanıcı adınız'}
-            value={usernameVal}
-            onChangeText={value => {
-              setUsernameVal(value);
-            }}
-            onFocus={() => setBorderColor('#00112b')}
-            edit={true}
-            text={usernameVal}
-            textAlign="center"
-          />
-
-          <Text style={styles.fieldText}>Fakülte (Zorunlu) </Text>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => {
-              bottomSheetfacultyVal.current.show();
-            }}>
-            <View style={styles.departmentValArea}>
-              <Text numberOfLines={2} style={styles.departmentValInnerText}>
-                {facultyVal ? facultyVal : 'Fakülte seçin'}
+        <KeyboardAvoidingView>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View>
+              <Text style={[styles.fillTheGapsText, { color: colors.text }]}>
+                {strings.canEdit}
               </Text>
-              <ChevronDown height={24} width={24} color={'#001A43'} />
-            </View>
-          </TouchableOpacity>
+              <View style={styles.infoView}>
+                <Text style={styles.fieldText}></Text>
+                <TextInput
+                  style={[
+                    TYPOGRAPHY.H4Regular,
+                    styles.input,
+                    { borderColor: borderColor, color: '#909090' },
+                  ]}
+                  placeholder={'Kullanıcı adınız'}
+                  value={usernameVal}
+                  onChangeText={value => {
+                    setUsernameVal(value);
+                  }}
+                  onFocus={() => setBorderColor('#00112b')}
+                  edit={true}
+                  text={usernameVal}
+                  textAlign="center"
+                />
 
-          <Text style={styles.fieldText}>Bölüm (Zorunlu)</Text>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            disabled={facultyVal ? false : true}
-            onPress={() => {
-              bottomSheetdepartmentVal.current.show();
-            }}>
-            <View style={styles.departmentValArea}>
-              <Text numberOfLines={2} style={styles.departmentValInnerText}>
-                {departmentVal ? departmentVal : 'Bölüm seçin'}
-              </Text>
-              <ChevronDown height={24} width={24} color={'#001A43'} />
+                <Text style={styles.fieldText}>{strings.mustFaculty}</Text>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => {
+                    bottomSheetfacultyVal.current.show();
+                    Keyboard.dismiss();
+                  }}>
+                  <View style={styles.departmentValArea}>
+                    <Text numberOfLines={2} style={styles.departmentValInnerText}>
+                      {facultyVal ? facultyVal : 'Fakülte seçin'}
+                    </Text>
+                    <ChevronDown height={24} width={24} color={colors.dropdownChevronIcon} />
+                  </View>
+                </TouchableOpacity>
+
+                <Text style={styles.fieldText}>{strings.mustDepartment}</Text>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  disabled={facultyVal ? false : true}
+                  onPress={() => {
+                    bottomSheetdepartmentVal.current.show();
+                    Keyboard.dismiss();
+                  }}>
+                  <View style={styles.departmentValArea}>
+                    <Text numberOfLines={2} style={styles.departmentValInnerText}>
+                      {departmentVal ? departmentVal : 'Bölüm seçin'}
+                    </Text>
+                    <ChevronDown height={24} width={24} color={colors.dropdownChevronIcon} />
+                  </View>
+                </TouchableOpacity>
+              </View>
             </View>
-          </TouchableOpacity>
-        </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
 
         {
           loading ?
@@ -233,7 +246,7 @@ export default function ProfileEdit({ navigation }) {
                     styles.startButton,
                     { borderColor: '#EBEBEB', marginRight: 8 },
                   ]}>
-                  <Text style={[styles.startText, { color: '#CECECE' }]}>Vazgeç</Text>
+                  <Text style={[styles.startText, { color: '#CECECE' }]}>{strings.cancel}</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -252,13 +265,15 @@ export default function ProfileEdit({ navigation }) {
                       styles.startText,
                       { color: isValid ? '#0AD4EE' : '#CECECE' },
                     ]}>
-                    Kaydet
+                    {strings.save}
                   </Text>
                 </View>
               </TouchableOpacity>
             </View>}
-      </ScrollView>
+      </View>
+
     </View>
+
   );
 }
 
@@ -271,6 +286,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     paddingVertical: 24,
+    justifyContent: 'space-between'
   },
   infoView: {
     alignItems: 'center',

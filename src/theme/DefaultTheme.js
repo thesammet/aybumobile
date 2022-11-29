@@ -1,4 +1,4 @@
-import {DefaultTheme} from '@react-navigation/native';
+import { DefaultTheme } from '@react-navigation/native';
 
 const customDefaultTheme = {
   ...DefaultTheme,
@@ -28,6 +28,7 @@ const customDefaultTheme = {
     dateBoxElement: '#001A43',
     dateText: '#909090',
     trendHeader: '#FF4A22',
+    dropdownChevronIcon: '#fff'
   },
 };
 

@@ -1,4 +1,4 @@
-import {DarkTheme} from '@react-navigation/native';
+import { DarkTheme } from '@react-navigation/native';
 
 const customDarkTheme = {
   ...DarkTheme,
@@ -28,6 +28,7 @@ const customDarkTheme = {
     dateBoxElement: '#FFFFFF',
     dateText: '#474747',
     trendHeader: '#FF4A22',
+    dropdownChevronIcon: '#001A43'
   },
 };
 

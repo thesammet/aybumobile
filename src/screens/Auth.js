@@ -7,7 +7,10 @@ import {
   TouchableOpacity,
   Dimensions,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback
 } from 'react-native';
 import { register } from '../api/user';
 import { AuthContext } from '../context/Auth';
@@ -19,6 +22,7 @@ import Header from '../components/Header';
 import { ChevronDown, Check } from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
 import { sections } from '../assets/sources/sections';
+import { strings } from '../constants/localization';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -163,56 +167,61 @@ export default function Auth() {
             keyExtractor={item => item.name}
           />
         </BottomSheet>
-        <View style={styles.infoView}>
-          <Text style={styles.fillTheGapsText}>Alanları doldurunuz.</Text>
-          <Text style={styles.fieldText}>Kullanıcı Adı</Text>
-          <TextInput
-            style={[
-              TYPOGRAPHY.H4Regular,
-              styles.input,
-              { borderColor: borderColor },
-            ]}
-            placeholder={'Kullanıcı adınız'}
-            value={username}
-            onChangeText={value => {
-              setUsername(value);
-            }}
-            onFocus={() => setBorderColor('#00112b')}
-            edit={true}
-            text={username}
-            textAlign="center"
-          />
+        <KeyboardAvoidingView>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.infoView}>
+              <Text style={styles.fillTheGapsText}>{strings.fillTheGaps}</Text>
+              <Text style={styles.fieldText}>{strings.username}</Text>
+              <TextInput
+                style={[
+                  TYPOGRAPHY.H4Regular,
+                  styles.input,
+                  { borderColor: borderColor },
+                ]}
+                placeholder={'Kullanıcı adınız'}
+                value={username}
+                onChangeText={value => {
+                  setUsername(value);
+                }}
+                onFocus={() => setBorderColor('#00112b')}
+                edit={true}
+                text={username}
+                textAlign="center"
+              />
 
-          <Text style={styles.fieldText}>Fakülte (Zorunlu) </Text>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => {
-              bottomSheetFaculty.current.show();
-            }}>
-            <View style={styles.departmentArea}>
-              <Text numberOfLines={2} style={styles.departmentInnerText}>
-                {faculty ? faculty : 'Fakülte seçin'}
-              </Text>
-              <ChevronDown height={24} width={24} color={'#001A43'} />
+              <Text style={styles.fieldText}>{strings.mustFaculty}</Text>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  bottomSheetFaculty.current.show();
+                  Keyboard.dismiss();
+                }}>
+                <View style={styles.departmentArea}>
+                  <Text numberOfLines={2} style={styles.departmentInnerText}>
+                    {faculty ? faculty : 'Fakülte seçin'}
+                  </Text>
+                  <ChevronDown height={24} width={24} color={'#001A43'} />
+                </View>
+              </TouchableOpacity>
+
+              <Text style={styles.fieldText}>{strings.mustDepartment}</Text>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                disabled={faculty ? false : true}
+                onPress={() => {
+                  bottomSheetDepartment.current.show();
+                  Keyboard.dismiss();
+                }}>
+                <View style={styles.departmentArea}>
+                  <Text numberOfLines={2} style={styles.departmentInnerText}>
+                    {department ? department : 'Bölüm seçin'}
+                  </Text>
+                  <ChevronDown height={24} width={24} color={'#001A43'} />
+                </View>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-
-          <Text style={styles.fieldText}>Bölüm (Zorunlu)</Text>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            disabled={faculty ? false : true}
-            onPress={() => {
-              bottomSheetDepartment.current.show();
-            }}>
-            <View style={styles.departmentArea}>
-              <Text numberOfLines={2} style={styles.departmentInnerText}>
-                {department ? department : 'Bölüm seçin'}
-              </Text>
-              <ChevronDown height={24} width={24} color={'#001A43'} />
-            </View>
-          </TouchableOpacity>
-        </View>
-
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
         {
           loading ?
             <ActivityIndicator size="large" color="#0AD4EE" style={{ marginBottom: 12 }} />
@@ -247,7 +256,7 @@ export default function Auth() {
                     styles.startText,
                     { color: isValid ? '#0AD4EE' : '#CECECE' },
                   ]}>
-                  Başla
+                  {strings.start}
                 </Text>
               </View>
             </TouchableOpacity>}
