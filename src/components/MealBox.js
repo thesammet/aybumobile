@@ -8,7 +8,7 @@ import {Heart} from '../components/icons';
 import {useTheme} from '@react-navigation/native';
 import {handleMeals} from '../helpers/meal-helper';
 import ReactionBox from './ReactionBox';
-import {getDayName} from '../helpers/day-helper';
+import {getDayName, getMeaningfulDayNames} from '../helpers/day-helper';
 import {rating} from '../api/rating';
 import {errorMessage} from '../utils/showToast';
 import {AuthContext} from '../context/Auth';
@@ -23,6 +23,10 @@ const MealBox = ({item, style, navigation, type = '', ...props}) => {
     setMealList(handleMeals(item?.meal?.meal));
   }, []);
 
+  useEffect(() => {
+    console.log('iiii: ', item);
+  }, [item]);
+
   // const mealItemHeartColor = mealItemIndex => {
   //   if (item.social.likes > 1) {
   //     return colors.heartRed;
@@ -30,47 +34,6 @@ const MealBox = ({item, style, navigation, type = '', ...props}) => {
   //     return colors.heartGray;
   //   }
   // };
-
-  const getMeaningfulDayNames = dayName => {
-    switch (dayName) {
-      case 'Monday':
-        return 'Pazartesi';
-      case 'Tuesday':
-        return 'Salı';
-      case 'Wednesday':
-        return 'Çarşamba';
-      case 'Thursday':
-        return 'Perşembe';
-      case 'Friday':
-        return 'Cuma';
-      case 'Saturday':
-        return 'Cumartesi';
-      case 'Sunday':
-        return 'Pazar';
-      default:
-        return dayName;
-    }
-  };
-
-  const toggleLikeMeal = async itemLiked => {
-    console.log('like item: ', i);
-    let response = await rating(token, 'like', itemLiked?.meal?.id);
-    if (response.error) {
-      errorMessage('Bir hata oluştu');
-    } else {
-      console.log('like response: ', response);
-    }
-  };
-
-  const toggleDislikeMeal = async itemDisliked => {
-    console.log('dislike item: ', i);
-    let response = await rating(token, 'dislike', itemDisliked?.meal?.id);
-    if (response.error) {
-      errorMessage('Bir hata oluştu');
-    } else {
-      console.log('dislike response: ', response);
-    }
-  };
 
   return (
     <View style={{alignItems: 'center'}}>

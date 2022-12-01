@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
   Text,
@@ -20,24 +20,102 @@ import {
 } from './icons';
 import {useTheme} from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
+import {rating} from '../api/rating';
+import {AuthContext} from '../context/Auth';
+import {errorMessage} from '../utils/showToast';
 
 const ReactionBox = ({
   item,
-  toggleLikeMeal,
-  toggleDislikeMeal,
+  // toggleLikeMeal,
+  // toggleDislikeMeal,
   type,
   navigation,
 }) => {
   const {colors} = useTheme();
-  const [like, setLike] = useState(false);
-  const [disslike, setDisslike] = useState(false);
+  const {token} = useContext(AuthContext);
+
+  const [mealItem, setMealItem] = useState(item);
 
   useEffect(() => {
     console.log('item: ', item);
   }, [item]);
 
   const goToComments = () => {
-    navigation.navigate('Comments', {item: item});
+    navigation.navigate('Comments', {item: mealItem});
+  };
+
+  const toggleLikeMeal = async () => {
+    console.log('like item: ', mealItem);
+    let ratingStatus =
+      mealItem.social.ratingStatus == 'null' ||
+      mealItem.social.ratingStatus == 'dislike'
+        ? 'like'
+        : 'null';
+    let response = await rating(token, ratingStatus, mealItem?.meal?._id);
+    if (response.error) {
+      console.log('response: ', response);
+      errorMessage('Bir hata oluştu');
+    } else {
+      console.log('like response: ', response);
+
+      if (ratingStatus == 'like') {
+        mealItem.social.likes = mealItem.social.likes + 1;
+        if (mealItem.social.ratingStatus == 'dislike') {
+          mealItem.social.dislikes = mealItem.social.dislikes - 1;
+        }
+      } else {
+        mealItem.social.likes = mealItem.social.likes - 1;
+        if (mealItem.social.ratingStatus == 'dislike') {
+          mealItem.social.dislikes = mealItem.social.dislikes + 1;
+        }
+      }
+
+      let changeItem = {
+        ...mealItem,
+        social: {
+          ...mealItem.social,
+          ratingStatus: ratingStatus,
+        },
+      };
+      setMealItem(changeItem);
+    }
+  };
+
+  const toggleDislikeMeal = async () => {
+    console.log('dislike item: ', mealItem);
+    let ratingStatus =
+      mealItem.social.ratingStatus == 'null' ||
+      mealItem.social.ratingStatus == 'like'
+        ? 'dislike'
+        : 'null';
+    let response = await rating(token, ratingStatus, mealItem?.meal?._id);
+    if (response.error) {
+      console.log('response: ', response);
+      errorMessage('Bir hata oluştu');
+    } else {
+      console.log('dislike response: ', response);
+
+      if (ratingStatus == 'dislike') {
+        mealItem.social.dislikes = mealItem.social.dislikes + 1;
+        if (mealItem.social.ratingStatus == 'like') {
+          mealItem.social.likes = mealItem.social.likes - 1;
+        }
+      } else {
+        mealItem.social.dislikes = mealItem.social.dislikes - 1;
+        if (mealItem.social.ratingStatus == 'like') {
+          mealItem.social.likes = mealItem.social.likes + 1;
+        }
+      }
+
+      let changeItem = {
+        ...mealItem,
+        social: {
+          ...mealItem.social,
+          ratingStatus: ratingStatus,
+        },
+      };
+      setMealItem(changeItem);
+    }
   };
 
   return (
@@ -48,45 +126,37 @@ const ReactionBox = ({
       ]}>
       <TouchableOpacity
         style={[styles.reactionItem, {position: 'relative'}]}
-        onPress={() => toggleLikeMeal(item)}>
-        {item?.social?.ratingStatus === 'like' ? (
+        onPress={() => toggleLikeMeal(mealItem)}>
+        {mealItem?.social?.ratingStatus === 'like' ? (
           <ThumbsUpFill width="28" height="28" color="#0AD4EE" />
         ) : (
           <ThumbsUpEmpty width="28" height="28" />
         )}
-        <Text
-          style={[
-            styles.reactionText,
-            like && {position: 'absolute', left: 60, top: 32},
-          ]}>
-          {type === 'home' && item?.social?.likes}
-          {type === 'trends' && item?.likes}
+        <Text style={[styles.reactionText]}>
+          {type === 'home' && mealItem?.social?.likes}
+          {type === 'trends' && mealItem?.likes}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.reactionItem, {marginHorizontal: 32}]}
-        onPress={() => toggleDislikeMeal(item)}>
-        {item?.social?.ratingStatus === 'dislike' ? (
+        onPress={() => toggleDislikeMeal(mealItem)}>
+        {mealItem?.social?.ratingStatus === 'dislike' ? (
           <ThumbsDownFill width="28" height="28" color="#0AD4EE" />
         ) : (
           <ThumbsDownEmpty width="28" height="28" />
         )}
-        <Text
-          style={[
-            styles.reactionText,
-            like && {position: 'absolute', left: 60, top: 32},
-          ]}>
-          {type === 'home' && item?.social?.dislikes}
-          {type === 'trends' && item?.dislikes}
+        <Text style={[styles.reactionText]}>
+          {type === 'home' && mealItem?.social?.dislikes}
+          {type === 'trends' && mealItem?.dislikes}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.reactionItem}
-        onPress={() => goToComments(item)}>
+        onPress={() => goToComments(mealItem)}>
         <MessageCircle width="28" height="28" color="white" />
         <Text style={styles.reactionText}>
-          {type === 'home' && item?.meal?.commentCount}
-          {type === 'trends' && item?.comments}
+          {type === 'home' && mealItem?.meal?.commentCount}
+          {type === 'trends' && mealItem?.comments}
         </Text>
       </TouchableOpacity>
     </View>

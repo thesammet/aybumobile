@@ -38,8 +38,8 @@ const Comment = ({comment, onLikeComment = () => {}}) => {
 
   useEffect(() => {
     // if comment like is true
-    console.log('comment: ', comment?.comment);
-  }, []);
+    console.log('new comment: ', comment);
+  }, [comment]);
 
   const toggleLikeComment = async () => {
     let likeStatus = comment?.isLike ? false : true;

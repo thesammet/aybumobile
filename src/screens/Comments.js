@@ -130,9 +130,17 @@ const Comments = ({route, navigation}) => {
       setComments(() => {
         return comments.map(commentItem => {
           if (commentItem.comment._id === _id) {
-            return {...commentItem, isLike: !commentItem.isLike};
+            return {
+              comment: {
+                ...commentItem.comment,
+                likeCount:
+                  commentItem.isLike == 'false'
+                    ? commentItem.comment.likeCount + 1
+                    : commentItem.comment.likeCount - 1,
+              },
+              isLike: !commentItem.isLike,
+            };
           }
-
           return commentItem;
         });
       });

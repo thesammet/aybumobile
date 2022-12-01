@@ -6,7 +6,7 @@ import {
 } from '@/utils/responsive';
 import {useTheme} from '@react-navigation/native';
 import moment from 'moment';
-import {getDay, getDayName} from '../helpers/day-helper';
+import {getDay, getDayName, getMeaningfulDayNames} from '../helpers/day-helper';
 import {ArrowLeft} from './icons';
 import AyButton from './AyButton';
 
@@ -44,7 +44,7 @@ const BasicHeader = ({
       </Text>
       {type === 'isThree' && (
         <Text style={[styles.headerText, styles.dayText]}>
-          {getDayName(text)}
+          {getMeaningfulDayNames(getDayName(text))}
         </Text>
       )}
     </View>
@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 40,
     justifyContent: 'flex-end',
-    borderWidth: 1,
   },
   headerText: {
     color: '#fff',
