@@ -28,7 +28,8 @@ const customDefaultTheme = {
     dateBoxElement: '#001A43',
     dateText: '#909090',
     trendHeader: '#FF4A22',
-    dropdownChevronIcon: '#fff'
+    dropdownChevronIcon: '#fff',
+    mealBoxItemTop: '#D9D9D9'
   },
 };
 

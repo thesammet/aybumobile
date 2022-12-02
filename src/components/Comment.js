@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState, useContext} from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,16 +7,16 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import {Heart} from './icons';
-import {useTheme} from '@react-navigation/native';
+import { Heart } from './icons';
+import { useTheme } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
 // import LottieView from 'lottie-react-native';
 import moment from 'moment';
-import {AuthContext} from '../context/Auth';
-import {errorMessage} from '../utils/showToast';
+import { AuthContext } from '../context/Auth';
+import { errorMessage } from '../utils/showToast';
 
-const Comment = ({comment, onLikeComment = () => {}}) => {
-  const {colors} = useTheme();
+const Comment = ({ comment, onLikeComment = () => { } }) => {
+  const { colors } = useTheme();
 
   const animation = useRef(null);
   const isFirstRun = useRef(true);
@@ -36,11 +36,6 @@ const Comment = ({comment, onLikeComment = () => {}}) => {
     }
   }, [comment?.isLike]);
 
-  useEffect(() => {
-    // if comment like is true
-    console.log('new comment: ', comment);
-  }, [comment]);
-
   const toggleLikeComment = async () => {
     let likeStatus = comment?.isLike ? false : true;
     onLikeComment(comment?.comment?._id, likeStatus);
@@ -49,10 +44,10 @@ const Comment = ({comment, onLikeComment = () => {}}) => {
   return (
     <View style={styles.container}>
       <View style={styles.commentHead}>
-        <Text style={[styles.commentNameText, {color: colors.usernameText}]}>
+        <Text style={[styles.commentNameText, { color: colors.usernameText }]}>
           {comment?.username}
         </Text>
-        <Text style={[styles.commentDateText, {color: colors.dateText}]}>
+        <Text style={[styles.commentDateText, { color: colors.dateText }]}>
           {moment(comment?.comment?.date).fromNow()}
         </Text>
       </View>
@@ -72,7 +67,7 @@ const Comment = ({comment, onLikeComment = () => {}}) => {
             loop={false}
           />
           <Text
-            style={[styles.commentLikeCount, {color: colors.dateBoxElement}]}>
+            style={[styles.commentLikeCount, { color: colors.dateBoxElement }]}>
             {comment?.comment?.likeCount}
           </Text>
         </TouchableOpacity>

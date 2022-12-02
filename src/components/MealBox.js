@@ -1,21 +1,21 @@
-import {useState, useEffect, useContext} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { useState, useEffect, useContext } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {
   responsiveWidth as rw,
   responsiveHeight as rh,
 } from '@/utils/responsive';
-import {Heart} from '../components/icons';
-import {useTheme} from '@react-navigation/native';
-import {handleMeals} from '../helpers/meal-helper';
+import { Heart } from '../components/icons';
+import { useTheme } from '@react-navigation/native';
+import { handleMeals } from '../helpers/meal-helper';
 import ReactionBox from './ReactionBox';
-import {getDayName, getMeaningfulDayNames} from '../helpers/day-helper';
-import {rating} from '../api/rating';
-import {errorMessage} from '../utils/showToast';
-import {AuthContext} from '../context/Auth';
+import { getDayName, getMeaningfulDayNames } from '../helpers/day-helper';
+import { rating } from '../api/rating';
+import { errorMessage } from '../utils/showToast';
+import { AuthContext } from '../context/Auth';
 
-const MealBox = ({item, style, navigation, type = '', ...props}) => {
-  const {colors} = useTheme();
-  const {token} = useContext(AuthContext);
+const MealBox = ({ item, style, index, navigation, type = '', ...props }) => {
+  const { colors } = useTheme();
+  const { token } = useContext(AuthContext);
 
   const [mealList, setMealList] = useState([]);
 
@@ -23,20 +23,8 @@ const MealBox = ({item, style, navigation, type = '', ...props}) => {
     setMealList(handleMeals(item?.meal?.meal));
   }, []);
 
-  useEffect(() => {
-    console.log('iiii: ', item);
-  }, [item]);
-
-  // const mealItemHeartColor = mealItemIndex => {
-  //   if (item.social.likes > 1) {
-  //     return colors.heartRed;
-  //   } else {
-  //     return colors.heartGray;
-  //   }
-  // };
-
   return (
-    <View style={{alignItems: 'center'}}>
+    <View style={{ alignItems: 'center' }}>
       <View
         style={[
           styles.mealBoxContainer,
@@ -48,9 +36,9 @@ const MealBox = ({item, style, navigation, type = '', ...props}) => {
           },
         ]}
         {...props}>
-        <View style={[styles.mealBoxHead, {backgroundColor: colors.lightBlue}]}>
+        <View style={[styles.mealBoxHead, { backgroundColor: index == 1 ? colors.lightBlue : colors.mealBoxItemTop }]}>
           <Text style={[styles.mealBoxHeadText, styles.mealBoxHeadDayText]}>
-            {getMeaningfulDayNames(getDayName(item?.meal?.date))}
+            {index == 1 ? 'Bugün' : getMeaningfulDayNames(getDayName(item?.meal?.date))}
           </Text>
           <Text style={[styles.mealBoxHeadText, styles.mealBoxHeadDateText]}>
             {item?.meal?.date}
@@ -59,14 +47,9 @@ const MealBox = ({item, style, navigation, type = '', ...props}) => {
         <View style={styles.mealBoxBottom}>
           {mealList.map((item, index) => (
             <View style={styles.mealBoxBottomItem} key={index}>
-              <Text style={[styles.mealBoxBottomText, {color: colors.text}]}>
+              <Text style={[styles.mealBoxBottomText, { color: colors.text }]}>
                 {item}
               </Text>
-              {/* 
-            <TouchableOpacity onPress={() => likeMealItem(index)}>
-              <Heart width="24" height="24" />
-            </TouchableOpacity> 
-            */}
             </View>
           ))}
         </View>

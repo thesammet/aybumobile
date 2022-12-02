@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import {
   responsiveWidth as rw,
@@ -6,9 +6,14 @@ import {
 } from '@/utils/responsive';
 import { ChevronLeft, ChevronRight } from './icons';
 import { useTheme } from '@react-navigation/native';
+import moment from 'moment'
 
-const DateBox = () => {
+const DateBox = ({ betweenDate }) => {
   const { colors } = useTheme();
+
+  useEffect(() => {
+    console.log(betweenDate)
+  }, [betweenDate])
 
   return (
     <View
@@ -16,11 +21,9 @@ const DateBox = () => {
         styles.dateBoxContainer,
         { width: rw(344), height: rh(56), marginTop: -rh(28), backgroundColor: colors.boxBg },
       ]}>
-      <ChevronLeft width="28" height="28" style={{ color: colors.dateBoxElement }} />
       <Text style={[styles.dateText, { color: colors.dateBoxElement }]}>
-        24.10.2022 - 28.10.2022
+        {betweenDate.today == null ? "..." : (moment(betweenDate.today).format('DD.MM.YYYY') + " - " + moment(betweenDate.lastWeekDay).format('DD.MM.YYYY'))}
       </Text>
-      <ChevronRight width="28" height="28" style={{ color: colors.dateBoxElement }} />
     </View>
   );
 };
@@ -30,7 +33,7 @@ export default DateBox;
 const styles = StyleSheet.create({
   dateBoxContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 12,
     borderRadius: 32,

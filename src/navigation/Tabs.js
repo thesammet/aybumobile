@@ -1,12 +1,12 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View} from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View } from 'react-native';
 import Home from '@/screens/Home';
 // import Food from '@/screens/Food';
-import {tabHeight} from '../constants';
+import { tabHeight } from '../constants';
 import Profile from '@/stacks/ProfileStack';
-import {tabIconSize} from '@/constants';
-import {useTheme} from '@react-navigation/native';
+import { tabIconSize } from '@/constants';
+import { useTheme } from '@react-navigation/native';
 import TabBar from '../components/TabBar';
 import Calendar from '../screens/Calendar';
 import Obs from '../screens/Obs';
@@ -16,8 +16,6 @@ import Trends from '../screens/Trends';
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
-  const {colors} = useTheme();
-
   return (
     <Tab.Navigator
       initialRouteName="Search"

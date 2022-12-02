@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useContext} from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import {
   View,
   Text,
@@ -12,18 +12,18 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
-import {commentRating, getSingleFoodComment} from '../api/comment';
+import { commentRating, getSingleFoodComment } from '../api/comment';
 import BasicHeader from '../components/BasicHeader';
 import Comment from '../components/Comment';
-import {Send} from '../components/icons';
+import { Send } from '../components/icons';
 import Loading from '../components/Loading';
-import {AuthContext} from '../context/Auth';
-import {errorMessage} from '../utils/showToast';
+import { AuthContext } from '../context/Auth';
+import { errorMessage } from '../utils/showToast';
 
-const Comments = ({route, navigation}) => {
-  const {item} = route.params;
+const Comments = ({ route, navigation }) => {
+  const { item } = route.params;
 
-  const {token} = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
 
   const [comments, setComments] = useState([]);
   const [comment, onChangeComment] = useState('');
@@ -91,11 +91,9 @@ const Comments = ({route, navigation}) => {
       if (response.error) {
         errorMessage('Yorumlar getirilemedi');
       } else {
-        console.log('response: ', response?.data);
         setComments(response?.data);
       }
     } catch (error) {
-      console.log('error: ', error);
       errorMessage('Yorumlar getirilemedi');
     } finally {
       setLoading(false);
@@ -117,8 +115,6 @@ const Comments = ({route, navigation}) => {
   };
 
   const likeComment = async (_id, likeStatus) => {
-    console.log('like comment id: ', _id);
-    console.log('like status: ', likeStatus);
 
     let response = await commentRating(token, _id, likeStatus);
 
@@ -150,7 +146,7 @@ const Comments = ({route, navigation}) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{paddingBottom: 80, flex: 1, position: 'relative'}}>
+      style={{ paddingBottom: 80, flex: 1, position: 'relative' }}>
       <BasicHeader
         text={item?.meal?.date}
         navigation={navigation}
@@ -158,12 +154,12 @@ const Comments = ({route, navigation}) => {
       />
       {loading && <Loading />}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <FlatList
             data={comments}
             keyExtractor={item => item.id}
             key={item => item.id}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <Comment
                 comment={item}
                 onLikeComment={(_id, likeStatus) =>
@@ -171,8 +167,8 @@ const Comments = ({route, navigation}) => {
                 }
               />
             )}
-            contentContainerStyle={{paddingHorizontal: 35, paddingVertical: 24}}
-            ItemSeparatorComponent={() => <View style={{height: 34}} />}
+            contentContainerStyle={{ paddingHorizontal: 35, paddingVertical: 24 }}
+            ItemSeparatorComponent={() => <View style={{ height: 34 }} />}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }

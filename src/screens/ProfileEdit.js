@@ -79,7 +79,6 @@ export default function ProfileEdit({ navigation }) {
       onPress={() => {
         setFacultyVal(item.faculty);
         bottomSheetfacultyVal.current.close();
-        console.log(item);
         setCurrentdepartment(item.departments);
         setDepartmentVal(null);
       }}>

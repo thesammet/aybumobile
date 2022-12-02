@@ -1,9 +1,9 @@
-import React, {useState, createContext, useEffect} from 'react';
-import {storage} from '../config/storage';
+import React, { useState, createContext, useEffect } from 'react';
+import { storage } from '../config/storage';
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [usernameInit, setUsernameInit] = useState(null);
   const [isOnboarding, setIsOnboarding] = useState(null);
@@ -45,7 +45,6 @@ export const AuthProvider = ({children}) => {
     try {
       const token = storage.getString('token');
       if (token) {
-        console.log('t:', token);
         setToken(token);
       }
     } catch (error) {

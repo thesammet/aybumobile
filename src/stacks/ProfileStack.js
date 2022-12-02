@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import Profile from '../screens/Profile';
 import ProfileEdit from '../screens/ProfileEdit';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-const HomeStack = ({navigation}) => {
+const ProfileStack = ({ navigation }) => {
   return (
     <>
       {/* //todo: toast message config */}
@@ -13,15 +13,15 @@ const HomeStack = ({navigation}) => {
         <Stack.Screen
           name="Profile"
           component={Profile}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="ProfileEdit"
           component={ProfileEdit}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </>
   );
 };
-export default HomeStack;
+export default ProfileStack;

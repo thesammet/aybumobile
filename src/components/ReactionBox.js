@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect, useContext} from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -18,11 +18,11 @@ import {
   ThumbsDownEmpty,
   ThumbsDownFill,
 } from './icons';
-import {useTheme} from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
-import {rating} from '../api/rating';
-import {AuthContext} from '../context/Auth';
-import {errorMessage} from '../utils/showToast';
+import { rating } from '../api/rating';
+import { AuthContext } from '../context/Auth';
+import { errorMessage } from '../utils/showToast';
 
 const ReactionBox = ({
   item,
@@ -31,32 +31,27 @@ const ReactionBox = ({
   type,
   navigation,
 }) => {
-  const {colors} = useTheme();
-  const {token} = useContext(AuthContext);
+  const { colors } = useTheme();
+  const { token } = useContext(AuthContext);
 
   const [mealItem, setMealItem] = useState(item);
 
-  useEffect(() => {
-    console.log('item: ', item);
-  }, [item]);
-
   const goToComments = () => {
-    navigation.navigate('Comments', {item: mealItem});
+    navigation.navigate('Comments', { item: mealItem });
   };
 
   const toggleLikeMeal = async () => {
-    console.log('like item: ', mealItem);
+
     let ratingStatus =
       mealItem.social.ratingStatus == 'null' ||
-      mealItem.social.ratingStatus == 'dislike'
+        mealItem.social.ratingStatus == 'dislike'
         ? 'like'
         : 'null';
     let response = await rating(token, ratingStatus, mealItem?.meal?._id);
     if (response.error) {
-      console.log('response: ', response);
+
       errorMessage('Bir hata oluştu');
     } else {
-      console.log('like response: ', response);
 
       if (ratingStatus == 'like') {
         mealItem.social.likes = mealItem.social.likes + 1;
@@ -82,18 +77,15 @@ const ReactionBox = ({
   };
 
   const toggleDislikeMeal = async () => {
-    console.log('dislike item: ', mealItem);
     let ratingStatus =
       mealItem.social.ratingStatus == 'null' ||
-      mealItem.social.ratingStatus == 'like'
+        mealItem.social.ratingStatus == 'like'
         ? 'dislike'
         : 'null';
     let response = await rating(token, ratingStatus, mealItem?.meal?._id);
     if (response.error) {
-      console.log('response: ', response);
       errorMessage('Bir hata oluştu');
     } else {
-      console.log('dislike response: ', response);
 
       if (ratingStatus == 'dislike') {
         mealItem.social.dislikes = mealItem.social.dislikes + 1;
@@ -122,10 +114,10 @@ const ReactionBox = ({
     <View
       style={[
         styles.reactionContainer,
-        {backgroundColor: colors.reactionBg, width: rw(224), height: rh(56)},
+        { backgroundColor: colors.reactionBg, width: rw(224), height: rh(56) },
       ]}>
       <TouchableOpacity
-        style={[styles.reactionItem, {position: 'relative'}]}
+        style={[styles.reactionItem, { position: 'relative' }]}
         onPress={() => toggleLikeMeal(mealItem)}>
         {mealItem?.social?.ratingStatus === 'like' ? (
           <ThumbsUpFill width="28" height="28" color="#0AD4EE" />
@@ -138,7 +130,7 @@ const ReactionBox = ({
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.reactionItem, {marginHorizontal: 32}]}
+        style={[styles.reactionItem, { marginHorizontal: 32 }]}
         onPress={() => toggleDislikeMeal(mealItem)}>
         {mealItem?.social?.ratingStatus === 'dislike' ? (
           <ThumbsDownFill width="28" height="28" color="#0AD4EE" />
