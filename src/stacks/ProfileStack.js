@@ -11,7 +11,7 @@ const ProfileStack = ({ navigation }) => {
       {/* //todo: toast message config */}
       <Stack.Navigator>
         <Stack.Screen
-          name="Profile"
+          name="ProfileScreen"
           component={Profile}
           options={{ headerShown: false }}
         />

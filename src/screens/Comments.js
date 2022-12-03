@@ -54,8 +54,6 @@ const Comments = ({ route, navigation }) => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    // get api call
-    //setRefreshing(false);
     Keyboard.dismiss()
     onChangeComment('')
     getFoodComments()

@@ -7,8 +7,9 @@ import {
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
-
+import { NarniaFlag, Kratos, Editor } from '../components/icons'
 import moment from 'moment';
+
 const Comment = ({ comment, onLikeComment = () => { } }) => {
   const { colors } = useTheme();
 
@@ -38,9 +39,20 @@ const Comment = ({ comment, onLikeComment = () => { } }) => {
   return (
     <View style={styles.container}>
       <View style={styles.commentHead}>
-        <Text style={[styles.commentNameText, { color: colors.usernameText }]}>
-          {comment?.username}
-        </Text>
+        <View style={styles.sampleRow}>
+          {comment?.username == "Schaleef" ?
+            <Kratos width={24} height={24} style={{ borderRadius: 24 / 2, overflow: "hidden", }} />
+            :
+            comment?.userRole == 'developer-admin' ?
+              <NarniaFlag width={24} height={24} style={{ borderRadius: 24 / 2, overflow: "hidden", }} />
+              :
+              comment?.userRole == 'admin' &&
+              <Editor width={24} height={24} style={{ borderRadius: 24 / 2, overflow: "hidden", }} />
+          }
+          <Text style={[styles.commentNameText, { color: colors.usernameText }]}>
+            {comment?.username}
+          </Text>
+        </View>
         <Text style={[styles.commentDateText, { color: colors.dateText }]}>
           {moment(comment?.comment?.date).fromNow()}
         </Text>
@@ -81,6 +93,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 24,
     fontWeight: '500',
+    marginLeft: 8
   },
   commentText: {
     fontSize: 16,
@@ -119,6 +132,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
   },
+  sampleRow: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  circleParent: {
+    borderRadius: 24 / 2,
+  }
 });
 
 export default Comment;
