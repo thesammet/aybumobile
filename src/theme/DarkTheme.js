@@ -29,7 +29,12 @@ const customDarkTheme = {
     dateText: '#474747',
     trendHeader: '#FF4A22',
     dropdownChevronIcon: '#001A43',
-    mealBoxItemTop: '#202020'
+    mealBoxItemTop: '#202020',
+    commentText: '#A0A0A0',
+    commentInputBg: '#151515',
+    sendIcon: '#FFFFFF',
+    placeholderText: '#A0A0A0',
+    commentInputText: '#FFFFFF'
   },
 };
 

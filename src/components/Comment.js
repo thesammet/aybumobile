@@ -4,17 +4,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Animated,
-  Easing,
 } from 'react-native';
-import { Heart } from './icons';
 import { useTheme } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
-// import LottieView from 'lottie-react-native';
-import moment from 'moment';
-import { AuthContext } from '../context/Auth';
-import { errorMessage } from '../utils/showToast';
 
+import moment from 'moment';
 const Comment = ({ comment, onLikeComment = () => { } }) => {
   const { colors } = useTheme();
 
@@ -52,7 +46,7 @@ const Comment = ({ comment, onLikeComment = () => { } }) => {
         </Text>
       </View>
       <View style={styles.commentBody}>
-        <Text>{comment?.comment?.comment}</Text>
+        <Text style={[styles.commentText, { color: colors.commentText }]}>{comment?.comment?.comment}</Text>
       </View>
       <View style={styles.commentFooter}>
         <TouchableOpacity
@@ -81,11 +75,17 @@ const styles = StyleSheet.create({
   commentHead: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center'
   },
   commentNameText: {
     fontSize: 17,
     lineHeight: 24,
     fontWeight: '500',
+  },
+  commentText: {
+    fontSize: 16,
+    lineHeight: 20,
+    fontWeight: '400',
   },
   commentDateText: {
     fontSize: 14,
@@ -114,6 +114,10 @@ const styles = StyleSheet.create({
   heartLottie: {
     width: 50,
     height: 50,
+  },
+  commentLikeCount: {
+    fontSize: 16,
+    fontWeight: '400',
   },
 });
 

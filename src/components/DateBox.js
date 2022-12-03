@@ -11,10 +11,6 @@ import moment from 'moment'
 const DateBox = ({ betweenDate }) => {
   const { colors } = useTheme();
 
-  useEffect(() => {
-    console.log(betweenDate)
-  }, [betweenDate])
-
   return (
     <View
       style={[
@@ -22,7 +18,7 @@ const DateBox = ({ betweenDate }) => {
         { width: rw(344), height: rh(56), marginTop: -rh(28), backgroundColor: colors.boxBg },
       ]}>
       <Text style={[styles.dateText, { color: colors.dateBoxElement }]}>
-        {betweenDate.today == null ? "..." : (moment(betweenDate.today).format('DD.MM.YYYY') + " - " + moment(betweenDate.lastWeekDay).format('DD.MM.YYYY'))}
+        {betweenDate.today == null ? "..." : (moment(betweenDate.today).add(1, 'days').format('DD.MM.YYYY') + " - " + moment(betweenDate.lastWeekDay).format('DD.MM.YYYY'))}
       </Text>
     </View>
   );

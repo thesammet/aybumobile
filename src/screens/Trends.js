@@ -73,7 +73,7 @@ const Trends = ({ navigation }) => {
             navigation={navigation}
           />
           <TrendsBox
-            title="En Çok Beğenilmeyen Günler"
+            title="En Beğenilmeyen Günler"
             data={trendsData?.dislikeTrend}
             navigation={navigation}
             style={{ marginVertical: 40 }}

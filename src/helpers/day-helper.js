@@ -1,12 +1,16 @@
 import moment from 'moment';
 
-export const getDay = date => {
-  return moment(date.replace(/\./g, '-')).weekday();
+export const getDayName = date => {
+  return moment(modifyDate(date)).format('dddd');
 };
 
-export const getDayName = date => {
-  return moment(new Date(date.replace(/\./g, '-'))).format('dddd');
-};
+export const modifyDate = (currentTrDate) => {
+  const day = currentTrDate.slice(0, 2)
+  const month = currentTrDate.slice(3, 5)
+  const year = currentTrDate.slice(6, 10)
+  const currentEnDate = year + "-" + month + "-" + day
+  return currentEnDate
+}
 
 export const getMeaningfulDayNames = dayName => {
   switch (dayName) {

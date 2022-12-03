@@ -12,6 +12,7 @@ import { getDayName, getMeaningfulDayNames } from '../helpers/day-helper';
 import { rating } from '../api/rating';
 import { errorMessage } from '../utils/showToast';
 import { AuthContext } from '../context/Auth';
+import moment from 'moment';
 
 const MealBox = ({ item, style, index, navigation, type = '', ...props }) => {
   const { colors } = useTheme();
@@ -38,7 +39,9 @@ const MealBox = ({ item, style, index, navigation, type = '', ...props }) => {
         {...props}>
         <View style={[styles.mealBoxHead, { backgroundColor: index == 1 ? colors.lightBlue : colors.mealBoxItemTop }]}>
           <Text style={[styles.mealBoxHeadText, styles.mealBoxHeadDayText]}>
-            {index == 1 ? 'Bugün' : getMeaningfulDayNames(getDayName(item?.meal?.date))}
+            {index == 1 && item?.meal?.date == moment().format('DD.MM.YYYY') ?
+              'Bugün'
+              : getMeaningfulDayNames(getDayName(item?.meal?.date))}
           </Text>
           <Text style={[styles.mealBoxHeadText, styles.mealBoxHeadDateText]}>
             {item?.meal?.date}

@@ -1,3 +1,4 @@
+import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import {
   View,
@@ -12,7 +13,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
-import { commentRating, getSingleFoodComment } from '../api/comment';
+import { commentRating, getSingleFoodComment, postComment } from '../api/comment';
 import BasicHeader from '../components/BasicHeader';
 import Comment from '../components/Comment';
 import { Send } from '../components/icons';
@@ -21,6 +22,7 @@ import { AuthContext } from '../context/Auth';
 import { errorMessage } from '../utils/showToast';
 
 const Comments = ({ route, navigation }) => {
+  const { colors } = useTheme()
   const { item } = route.params;
 
   const { token } = useContext(AuthContext);
@@ -31,57 +33,7 @@ const Comments = ({ route, navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    // get comments with id
-
     getFoodComments();
-    /*
-    setComments([
-      {
-        id: '636281211fd7abf23bafbb2a',
-        comment:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nunc eget ultricies lacinia, nunc nisl aliquet nisl, eget aliquet nunc nisl eget nisl. Donec auctor, nunc eget ultricies lacinia, nunc nisl aliquet nisl, eget aliquet nunc nisl eget nisl.',
-        date: '31.10.2022',
-        user: {
-          name: 'Mertcan',
-          surname: 'Kose',
-          avatar: 'https://i.pravatar.cc/150?img=1',
-        },
-      },
-      {
-        id: '636281211fd7abf23bafbb2b',
-        comment:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nunc eget ultricies lacinia, nunc nisl aliquet nisl, eget aliquet nunc nisl eget nisl. Donec auctor, nunc eget ultricies lacinia, nunc nisl aliquet nisl, eget aliquet nunc nisl eget nisl.',
-        date: '31.10.2022',
-        user: {
-          name: 'Abdu Samed',
-          surname: 'Akgul',
-          avatar: 'https://i.pravatar.cc/150?img=1',
-        },
-      },
-      {
-        id: '636281211fd7abf23bafbb2c',
-        comment:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nunc eget ultricies lacinia, nunc nisl aliquet nisl, eget aliquet nunc nisl eget nisl. Donec auctor, nunc eget ultricies lacinia, nunc nisl aliquet nisl, eget aliquet nunc nisl eget nisl.',
-        date: '31.10.2022',
-        user: {
-          name: 'Ahmet',
-          surname: 'Yılmaz',
-          avatar: 'https://i.pravatar.cc/150?img=1',
-        },
-      },
-      {
-        id: '636281211fd7abf23bafbb2d',
-        comment:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nunc eget ultricies lacinia, nunc nisl aliquet nisl, eget aliquet nunc nisl eget nisl. Donec auctor, nunc eget ultricies lacinia, nunc nisl aliquet nisl, eget aliquet nunc nisl eget nisl.',
-        date: '31.10.2022',
-        user: {
-          name: 'Mehmet',
-          surname: 'Güven',
-          avatar: 'https://i.pravatar.cc/150?img=1',
-        },
-      },
-    ]);
-    */
   }, []);
 
   const getFoodComments = async () => {
@@ -104,14 +56,28 @@ const Comments = ({ route, navigation }) => {
     setRefreshing(true);
     // get api call
     //setRefreshing(false);
-
+    Keyboard.dismiss()
+    onChangeComment('')
+    getFoodComments()
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
   }, []);
 
   const sendComment = async () => {
-    // send comment
+    setLoading(true);
+    try {
+      let response = await postComment(token, comment, item?.meal?._id);
+      if (response.error) {
+        errorMessage('Yorum iletilemedi.');
+      } else {
+        onRefresh()
+      }
+    } catch (error) {
+      errorMessage('Yorum iletilemedi.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const likeComment = async (_id, likeStatus) => {
@@ -121,7 +87,6 @@ const Comments = ({ route, navigation }) => {
     if (response.error) {
       errorMessage('Something went wrong');
     } else {
-      console.log('response: ', response);
 
       setComments(() => {
         return comments.map(commentItem => {
@@ -146,43 +111,54 @@ const Comments = ({ route, navigation }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ paddingBottom: 80, flex: 1, position: 'relative' }}>
+      style={{
+        paddingBottom: 80,
+        flex: 1,
+        position: 'relative'
+      }}
+      keyboardVerticalOffset={20}>
       <BasicHeader
         text={item?.meal?.date}
         navigation={navigation}
         type="isThree"
       />
       {loading && <Loading />}
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1 }}>
-          <FlatList
-            data={comments}
-            keyExtractor={item => item.id}
-            key={item => item.id}
-            renderItem={({ item }) => (
-              <Comment
-                comment={item}
-                onLikeComment={(_id, likeStatus) =>
-                  likeComment(_id, likeStatus)
-                }
-              />
-            )}
-            contentContainerStyle={{ paddingHorizontal: 35, paddingVertical: 24 }}
-            ItemSeparatorComponent={() => <View style={{ height: 34 }} />}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+
+      <FlatList
+        data={comments}
+        keyExtractor={item => item.comment._id}
+        key={item => item.comment._id}
+        contentContainerStyle={{
+          paddingHorizontal: 35,
+          paddingTop: 24,
+          paddingBottom: 72,
+        }}
+        ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        renderItem={({ item }) => (
+          <Comment
+            comment={item}
+            onLikeComment={(_id, likeStatus) =>
+              likeComment(_id, likeStatus)
             }
           />
-          <View style={styles.commentInputContainer}>
+        )}
+      />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 1 }}>
+          <View style={[styles.commentInputContainer, { backgroundColor: colors.commentInputBg }]}>
             <TextInput
-              style={styles.commentInput}
+              style={[styles.commentInput, { color: colors.commentInputText }]}
               onChangeText={onChangeComment}
               value={comment}
-              placeholder="Yorum Yaz"
+              placeholder="Yorum yaz..."
+              placeholderTextColor={colors.placeholderText}
               keyboardType="default"
             />
-            <TouchableOpacity onPress={() => sendComment()} activeOpacity={0.8}>
-              <Send width="24" height="24" color="#001A43" />
+            <TouchableOpacity onPress={() => sendComment()} activeOpacity={0.8} >
+              <Send width="24" height="24" color={colors.sendIcon} />
             </TouchableOpacity>
           </View>
         </View>
@@ -220,7 +196,6 @@ const styles = StyleSheet.create({
     height: 48,
     fontSize: 16,
     paddingHorizontal: 16,
-    color: '#001A43',
   },
 });
 

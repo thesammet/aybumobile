@@ -29,7 +29,12 @@ const customDefaultTheme = {
     dateText: '#909090',
     trendHeader: '#FF4A22',
     dropdownChevronIcon: '#fff',
-    mealBoxItemTop: '#D9D9D9'
+    mealBoxItemTop: '#D9D9D9',
+    commentText: '#909090',
+    commentInputBg: '#FFFFFF',
+    sendIcon: '#001A43',
+    placeholderText: '#B9B9B9',
+    commentInputText: '#001A43'
   },
 };
 
