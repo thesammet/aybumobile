@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, {useContext, useState, useEffect, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,21 +10,21 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   ActivityIndicator,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from 'react-native';
-import { updateProfile } from '../api/user';
-import { AuthContext } from '../context/Auth';
-import { ProfileContext } from '../context/Profile';
-import { useTheme } from '@react-navigation/native';
+import {updateProfile} from '../api/user';
+import {AuthContext} from '../context/Auth';
+import {ProfileContext} from '../context/Profile';
+import {useTheme} from '@react-navigation/native';
 import TYPOGRAPHY from '../constants/typography';
 import Header from '../components/Header';
-import { ChevronDown, Check } from '../components/icons';
+import {ChevronDown, Check} from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
-import { sections } from '../assets/sources/sections';
-import { strings } from '../constants/localization';
+import {sections} from '../assets/sources/sections';
+import {strings} from '../constants/localization';
 
-export default function ProfileEdit({ navigation }) {
-  const { addToken, token } = useContext(AuthContext);
+export default function ProfileEdit({navigation}) {
+  const {addToken, token} = useContext(AuthContext);
   const {
     username,
     faculty,
@@ -33,7 +33,7 @@ export default function ProfileEdit({ navigation }) {
     addFaculty,
     addDepartment,
   } = useContext(ProfileContext);
-  const { colors } = useTheme();
+  const {colors} = useTheme();
   const bottomSheetfacultyVal = useRef();
   const bottomSheetdepartmentVal = useRef();
   const windowHeight = Dimensions.get('window').height;
@@ -43,7 +43,7 @@ export default function ProfileEdit({ navigation }) {
   const [facultyVal, setFacultyVal] = useState(faculty);
   const [isValid, setValid] = useState(false);
   const [borderColor, setBorderColor] = useState('gray');
-  const [loading, setLoading] = useState()
+  const [loading, setLoading] = useState();
   const validMethod = () => {
     usernameVal.length > 0 && departmentVal && facultyVal
       ? setValid(true)
@@ -59,9 +59,13 @@ export default function ProfileEdit({ navigation }) {
   });
 
   const updateProfileMethod = async deviceId => {
-    setLoading(true)
-    let response = await updateProfile(token, departmentVal, usernameVal, facultyVal);
-    console.log(response)
+    setLoading(true);
+    let response = await updateProfile(
+      token,
+      departmentVal,
+      usernameVal,
+      facultyVal,
+    );
     if (response.error) {
       //todo fail message
     } else {
@@ -71,10 +75,10 @@ export default function ProfileEdit({ navigation }) {
       //todo success toast
       navigation.goBack();
     }
-    setLoading(false)
+    setLoading(false);
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <TouchableOpacity
       onPress={() => {
         setFacultyVal(item.faculty);
@@ -104,7 +108,7 @@ export default function ProfileEdit({ navigation }) {
     </TouchableOpacity>
   );
 
-  const renderItemdepartmentVal = ({ item }) => (
+  const renderItemdepartmentVal = ({item}) => (
     <TouchableOpacity
       onPress={() => {
         setDepartmentVal(item.name);
@@ -137,12 +141,11 @@ export default function ProfileEdit({ navigation }) {
   }, [usernameVal, departmentVal, facultyVal]);
 
   return (
-
-    <View style={[{ backgroundColor: colors.background }, styles.container]}>
+    <View style={[{backgroundColor: colors.background}, styles.container]}>
       <Header type="editProfile" navigation={navigation} />
 
       <View
-        style={[styles.innerContainer, { backgroundColor: colors.background }]}>
+        style={[styles.innerContainer, {backgroundColor: colors.background}]}>
         <BottomSheet
           hasDraggableIcon={true}
           ref={bottomSheetfacultyVal}
@@ -174,7 +177,7 @@ export default function ProfileEdit({ navigation }) {
         <KeyboardAvoidingView>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View>
-              <Text style={[styles.fillTheGapsText, { color: colors.text }]}>
+              <Text style={[styles.fillTheGapsText, {color: colors.text}]}>
                 {strings.canEdit}
               </Text>
               <View style={styles.infoView}>
@@ -183,7 +186,7 @@ export default function ProfileEdit({ navigation }) {
                   style={[
                     TYPOGRAPHY.H4Regular,
                     styles.input,
-                    { borderColor: borderColor, color: '#909090' },
+                    {borderColor: borderColor, color: '#909090'},
                   ]}
                   placeholder={'Kullanıcı adınız'}
                   value={usernameVal}
@@ -204,10 +207,16 @@ export default function ProfileEdit({ navigation }) {
                     Keyboard.dismiss();
                   }}>
                   <View style={styles.departmentValArea}>
-                    <Text numberOfLines={2} style={styles.departmentValInnerText}>
+                    <Text
+                      numberOfLines={2}
+                      style={styles.departmentValInnerText}>
                       {facultyVal ? facultyVal : 'Fakülte seçin'}
                     </Text>
-                    <ChevronDown height={24} width={24} color={colors.dropdownChevronIcon} />
+                    <ChevronDown
+                      height={24}
+                      width={24}
+                      color={colors.dropdownChevronIcon}
+                    />
                   </View>
                 </TouchableOpacity>
 
@@ -220,10 +229,16 @@ export default function ProfileEdit({ navigation }) {
                     Keyboard.dismiss();
                   }}>
                   <View style={styles.departmentValArea}>
-                    <Text numberOfLines={2} style={styles.departmentValInnerText}>
+                    <Text
+                      numberOfLines={2}
+                      style={styles.departmentValInnerText}>
                       {departmentVal ? departmentVal : 'Bölüm seçin'}
                     </Text>
-                    <ChevronDown height={24} width={24} color={colors.dropdownChevronIcon} />
+                    <ChevronDown
+                      height={24}
+                      width={24}
+                      color={colors.dropdownChevronIcon}
+                    />
                   </View>
                 </TouchableOpacity>
               </View>
@@ -231,48 +246,53 @@ export default function ProfileEdit({ navigation }) {
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
 
-        {
-          loading ?
-            <ActivityIndicator size="large" color="#0AD4EE" style={{ marginTop: 24 }} /> :
-            <View style={styles.buttonRow}>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => {
-                  navigation.goBack();
-                }}>
-                <View
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color="#0AD4EE"
+            style={{marginTop: 24}}
+          />
+        ) : (
+          <View style={styles.buttonRow}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <View
+                style={[
+                  styles.startButton,
+                  {borderColor: '#EBEBEB', marginRight: 8},
+                ]}>
+                <Text style={[styles.startText, {color: '#CECECE'}]}>
+                  {strings.cancel}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              disabled={isValid ? false : true}
+              onPress={() => {
+                updateProfileMethod();
+              }}>
+              <View
+                style={[
+                  styles.startButton,
+                  {borderColor: isValid ? '#0AD4EE' : '#EBEBEB'},
+                ]}>
+                <Text
                   style={[
-                    styles.startButton,
-                    { borderColor: '#EBEBEB', marginRight: 8 },
+                    styles.startText,
+                    {color: isValid ? '#0AD4EE' : '#CECECE'},
                   ]}>
-                  <Text style={[styles.startText, { color: '#CECECE' }]}>{strings.cancel}</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                disabled={isValid ? false : true}
-                onPress={() => {
-                  updateProfileMethod()
-                }}>
-                <View
-                  style={[
-                    styles.startButton,
-                    { borderColor: isValid ? '#0AD4EE' : '#EBEBEB' },
-                  ]}>
-                  <Text
-                    style={[
-                      styles.startText,
-                      { color: isValid ? '#0AD4EE' : '#CECECE' },
-                    ]}>
-                    {strings.save}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>}
+                  {strings.save}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
-
     </View>
-
   );
 }
 
@@ -285,7 +305,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     paddingVertical: 24,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   infoView: {
     alignItems: 'center',

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, {useContext, useState, useEffect, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,19 +10,20 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from 'react-native';
-import { register } from '../api/user';
-import { AuthContext } from '../context/Auth';
-import { ProfileContext } from '../context/Profile';
-import { useTheme } from '@react-navigation/native';
+import {register} from '../api/user';
+import {AuthContext} from '../context/Auth';
+import {ProfileContext} from '../context/Profile';
+import {useTheme} from '@react-navigation/native';
 import DeviceInfo from 'react-native-device-info';
 import TYPOGRAPHY from '../constants/typography';
 import Header from '../components/Header';
-import { ChevronDown, Check } from '../components/icons';
+import {ChevronDown, Check} from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
-import { sections } from '../assets/sources/sections';
-import { strings } from '../constants/localization';
+import {sections} from '../assets/sources/sections';
+import {strings} from '../constants/localization';
+import {errorMessage} from '../utils/showToast';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -34,14 +35,14 @@ export default function Auth() {
   const [isValid, setValid] = useState(false);
   const [borderColor, setBorderColor] = useState('gray');
 
-  const { addToken } = useContext(AuthContext);
-  const { addUsername, addFaculty, addDepartment } = useContext(ProfileContext);
+  const {addToken} = useContext(AuthContext);
+  const {addUsername, addFaculty, addDepartment} = useContext(ProfileContext);
 
-  const { colors } = useTheme();
+  const {colors} = useTheme();
 
   const bottomSheetFaculty = useRef();
   const bottomSheetDepartment = useRef();
-  const [loading, setLoading] = useState()
+  const [loading, setLoading] = useState();
 
   useEffect(() => {
     validMethod();
@@ -49,9 +50,6 @@ export default function Auth() {
 
   const popSuccessMessage = () => {
     successMessage('Message 1', 'AYBÜ Mobil hesabınız başarıyla oluşturuldu.');
-  };
-  const popFaiLMessage = () => {
-    errorMessage('Message 2', 'Giriş yapılamadı. Lütfen tekrar deneyiniz');
   };
 
   const validMethod = () => {
@@ -63,10 +61,9 @@ export default function Auth() {
   const registerMethod = async deviceId => {
     setLoading(true);
     let response = await register(deviceId, username, department, faculty);
-    console.log(response)
+
     if (response.error) {
-      //todo fail message
-      popFaiLMessage();
+      errorMessage('Hata', 'Giriş yapılamadı. Lütfen tekrar deneyiniz');
     } else {
       addUsername(username);
       addFaculty(faculty);
@@ -77,7 +74,7 @@ export default function Auth() {
     setLoading(false);
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <TouchableOpacity
       onPress={() => {
         setFaculty(item.faculty);
@@ -107,7 +104,7 @@ export default function Auth() {
     </TouchableOpacity>
   );
 
-  const renderItemDepartment = ({ item }) => (
+  const renderItemDepartment = ({item}) => (
     <TouchableOpacity
       onPress={() => {
         setDepartment(item.name);
@@ -136,7 +133,7 @@ export default function Auth() {
   );
 
   return (
-    <View style={[{ backgroundColor: colors.welcomeBg }, styles.container]}>
+    <View style={[{backgroundColor: colors.welcomeBg}, styles.container]}>
       <Header type="outside" />
       <View style={styles.innerContainer}>
         <BottomSheet
@@ -176,7 +173,7 @@ export default function Auth() {
                 style={[
                   TYPOGRAPHY.H4Regular,
                   styles.input,
-                  { borderColor: borderColor },
+                  {borderColor: borderColor},
                 ]}
                 placeholder={'Kullanıcı adınız'}
                 value={username}
@@ -222,44 +219,48 @@ export default function Auth() {
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
-        {
-          loading ?
-            <ActivityIndicator size="large" color="#0AD4EE" style={{ marginBottom: 12 }} />
-            :
-            <TouchableOpacity
-              activeOpacity={0.7}
-              disabled={isValid ? false : true}
-              onPress={() => {
-                DeviceInfo.getUniqueId().then(uniqueId => {
-                  registerMethod(uniqueId);
-                });
-              }}>
-              <View
-                style={[
-                  styles.startButton,
-                  { borderColor: isValid ? '#0AD4EE' : '#EBEBEB' },
-                  isValid && {
-                    //shadow
-                    shadowColor: '#0AD4EE',
-                    shadowOffset: {
-                      width: 0,
-                      height: 10,
-                    },
-                    shadowOpacity: 0.3,
-                    shadowRadius: 3.95,
-                    elevation: 5,
-                    zIndex: 5,
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color="#0AD4EE"
+            style={{marginBottom: 12}}
+          />
+        ) : (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            disabled={isValid ? false : true}
+            onPress={() => {
+              DeviceInfo.getUniqueId().then(uniqueId => {
+                registerMethod(uniqueId);
+              });
+            }}>
+            <View
+              style={[
+                styles.startButton,
+                {borderColor: isValid ? '#0AD4EE' : '#EBEBEB'},
+                isValid && {
+                  //shadow
+                  shadowColor: '#0AD4EE',
+                  shadowOffset: {
+                    width: 0,
+                    height: 10,
                   },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 3.95,
+                  elevation: 5,
+                  zIndex: 5,
+                },
+              ]}>
+              <Text
+                style={[
+                  styles.startText,
+                  {color: isValid ? '#0AD4EE' : '#CECECE'},
                 ]}>
-                <Text
-                  style={[
-                    styles.startText,
-                    { color: isValid ? '#0AD4EE' : '#CECECE' },
-                  ]}>
-                  {strings.start}
-                </Text>
-              </View>
-            </TouchableOpacity>}
+                {strings.start}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

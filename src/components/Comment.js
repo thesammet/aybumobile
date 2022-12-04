@@ -1,18 +1,13 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import React, {useEffect, useRef, useState, useContext} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useTheme} from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
-import { NarniaFlag, Kratos, Editor, SteinsGate } from '../components/icons'
-import moment from 'moment/min/moment-with-locales'
-import { strings } from '../constants/localization'
+import {NarniaFlag, Kratos, Editor, SteinsGate} from '../components/icons';
+import moment from 'moment/min/moment-with-locales';
+import {strings} from '../constants/localization';
 
-const Comment = ({ comment, onLikeComment = () => { } }) => {
-  const { colors } = useTheme();
+const Comment = ({comment, onLikeComment = () => {}}) => {
+  const {colors} = useTheme();
 
   const animation = useRef(null);
   const isFirstRun = useRef(true);
@@ -41,31 +36,31 @@ const Comment = ({ comment, onLikeComment = () => { } }) => {
     <View style={styles.container}>
       <View style={styles.commentHead}>
         <View style={styles.sampleRow}>
-          {comment?.username == "Schaleef" ?
+          {comment?.username == 'Schaleef' ? (
             <Kratos width={24} height={24} style={styles.svgView} />
-            :
-            comment?.username == "Sapphique" ?
-              <SteinsGate width={24} height={24} style={styles.svgView} />
-              :
-              comment?.userRole == 'developer-admin' ?
-                <NarniaFlag width={24} height={24} style={styles.svgView} />
-                :
-                comment?.userRole == 'admin' &&
-                <Editor width={24} height={24} style={styles.svgView} />
-          }
-          <Text style={[styles.commentNameText, { color: colors.usernameText }]}>
+          ) : comment?.username == 'Sapphique' ? (
+            <SteinsGate width={24} height={24} style={styles.svgView} />
+          ) : comment?.userRole == 'developer-admin' ? (
+            <NarniaFlag width={24} height={24} style={styles.svgView} />
+          ) : (
+            comment?.userRole == 'admin' && (
+              <Editor width={24} height={24} style={styles.svgView} />
+            )
+          )}
+          <Text style={[styles.commentNameText, {color: colors.usernameText}]}>
             {comment?.username}
           </Text>
         </View>
-        <Text style={[styles.commentDateText, { color: colors.dateText }]}>
+        <Text style={[styles.commentDateText, {color: colors.dateText}]}>
           {moment(comment?.comment.createdAt)
-            .locale(strings.lang == 'en'
-              ? 'en' : 'tr')
+            .locale(strings.lang == 'en' ? 'en' : 'tr')
             .fromNow()}
         </Text>
       </View>
       <View style={styles.commentBody}>
-        <Text style={[styles.commentText, { color: colors.commentText }]}>{comment?.comment?.comment}</Text>
+        <Text style={[styles.commentText, {color: colors.commentText}]}>
+          {comment?.comment?.comment}
+        </Text>
       </View>
       <View>
         <TouchableOpacity
@@ -80,7 +75,7 @@ const Comment = ({ comment, onLikeComment = () => { } }) => {
             loop={false}
           />
           <Text
-            style={[styles.commentLikeCount, { color: colors.dateBoxElement }]}>
+            style={[styles.commentLikeCount, {color: colors.dateBoxElement}]}>
             {comment?.comment?.likeCount}
           </Text>
         </TouchableOpacity>
@@ -94,7 +89,7 @@ const styles = StyleSheet.create({
   commentHead: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   commentNameText: {
     fontSize: 17,
@@ -144,9 +139,9 @@ const styles = StyleSheet.create({
   },
   svgView: {
     borderRadius: 24 / 2,
-    overflow: "hidden",
-    marginRight: 8
-  }
+    overflow: 'hidden',
+    marginRight: 8,
+  },
 });
 
 export default Comment;

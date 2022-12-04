@@ -7,7 +7,7 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, {useContext, useState, useEffect, useRef} from 'react';
 import {
   errorMessage,
   infoMessage,
@@ -18,27 +18,27 @@ import {
   responsiveWidth as rw,
   responsiveHeight as rh,
 } from '@/utils/responsive';
-import { AuthContext } from '../context/Auth';
+import {AuthContext} from '../context/Auth';
 import DateBox from '@/components/DateBox';
 import Header from '@/components/Header';
 import MealBox from '@/components/MealBox';
 import ReactionBox from '@/components/ReactionBox';
-import { useTheme } from '@react-navigation/native';
-import { getMonthlyFood } from '../api/food';
+import {useTheme} from '@react-navigation/native';
+import {getMonthlyFood} from '../api/food';
 import Loading from '../components/Loading';
 
-const { width, height } = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 const SPACING = 10;
 const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.74 : width * 0.76;
 const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
-const Home = ({ navigation }) => {
-  const { token, addToken, removeToken } = useContext(AuthContext);
-  const { colors } = useTheme();
+const Home = ({navigation}) => {
+  const {token, addToken, removeToken} = useContext(AuthContext);
+  const {colors} = useTheme();
   const scrollx = useRef(new Animated.Value(0)).current;
   const [loading, setLoading] = useState(false);
-  const [betweenDate, setBetweenDate] = useState({})
+  const [betweenDate, setBetweenDate] = useState({});
 
   const [meals, setMeals] = useState([]);
 
@@ -53,13 +53,11 @@ const Home = ({ navigation }) => {
       if (response.error) {
         errorMessage('Bir hata oluştu');
       } else {
-        setBetweenDate(response?.betweenDate)
-        console.log(response)
-        console.log(response.betweenDate)
+        setBetweenDate(response?.betweenDate);
         let dataArr = response?.data;
-        dataArr.unshift({ meal: { _id: '231243' }, key: 'left-spacer' });
-        dataArr.push({ meal: { _id: '231423' }, key: 'right-spacer' });
-        console.log(dataArr)
+        dataArr.unshift({meal: {_id: '231243'}, key: 'left-spacer'});
+        dataArr.push({meal: {_id: '231423'}, key: 'right-spacer'});
+
         setMeals(dataArr);
       }
     } catch (error) {
@@ -79,13 +77,14 @@ const Home = ({ navigation }) => {
       <DateBox
         mealLastIndex={meals?.length}
         firstDate={meals[1]?.meal.date}
-        lastDate={meals[meals?.length - 2]?.meal.date} />
+        lastDate={meals[meals?.length - 2]?.meal.date}
+      />
       {loading ? (
         <Loading />
       ) : (
         <>
           <View style={styles.homeInsideContainer}>
-            <Text style={[styles.mealListText, { color: colors.text }]}>
+            <Text style={[styles.mealListText, {color: colors.text}]}>
               Yemek Listesi
             </Text>
 
@@ -97,16 +96,16 @@ const Home = ({ navigation }) => {
               decelerationRate={0}
               bounces={false}
               onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { x: scrollx } } }],
-                { useNativeDriver: false },
+                [{nativeEvent: {contentOffset: {x: scrollx}}}],
+                {useNativeDriver: false},
               )}
               scrollEventThrottle={16}
               contentContainerStyle={styles.flatListContainer}
               showsHorizontalScrollIndicator={false}
-              renderItem={({ item, index }) => {
+              renderItem={({item, index}) => {
                 if (!item.meal || !item.social) {
                   return (
-                    <View key={item?.key} style={{ width: EMPTY_ITEM_SIZE }} />
+                    <View key={item?.key} style={{width: EMPTY_ITEM_SIZE}} />
                   );
                 }
 
@@ -123,11 +122,11 @@ const Home = ({ navigation }) => {
 
                 return (
                   <View
-                    style={[styles.mealOutsideContainer, { width: ITEM_SIZE }]}
+                    style={[styles.mealOutsideContainer, {width: ITEM_SIZE}]}
                     key={item.meal._id}>
                     <Animated.View
                       style={{
-                        transform: [{ translateY }],
+                        transform: [{translateY}],
                         marginHorizontal: SPACING,
                         padding: SPACING * 2,
                         borderRadius: 34,

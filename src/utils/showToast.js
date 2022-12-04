@@ -1,5 +1,5 @@
 import Toast from 'react-native-toast-message';
-import { tabHeight } from '../constants';
+let tabHeight = 80;
 
 export const successMessage = (text1, text2 = '') => {
   Toast.show({
