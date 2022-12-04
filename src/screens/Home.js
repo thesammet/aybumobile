@@ -59,7 +59,7 @@ const Home = ({ navigation }) => {
         let dataArr = response?.data;
         dataArr.unshift({ meal: { _id: '231243' }, key: 'left-spacer' });
         dataArr.push({ meal: { _id: '231423' }, key: 'right-spacer' });
-
+        console.log(dataArr)
         setMeals(dataArr);
       }
     } catch (error) {
@@ -76,7 +76,10 @@ const Home = ({ navigation }) => {
   return (
     <View style={styles.homeContainer}>
       <Header type="inside" />
-      <DateBox betweenDate={betweenDate} />
+      <DateBox
+        mealLastIndex={meals?.length}
+        firstDate={meals[1]?.meal.date}
+        lastDate={meals[meals?.length - 2]?.meal.date} />
       {loading ? (
         <Loading />
       ) : (

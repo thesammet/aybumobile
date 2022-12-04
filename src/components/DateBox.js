@@ -7,8 +7,8 @@ import {
 import { ChevronLeft, ChevronRight } from './icons';
 import { useTheme } from '@react-navigation/native';
 import moment from 'moment'
-
-const DateBox = ({ betweenDate }) => {
+import { modifyDate } from '../helpers/day-helper'
+const DateBox = ({ mealLastIndex, firstDate, lastDate }) => {
   const { colors } = useTheme();
 
   return (
@@ -18,7 +18,10 @@ const DateBox = ({ betweenDate }) => {
         { width: rw(344), height: rh(56), marginTop: -rh(28), backgroundColor: colors.boxBg },
       ]}>
       <Text style={[styles.dateText, { color: colors.dateBoxElement }]}>
-        {betweenDate.today == null ? "..." : (moment(betweenDate.today).add(1, 'days').format('DD.MM.YYYY') + " - " + moment(betweenDate.lastWeekDay).format('DD.MM.YYYY'))}
+        {mealLastIndex == null ? "..." :
+          (moment(new Date(modifyDate(firstDate))).format('DD.MM.YYYY')
+            + " - "
+            + moment(new Date(modifyDate(lastDate))).format('DD.MM.YYYY'))}
       </Text>
     </View>
   );

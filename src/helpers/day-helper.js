@@ -5,9 +5,9 @@ export const getDayName = date => {
 };
 
 export const modifyDate = (currentTrDate) => {
-  const day = currentTrDate.slice(0, 2)
-  const month = currentTrDate.slice(3, 5)
-  const year = currentTrDate.slice(6, 10)
+  const day = currentTrDate?.slice(0, 2)
+  const month = currentTrDate?.slice(3, 5)
+  const year = currentTrDate?.slice(6, 10)
   const currentEnDate = year + "-" + month + "-" + day
   return currentEnDate
 }
