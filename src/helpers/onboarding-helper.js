@@ -2,34 +2,35 @@ import onboarding1 from '@/assets/images/onboarding-1.png';
 import onboarding2 from '@/assets/images/onboarding-2.png';
 import onboarding3 from '@/assets/images/onboarding-3.png';
 import onboarding4 from '@/assets/images/onboarding-4.png';
+import { strings } from '../constants/localization';
 
 export const bgs = ['#A5BBFF', '#DDBEFE', '#FF63ED', '#B98EFF'];
 export const data = [
   {
     key: '3571572',
-    title: 'Multi-lateral intermediate moratorium',
+    title: strings.onboarding1Title,
     description:
-      "I'll back up the multi-byte XSS matrix, that should feed the SCSI application!",
+      strings.onboarding1Text,
     image: onboarding1,
   },
   {
     key: '3571747',
-    title: 'Automated radical data-warehouse',
+    title: strings.onboarding2Title,
     description:
-      'Use the optical SAS system, then you can navigate the auxiliary alarm!',
+      strings.onboarding2Text,
     image: onboarding2,
   },
   {
     key: '3571680',
-    title: 'Inverse attitude-oriented system engine',
+    title: strings.onboarding3Title,
     description:
-      'The ADP array is down, compress the online sensor so we can input the HTTP panel!',
-    image: onboarding3,
+      strings.onboarding3Text,
+    image: onboarding4,
   },
   {
     key: '3571603',
-    title: 'Monitored global data-warehouse',
-    description: 'We need to program the open-source IB interface!',
-    image: onboarding4,
+    title: strings.onboarding4Title,
+    description: strings.onboarding4Text,
+    image: onboarding3,
   },
 ];

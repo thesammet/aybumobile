@@ -18,7 +18,15 @@ export let strings = new LocalizedStrings({
         calendarString1: "program couldn't found.",
         calendarString2: "It will be added as soon as possible.",
         fillTheGaps: "Fill the gaps.",
-        start: "Start"
+        start: "Start",
+        onboarding1Text: "AYBU has a mobile app now.",
+        onboarding2Text: "Learn what’s in the menu in a moment, and show your feelings about it.",
+        onboarding3Text: "Get a chance to express your opinions about menu.",
+        onboarding4Text: "Know the best and worst foods in the menu.",
+        onboarding1Title: "Hey",
+        onboarding2Title: "Meal List",
+        onboarding3Title: "Comment",
+        onboarding4Title: "Trend",
     },
     tr: {
         welcome: "Hoşgeldiniz",
@@ -37,7 +45,14 @@ export let strings = new LocalizedStrings({
         calendarString1: "fakültesinin programı bulunamadı.",
         calendarString2: "En kısa zamanda eklenecektir.",
         fillTheGaps: "Alanları doldurunuz.",
-        start: "Başla"
-
+        start: "Başla",
+        onboarding1Text: "Artık AYBÜ’nün de bir mobil uygulaması var.",
+        onboarding2Text: "Bugün ne yiyeceğinizi tek tıkla öğrenin ve duygularınızı belirtin",
+        onboarding3Text: "Yemeklere yorum yapabilme şansını yakalayın.",
+        onboarding4Text: "En sevilen ve sevilmeyen yemekler hakkında bilgi sahibi olun.",
+        onboarding1Title: "Merhaba",
+        onboarding2Title: "Yemek listesi",
+        onboarding3Title: "Yorum özelliği",
+        onboarding4Title: "Trendler",
     }
 })
