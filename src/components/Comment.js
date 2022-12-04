@@ -7,8 +7,9 @@ import {
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
-import { NarniaFlag, Kratos, Editor } from '../components/icons'
-import moment from 'moment';
+import { NarniaFlag, Kratos, Editor, SteinsGate } from '../components/icons'
+import moment from 'moment/min/moment-with-locales'
+import { strings } from '../constants/localization'
 
 const Comment = ({ comment, onLikeComment = () => { } }) => {
   const { colors } = useTheme();
@@ -41,26 +42,32 @@ const Comment = ({ comment, onLikeComment = () => { } }) => {
       <View style={styles.commentHead}>
         <View style={styles.sampleRow}>
           {comment?.username == "Schaleef" ?
-            <Kratos width={24} height={24} style={{ borderRadius: 24 / 2, overflow: "hidden", }} />
+            <Kratos width={24} height={24} style={styles.svgView} />
             :
-            comment?.userRole == 'developer-admin' ?
-              <NarniaFlag width={24} height={24} style={{ borderRadius: 24 / 2, overflow: "hidden", }} />
+            comment?.username == "Sapphique" ?
+              <SteinsGate width={24} height={24} style={styles.svgView} />
               :
-              comment?.userRole == 'admin' &&
-              <Editor width={24} height={24} style={{ borderRadius: 24 / 2, overflow: "hidden", }} />
+              comment?.userRole == 'developer-admin' ?
+                <NarniaFlag width={24} height={24} style={styles.svgView} />
+                :
+                comment?.userRole == 'admin' &&
+                <Editor width={24} height={24} style={styles.svgView} />
           }
           <Text style={[styles.commentNameText, { color: colors.usernameText }]}>
             {comment?.username}
           </Text>
         </View>
         <Text style={[styles.commentDateText, { color: colors.dateText }]}>
-          {moment(comment?.comment?.date).fromNow()}
+          {moment(comment?.comment.createdAt)
+            .locale(strings.lang == 'en'
+              ? 'en' : 'tr')
+            .fromNow()}
         </Text>
       </View>
       <View style={styles.commentBody}>
         <Text style={[styles.commentText, { color: colors.commentText }]}>{comment?.comment?.comment}</Text>
       </View>
-      <View style={styles.commentFooter}>
+      <View>
         <TouchableOpacity
           onPress={() => toggleLikeComment()}
           activeOpacity={0.8}
@@ -93,7 +100,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 24,
     fontWeight: '500',
-    marginLeft: 8
   },
   commentText: {
     fontSize: 16,
@@ -107,10 +113,7 @@ const styles = StyleSheet.create({
   commentBody: {
     flex: 1,
     marginTop: 8,
-    marginBottom: 18,
-  },
-  commentFooter: {
-    // borderWidth: 1,
+    marginBottom: 8,
   },
   commentLikeButton: {
     flexDirection: 'row',
@@ -134,10 +137,15 @@ const styles = StyleSheet.create({
   },
   sampleRow: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   circleParent: {
     borderRadius: 24 / 2,
+  },
+  svgView: {
+    borderRadius: 24 / 2,
+    overflow: "hidden",
+    marginRight: 8
   }
 });
 

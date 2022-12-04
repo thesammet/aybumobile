@@ -2,6 +2,7 @@ import LocalizedStrings from 'react-native-localization';
 
 export let strings = new LocalizedStrings({
     en: {
+        lang: "en",
         welcome: "Welcome",
         mealList: "Meal List",
         mustFaculty: "Faculty (Mandatory)",
@@ -29,6 +30,7 @@ export let strings = new LocalizedStrings({
         onboarding4Title: "Trend",
     },
     tr: {
+        lang: "tr",
         welcome: "Hoşgeldiniz",
         mealList: "Yemek Listesi",
         mustFaculty: "Fakülte (Zorunlu)",

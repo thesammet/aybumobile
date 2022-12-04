@@ -17,6 +17,7 @@ export {default as NarniaFlag} from './NarniaFlag';
 export {default as Profil} from './Profil';
 export {default as Send} from './Send';
 export {default as Star} from './Star';
+export {default as SteinsGate} from './SteinsGate';
 export {default as Sun} from './Sun';
 export {default as ThumbsDownEmpty} from './ThumbsDownEmpty';
 export {default as ThumbsDownFill} from './ThumbsDownFill';

@@ -108,13 +108,13 @@ const Comments = ({ route, navigation }) => {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' && 'padding'}
       style={{
-        paddingBottom: 80,
+        paddingBottom: Platform.OS === 'ios' ? 80 : 0,
         flex: 1,
         position: 'relative'
       }}
-      keyboardVerticalOffset={20}>
+      keyboardVerticalOffset={20} >
       <BasicHeader
         text={item?.meal?.date}
         navigation={navigation}
@@ -131,7 +131,7 @@ const Comments = ({ route, navigation }) => {
           paddingTop: 24,
           paddingBottom: 72,
         }}
-        ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+        ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -161,7 +161,7 @@ const Comments = ({ route, navigation }) => {
           </View>
         </View>
       </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    </KeyboardAvoidingView >
   );
 };
 
