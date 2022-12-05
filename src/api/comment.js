@@ -18,7 +18,7 @@ export const postComment = async (token, comment, food_id) => {
     return json;
   } catch (error) {
     console.log('Post Comment Error: ', error);
-    return {error: true};
+    return { error: true };
   }
 };
 
@@ -36,15 +36,15 @@ export const commentRating = async (
       },
       body: JSON.stringify({
         comment,
-        status: status,
+        status,
       }),
     });
 
     const json = await response.json();
     return json;
   } catch (error) {
-    console.log('Post Comment Error: ', error);
-    return {error: true};
+    console.log('Post Comment Rating Error: ', error);
+    return { error: true };
   }
 };
 
@@ -62,6 +62,6 @@ export const getSingleFoodComment = async (token, food_id) => {
     return json;
   } catch (error) {
     console.log('Get Single Food Comment Error: ', error);
-    return {error: true};
+    return { error: true };
   }
 };

@@ -13,7 +13,7 @@ import {
   Platform,
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { commentRating, getSingleFoodComment, postComment } from '../api/comment';
+import { getSingleFoodComment, postComment } from '../api/comment';
 import BasicHeader from '../components/BasicHeader';
 import Comment from '../components/Comment';
 import { Send } from '../components/icons';
@@ -101,32 +101,6 @@ const Comments = ({ route, navigation }) => {
     }
   };
 
-  const likeComment = async (_id, likeStatus) => {
-    let response = await commentRating(token, _id, likeStatus);
-
-    if (response.error) {
-      errorMessage('Something went wrong');
-    } else {
-      setComments(() => {
-        return comments.map(commentItem => {
-          if (commentItem.comment._id === _id) {
-            return {
-              comment: {
-                ...commentItem.comment,
-                likeCount:
-                  commentItem.isLike == 'false'
-                    ? commentItem.comment.likeCount + 1
-                    : commentItem.comment.likeCount - 1,
-              },
-              isLike: !commentItem.isLike,
-            };
-          }
-          return commentItem;
-        });
-      });
-    }
-  };
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' && 'height'}
@@ -160,7 +134,7 @@ const Comments = ({ route, navigation }) => {
           renderItem={({ item }) => (
             <Comment
               comment={item}
-              onLikeComment={(_id, likeStatus) => likeComment(_id, likeStatus)}
+              onLikeComment={(_id, likeStatus) => commentRatingMethod(_id, likeStatus)}
             />
           )}
         />}

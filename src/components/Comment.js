@@ -1,35 +1,53 @@
-import React, {useEffect, useRef, useState, useContext} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useTheme} from '@react-navigation/native';
+import React, { useEffect, useRef, useState, useContext } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
-import {NarniaFlag, Kratos, Editor, SteinsGate} from '../components/icons';
+import { NarniaFlag, Kratos, Editor, SteinsGate } from '../components/icons';
 import moment from 'moment/min/moment-with-locales';
-import {strings} from '../constants/localization';
+import { strings } from '../constants/localization';
+import { errorMessage } from '../utils/showToast';
+import { commentRating } from '../api/comment'
+import { AuthContext } from '../context/Auth';
 
-const Comment = ({comment, onLikeComment = () => {}}) => {
-  const {colors} = useTheme();
-
+const Comment = ({ comment }) => {
+  const { colors } = useTheme();
+  const { token } = useContext(AuthContext)
   const animation = useRef(null);
   const isFirstRun = useRef(true);
+  const [likeStatus, setLikeStatus] = useState(comment?.isLike)
+  const [likeCount, setLikeCount] = useState(comment?.comment.likeCount)
 
   useEffect(() => {
     if (isFirstRun.current) {
-      if (comment?.isLike) {
+      if (likeStatus) {
         animation.current.play(66, 66);
       } else {
         animation.current.play(19, 19);
       }
       isFirstRun.current = false;
-    } else if (comment?.isLike) {
+    } else if (likeStatus) {
       animation.current.play(19, 50);
     } else {
       animation.current.play(0, 19);
     }
-  }, [comment?.isLike]);
+  }, [likeStatus]);
 
-  const toggleLikeComment = async () => {
-    let likeStatus = comment?.isLike ? false : true;
-    onLikeComment(comment?.comment?._id, likeStatus);
+  const commentRatingMethod = async () => {
+    setLikeStatus(!likeStatus)
+    likeStatus
+      ? setLikeCount(likeCount - 1)
+      : setLikeCount(likeCount + 1)
+    try {
+      let response = await commentRating(token, comment?.comment._id, likeStatus);
+      if (response.error) {
+        errorMessage('Reaksiyon iletilemedi.');
+      } else {
+        console.log("a")
+      }
+    } catch (error) {
+      errorMessage('Reaksiyon iletilemedi.');
+      console.log(error)
+    }
   };
 
   return (
@@ -47,24 +65,24 @@ const Comment = ({comment, onLikeComment = () => {}}) => {
               <Editor width={24} height={24} style={styles.svgView} />
             )
           )}
-          <Text style={[styles.commentNameText, {color: colors.usernameText}]}>
+          <Text style={[styles.commentNameText, { color: colors.usernameText }]}>
             {comment?.username}
           </Text>
         </View>
-        <Text style={[styles.commentDateText, {color: colors.dateText}]}>
+        <Text style={[styles.commentDateText, { color: colors.dateText }]}>
           {moment(comment?.comment.createdAt)
             .locale(strings.lang == 'en' ? 'en' : 'tr')
             .fromNow()}
         </Text>
       </View>
       <View style={styles.commentBody}>
-        <Text style={[styles.commentText, {color: colors.commentText}]}>
+        <Text style={[styles.commentText, { color: colors.commentText }]}>
           {comment?.comment?.comment}
         </Text>
       </View>
       <View>
         <TouchableOpacity
-          onPress={() => toggleLikeComment()}
+          onPress={() => commentRatingMethod()}
           activeOpacity={0.8}
           style={styles.commentLikeButton}>
           <Lottie
@@ -75,8 +93,8 @@ const Comment = ({comment, onLikeComment = () => {}}) => {
             loop={false}
           />
           <Text
-            style={[styles.commentLikeCount, {color: colors.dateBoxElement}]}>
-            {comment?.comment?.likeCount}
+            style={[styles.commentLikeCount, { color: colors.dateBoxElement }]}>
+            {likeCount}
           </Text>
         </TouchableOpacity>
       </View>

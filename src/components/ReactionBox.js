@@ -129,7 +129,7 @@ const ReactionBox = ({
         <MessageCircle width="24" height="24" color="white" />
         <Text style={styles.reactionText}>
           {type === 'home' && mealItem?.meal?.commentCount}
-          {type === 'trends' && mealItem?.social.comments}
+          {type === 'trends' && mealItem?.comments}
         </Text>
       </TouchableOpacity>
     </View>
