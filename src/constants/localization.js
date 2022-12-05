@@ -28,6 +28,8 @@ export let strings = new LocalizedStrings({
         onboarding2Title: "Meal List",
         onboarding3Title: "Comment",
         onboarding4Title: "Trend",
+        noComment1: "There are no comments.",
+        noComment2: "Write the first one!"
     },
     tr: {
         lang: "tr",
@@ -56,5 +58,7 @@ export let strings = new LocalizedStrings({
         onboarding2Title: "Yemek listesi",
         onboarding3Title: "Yorum özelliği",
         onboarding4Title: "Trendler",
+        noComment1: "Hiç yorum yok.",
+        noComment2: "İlk yorum yapan sen ol!"
     }
 })

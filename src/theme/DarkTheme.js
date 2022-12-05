@@ -34,7 +34,8 @@ const customDarkTheme = {
     commentInputBg: '#151515',
     sendIcon: '#FFFFFF',
     placeholderText: '#A0A0A0',
-    commentInputText: '#FFFFFF'
+    commentInputText: '#FFFFFF',
+    noCommentText: '#FFFFFF'
   },
 };
 

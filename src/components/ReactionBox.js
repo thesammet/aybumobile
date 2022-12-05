@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect, useContext} from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -18,141 +18,109 @@ import {
   ThumbsDownEmpty,
   ThumbsDownFill,
 } from './icons';
-import {useTheme} from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
-import {rating} from '../api/rating';
-import {AuthContext} from '../context/Auth';
-import {errorMessage} from '../utils/showToast';
+import { rating } from '../api/rating';
+import { AuthContext } from '../context/Auth';
+import { errorMessage } from '../utils/showToast';
 
 const ReactionBox = ({
   item,
-  // toggleLikeMeal,
-  // toggleDislikeMeal,
   type,
   navigation,
 }) => {
-  const {colors} = useTheme();
-  const {token} = useContext(AuthContext);
-
+  const { colors } = useTheme();
+  const { token } = useContext(AuthContext);
   const [mealItem, setMealItem] = useState(item);
 
-  useEffect(() => {
-    console.log('ii: ', item);
-  }, []);
+  let [likeCount, setLikeCount] = useState(mealItem.social.likes)
+  let [dislikeCount, setDislikeCount] = useState(mealItem.social.dislikes)
+  let [likeActive, setLikeActive] = useState(mealItem.social.ratingStatus
+    == "like"
+    ? true
+    : false)
+  let [dislikeActive, setDislikeActive] = useState(mealItem.social.ratingStatus
+    == "dislike"
+    ? true
+    : false)
+
+  let setDislike = () => {
+    setDislikeActive(!dislikeActive)
+    setDislikeCount(dislikeActive
+      ? dislikeCount - 1
+      : dislikeCount + 1)
+  }
+  let setLike = () => {
+    setLikeActive(!likeActive)
+    setLikeCount(likeActive
+      ? likeCount - 1
+      : likeCount + 1)
+  }
+
+  let handleLike = () => {
+    if (dislikeActive) {
+      setLike()
+      setDislike()
+    }
+    setLike()
+  }
+
+  let handleDislike = () => {
+    if (likeActive) {
+      setDislike()
+      setLike()
+    }
+    setDislike()
+  }
+
+  const ratingMethod = async (ratingType) => {
+    ratingType == 'like' ? handleLike() : handleDislike()
+    try {
+      let response = await rating(token, ratingType, mealItem?.meal?._id);
+      if (response.error) {
+        errorMessage('Reaksiyon iletilemedi.');
+      }
+    } catch (error) {
+      errorMessage('Reaksiyon iletilemedi.');
+    }
+  };
 
   const goToComments = () => {
-    navigation.navigate('Comments', {item: mealItem});
-  };
-
-  const toggleLikeMeal = async () => {
-    console.log('mealitemSocialRating: ', mealItem.social.ratingStatus);
-    let ratingStatus = null;
-    // null check is not working
-    if (mealItem?.social?.ratingStatus.toString().length == 4) {
-      ratingStatus = 'like';
-    }
-    if (mealItem?.social?.ratingStatus == 'dislike') {
-      ratingStatus = 'like';
-    }
-
-    console.log('ratingStatus: ', ratingStatus);
-    if (ratingStatus == 'like') {
-      mealItem.social.likes = mealItem.social.likes + 1;
-      if (mealItem.social.ratingStatus == 'dislike') {
-        mealItem.social.dislikes = mealItem.social.dislikes - 1;
-      }
-    } else {
-      mealItem.social.likes = mealItem.social.likes - 1;
-      if (mealItem.social.ratingStatus == 'dislike') {
-        mealItem.social.dislikes = mealItem.social.dislikes + 1;
-      }
-    }
-
-    let changeItem = {
-      ...mealItem,
-      social: {
-        ...mealItem.social,
-        ratingStatus: ratingStatus,
-      },
-    };
-    setMealItem(changeItem);
-
-    let response = await rating(token, ratingStatus, mealItem?.meal?._id);
-    if (response.error) {
-      // errorMessage('Bir hata oluştu');
-    } else {
-    }
-  };
-
-  const toggleDislikeMeal = async () => {
-    let ratingStatus = null;
-
-    // null check is not working
-    if (mealItem?.social?.ratingStatus.toString().length == 4) {
-      ratingStatus = 'dislike';
-    }
-    if (mealItem?.social?.ratingStatus == 'like') {
-      ratingStatus = 'dislike';
-    }
-
-    if (ratingStatus == 'dislike') {
-      mealItem.social.dislikes = mealItem.social.dislikes + 1;
-      if (mealItem.social.ratingStatus == 'like') {
-        mealItem.social.likes = mealItem.social.likes - 1;
-      }
-    } else {
-      mealItem.social.dislikes = mealItem.social.dislikes - 1;
-      if (mealItem.social.ratingStatus == 'like') {
-        mealItem.social.likes = mealItem.social.likes + 1;
-      }
-    }
-
-    let changeItem = {
-      ...mealItem,
-      social: {
-        ...mealItem.social,
-        ratingStatus: ratingStatus,
-      },
-    };
-    setMealItem(changeItem);
-
-    let response = await rating(token, ratingStatus, mealItem?.meal?._id);
-    if (response.error) {
-      // errorMessage('Bir hata oluştu');
-    } else {
-    }
+    navigation.navigate('Comments', { item: mealItem });
   };
 
   return (
     <View
       style={[
         styles.reactionContainer,
-        {backgroundColor: colors.reactionBg, width: rw(224), height: rh(56)},
+        { backgroundColor: colors.reactionBg, width: rw(224), height: rh(56) },
       ]}>
       <TouchableOpacity
-        style={[styles.reactionItem, {position: 'relative'}]}
-        onPress={() => toggleLikeMeal(mealItem)}>
-        {mealItem?.social?.ratingStatus === 'like' ? (
+        style={[styles.reactionItem, { position: 'relative' }]}
+        onPress={() => {
+          ratingMethod('like')
+        }}>
+        {likeActive ? (
           <ThumbsUpFill width="24" height="24" color="#0AD4EE" />
         ) : (
           <ThumbsUpEmpty width="24" height="24" />
         )}
         <Text style={[styles.reactionText]}>
-          {type === 'home' && mealItem?.social?.likes}
-          {type === 'trends' && mealItem?.likes}
+          {likeCount}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.reactionItem, {marginHorizontal: 32}]}
-        onPress={() => toggleDislikeMeal(mealItem)}>
-        {mealItem?.social?.ratingStatus === 'dislike' ? (
+        style={[styles.reactionItem, { marginHorizontal: 32 }]}
+        onPress={() => {
+          ratingMethod('dislike')
+        }}>
+        {dislikeActive ? (
           <ThumbsDownFill width="24" height="24" color="#0AD4EE" />
         ) : (
           <ThumbsDownEmpty width="24" height="24" />
         )}
         <Text style={[styles.reactionText]}>
-          {type === 'home' && mealItem?.social?.dislikes}
-          {type === 'trends' && mealItem?.dislikes}
+          {dislikeCount}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -161,7 +129,7 @@ const ReactionBox = ({
         <MessageCircle width="24" height="24" color="white" />
         <Text style={styles.reactionText}>
           {type === 'home' && mealItem?.meal?.commentCount}
-          {type === 'trends' && mealItem?.comments}
+          {type === 'trends' && mealItem?.social.comments}
         </Text>
       </TouchableOpacity>
     </View>
@@ -188,3 +156,31 @@ const styles = StyleSheet.create({
 });
 
 export default ReactionBox;
+/* const reactionChecker = (ratingType) => {
+
+    if (ratingType == "like") {
+      if (status == "like") {
+        setStatus('inactive')
+        setLikeCount(likeCount - 1)
+      } else if (status == "dislike") {
+        setStatus('like')
+        setDislikeCount(dislikeCount - 1)
+        setLikeCount(likeCount + 1)
+      } else {
+        setStatus('like')
+        setLikeCount(likeCount + 1)
+      }
+    } else {
+      if (status == "like") {
+        setStatus('dislike')
+        setDislikeCount(dislikeCount + 1)
+        setLikeCount(likeCount - 1)
+      } else if (status == "dislike") {
+        setStatus('inactive')
+        setLikeCount(dislikeCount - 1)
+      } else {
+        setStatus('dislike')
+        setDislikeCount(dislikeCount + 1)
+      }
+    }
+  } */

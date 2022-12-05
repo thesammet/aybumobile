@@ -34,7 +34,8 @@ const customDefaultTheme = {
     commentInputBg: '#FFFFFF',
     sendIcon: '#001A43',
     placeholderText: '#B9B9B9',
-    commentInputText: '#001A43'
+    commentInputText: '#001A43',
+    noCommentText: '#001A43'
   },
 };
 
