@@ -1,13 +1,13 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import {
   responsiveWidth as rw,
   responsiveHeight as rh,
 } from '@/utils/responsive';
-import {useTheme} from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 import moment from 'moment';
-import {getDay, getDayName, getMeaningfulDayNames} from '../helpers/day-helper';
-import {ArrowLeft} from './icons';
+import { getDay, getDayName, getMeaningfulDayNames } from '../helpers/day-helper';
+import { ArrowLeft } from './icons';
 import AyButton from './AyButton';
 
 const BasicHeader = ({
@@ -19,7 +19,7 @@ const BasicHeader = ({
   textStyle,
   ...props
 }) => {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   const goToBack = () => {
     navigation.goBack();
@@ -29,7 +29,7 @@ const BasicHeader = ({
     <View
       style={[
         styles.container,
-        {height: rh(96), backgroundColor: colors.headerBg},
+        { height: rh(96), backgroundColor: colors.headerBg },
         style,
       ]}
       {...props}>

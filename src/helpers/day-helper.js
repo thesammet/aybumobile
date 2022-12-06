@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { strings } from '../constants/localization';
 
 export const getDayName = date => {
   return moment(modifyDate(date)).format('dddd');
@@ -15,19 +16,19 @@ export const modifyDate = (currentTrDate) => {
 export const getMeaningfulDayNames = dayName => {
   switch (dayName) {
     case 'Monday':
-      return 'Pazartesi';
+      return strings.monday;
     case 'Tuesday':
-      return 'Salı';
+      return strings.tuesday;
     case 'Wednesday':
-      return 'Çarşamba';
+      return strings.wednesday;
     case 'Thursday':
-      return 'Perşembe';
+      return strings.thursday;
     case 'Friday':
-      return 'Cuma';
+      return strings.friday;
     case 'Saturday':
-      return 'Cumartesi';
+      return strings.saturday;
     case 'Sunday':
-      return 'Pazar';
+      return strings.sunday
     default:
       return dayName;
   }

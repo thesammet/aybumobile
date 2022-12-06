@@ -1,22 +1,23 @@
-import {useState, useEffect, useContext} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { useState, useEffect, useContext } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {
   responsiveWidth as rw,
   responsiveHeight as rh,
 } from '@/utils/responsive';
-import {Heart} from '../components/icons';
-import {useTheme} from '@react-navigation/native';
-import {handleMeals} from '../helpers/meal-helper';
+import { Heart } from '../components/icons';
+import { useTheme } from '@react-navigation/native';
+import { handleMeals } from '../helpers/meal-helper';
 import ReactionBox from './ReactionBox';
-import {getDayName, getMeaningfulDayNames} from '../helpers/day-helper';
-import {rating} from '../api/rating';
-import {errorMessage} from '../utils/showToast';
-import {AuthContext} from '../context/Auth';
+import { getDayName, getMeaningfulDayNames } from '../helpers/day-helper';
+import { rating } from '../api/rating';
+import { errorMessage } from '../utils/showToast';
+import { AuthContext } from '../context/Auth';
 import moment from 'moment';
+import { strings } from '../constants/localization';
 
-const MealBox = ({item, style, index, navigation, type = '', ...props}) => {
-  const {colors} = useTheme();
-  const {token} = useContext(AuthContext);
+const MealBox = ({ item, style, index, navigation, type = '', ...props }) => {
+  const { colors } = useTheme();
+  const { token } = useContext(AuthContext);
 
   const [mealList, setMealList] = useState([]);
 
@@ -25,7 +26,7 @@ const MealBox = ({item, style, index, navigation, type = '', ...props}) => {
   }, []);
 
   return (
-    <View style={{alignItems: 'center'}}>
+    <View style={{ alignItems: 'center' }}>
       <View
         style={[
           styles.mealBoxContainer,
@@ -47,7 +48,7 @@ const MealBox = ({item, style, index, navigation, type = '', ...props}) => {
           ]}>
           <Text style={[styles.mealBoxHeadText, styles.mealBoxHeadDayText]}>
             {index == 1 && item?.meal?.date == moment().format('DD.MM.YYYY')
-              ? 'Bugün'
+              ? strings.today
               : getMeaningfulDayNames(getDayName(item?.meal?.date))}
           </Text>
           <Text style={[styles.mealBoxHeadText, styles.mealBoxHeadDateText]}>
@@ -57,7 +58,7 @@ const MealBox = ({item, style, index, navigation, type = '', ...props}) => {
         <View style={styles.mealBoxBottom}>
           {mealList.map((item, index) => (
             <View style={styles.mealBoxBottomItem} key={index}>
-              <Text style={[styles.mealBoxBottomText, {color: colors.text}]}>
+              <Text style={[styles.mealBoxBottomText, { color: colors.text }]}>
                 {item}
               </Text>
             </View>

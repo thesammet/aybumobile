@@ -33,13 +33,13 @@ const ReactionBox = ({
   const { token } = useContext(AuthContext);
   const [mealItem, setMealItem] = useState(item);
 
-  let [likeCount, setLikeCount] = useState(mealItem.social.likes)
-  let [dislikeCount, setDislikeCount] = useState(mealItem.social.dislikes)
-  let [likeActive, setLikeActive] = useState(mealItem.social.ratingStatus
+  let [likeCount, setLikeCount] = useState(mealItem.likes)
+  let [dislikeCount, setDislikeCount] = useState(mealItem.dislikes)
+  let [likeActive, setLikeActive] = useState(mealItem.ratingStatus
     == "like"
     ? true
     : false)
-  let [dislikeActive, setDislikeActive] = useState(mealItem.social.ratingStatus
+  let [dislikeActive, setDislikeActive] = useState(mealItem.ratingStatus
     == "dislike"
     ? true
     : false)

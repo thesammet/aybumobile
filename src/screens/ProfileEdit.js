@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect, useRef} from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import {
   View,
   StyleSheet,
@@ -12,19 +12,23 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {updateProfile} from '../api/user';
-import {AuthContext} from '../context/Auth';
-import {ProfileContext} from '../context/Profile';
-import {useTheme} from '@react-navigation/native';
+import { updateProfile } from '../api/user';
+import { AuthContext } from '../context/Auth';
+import { ProfileContext } from '../context/Profile';
+import { useTheme } from '@react-navigation/native';
 import TYPOGRAPHY from '../constants/typography';
 import Header from '../components/Header';
-import {ChevronDown, Check} from '../components/icons';
+import { ChevronDown, Check } from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
-import {sections} from '../assets/sources/sections';
-import {strings} from '../constants/localization';
+import { sections } from '../assets/sources/sections';
+import { strings } from '../constants/localization';
+import {
+  errorMessage,
+  successMessage
+} from '../utils/showToast';
 
-export default function ProfileEdit({navigation}) {
-  const {addToken, token} = useContext(AuthContext);
+export default function ProfileEdit({ navigation }) {
+  const { token } = useContext(AuthContext);
   const {
     username,
     faculty,
@@ -33,7 +37,7 @@ export default function ProfileEdit({navigation}) {
     addFaculty,
     addDepartment,
   } = useContext(ProfileContext);
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   const bottomSheetfacultyVal = useRef();
   const bottomSheetdepartmentVal = useRef();
   const windowHeight = Dimensions.get('window').height;
@@ -67,18 +71,18 @@ export default function ProfileEdit({navigation}) {
       facultyVal,
     );
     if (response.error) {
-      //todo fail message
+      errorMessage(strings.anErrorOccured);
     } else {
       addUsername(usernameVal);
       addFaculty(facultyVal);
       addDepartment(departmentVal);
-      //todo success toast
+      successMessage(strings.successUpdate);
       navigation.goBack();
     }
     setLoading(false);
   };
 
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
         setFacultyVal(item.faculty);
@@ -108,7 +112,7 @@ export default function ProfileEdit({navigation}) {
     </TouchableOpacity>
   );
 
-  const renderItemdepartmentVal = ({item}) => (
+  const renderItemdepartmentVal = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
         setDepartmentVal(item.name);
@@ -141,11 +145,11 @@ export default function ProfileEdit({navigation}) {
   }, [usernameVal, departmentVal, facultyVal]);
 
   return (
-    <View style={[{backgroundColor: colors.background}, styles.container]}>
+    <View style={[{ backgroundColor: colors.background }, styles.container]}>
       <Header type="editProfile" navigation={navigation} />
 
       <View
-        style={[styles.innerContainer, {backgroundColor: colors.background}]}>
+        style={[styles.innerContainer, { backgroundColor: colors.background }]}>
         <BottomSheet
           hasDraggableIcon={true}
           ref={bottomSheetfacultyVal}
@@ -157,7 +161,7 @@ export default function ProfileEdit({navigation}) {
           <FlatList
             data={sections}
             renderItem={renderItem}
-            keyExtractor={item => item.facultyVal}
+            keyExtractor={item => item.faculty}
           />
         </BottomSheet>
         <BottomSheet
@@ -177,7 +181,7 @@ export default function ProfileEdit({navigation}) {
         <KeyboardAvoidingView>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View>
-              <Text style={[styles.fillTheGapsText, {color: colors.text}]}>
+              <Text style={[styles.fillTheGapsText, { color: colors.text }]}>
                 {strings.canEdit}
               </Text>
               <View style={styles.infoView}>
@@ -186,9 +190,9 @@ export default function ProfileEdit({navigation}) {
                   style={[
                     TYPOGRAPHY.H4Regular,
                     styles.input,
-                    {borderColor: borderColor, color: '#909090'},
+                    { borderColor: borderColor, color: '#909090' },
                   ]}
-                  placeholder={'Kullanıcı adınız'}
+                  placeholder={strings.urUsername}
                   value={usernameVal}
                   onChangeText={value => {
                     setUsernameVal(value);
@@ -250,7 +254,7 @@ export default function ProfileEdit({navigation}) {
           <ActivityIndicator
             size="large"
             color="#0AD4EE"
-            style={{marginTop: 24}}
+            style={{ marginTop: 24 }}
           />
         ) : (
           <View style={styles.buttonRow}>
@@ -262,9 +266,9 @@ export default function ProfileEdit({navigation}) {
               <View
                 style={[
                   styles.startButton,
-                  {borderColor: '#EBEBEB', marginRight: 8},
+                  { borderColor: '#EBEBEB', marginRight: 8 },
                 ]}>
-                <Text style={[styles.startText, {color: '#CECECE'}]}>
+                <Text style={[styles.startText, { color: '#CECECE' }]}>
                   {strings.cancel}
                 </Text>
               </View>
@@ -278,12 +282,12 @@ export default function ProfileEdit({navigation}) {
               <View
                 style={[
                   styles.startButton,
-                  {borderColor: isValid ? '#0AD4EE' : '#EBEBEB'},
+                  { borderColor: isValid ? '#0AD4EE' : '#EBEBEB' },
                 ]}>
                 <Text
                   style={[
                     styles.startText,
-                    {color: isValid ? '#0AD4EE' : '#CECECE'},
+                    { color: isValid ? '#0AD4EE' : '#CECECE' },
                   ]}>
                   {strings.save}
                 </Text>

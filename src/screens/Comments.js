@@ -33,30 +33,8 @@ const Comments = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
   useEffect(() => {
     getFoodComments();
-  }, []);
-
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      () => {
-        setKeyboardVisible(true);
-      },
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        setKeyboardVisible(false);
-      },
-    );
-
-    return () => {
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
   }, []);
 
   const onRefresh = useCallback(() => {
@@ -74,12 +52,12 @@ const Comments = ({ route, navigation }) => {
     try {
       let response = await getSingleFoodComment(token, item?.meal?._id);
       if (response.error) {
-        errorMessage('Yorumlar getirilemedi');
+        errorMessage(strings.commentCouldntSend);
       } else {
         setComments(response?.data);
       }
     } catch (error) {
-      errorMessage('Yorumlar getirilemedi');
+      errorMessage(strings.commentCouldntSend);
     } finally {
       setLoading(false);
     }
@@ -90,12 +68,12 @@ const Comments = ({ route, navigation }) => {
     try {
       let response = await postComment(token, comment, item?.meal?._id);
       if (response.error) {
-        errorMessage('Yorum iletilemedi.');
+        errorMessage(strings.commentCouldntSend);
       } else {
         onRefresh();
       }
     } catch (error) {
-      errorMessage('Yorum iletilemedi.');
+      errorMessage(strings.commentCouldntSend);
     } finally {
       setLoading(false);
     }
@@ -105,7 +83,6 @@ const Comments = ({ route, navigation }) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' && 'height'}
       style={{
-        paddingBottom: (isKeyboardVisible && Platform.OS) === 'ios' ? 30 : 0,
         flex: 1,
         position: 'relative',
       }}
@@ -149,7 +126,7 @@ const Comments = ({ route, navigation }) => {
               style={[styles.commentInput, { color: colors.commentInputText }]}
               onChangeText={onChangeComment}
               value={comment}
-              placeholder="Yorum yaz..."
+              placeholder={strings.writeComment}
               placeholderTextColor={colors.placeholderText}
               keyboardType="default"
             />

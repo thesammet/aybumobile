@@ -14,7 +14,7 @@ import { getTrends } from '../api/food';
 import { AuthContext } from '../context/Auth';
 import Loading from '../components/Loading';
 import { errorMessage } from '../utils/showToast';
-import { isEmptyObj } from '../helpers/method-helper';
+import { strings } from '../constants/localization';
 
 const Trends = ({ navigation }) => {
   const { colors } = useTheme();
@@ -48,7 +48,7 @@ const Trends = ({ navigation }) => {
       <BasicHeader
         style={{ backgroundColor: colors.trendHeader }}
         navigation={navigation}
-        text="TRENDLER"
+        text={strings.trends}
         textStyle={{ fontWeight: 'bold', fontSize: 18 }}
         isBack={false}
       />
@@ -68,18 +68,18 @@ const Trends = ({ navigation }) => {
             />
           }>
           <TrendsBox
-            title="En Çok Beğenilen Günler"
+            title={strings.mostFavoriteDays}
             data={trendsData?.likeTrend}
             navigation={navigation}
           />
           <TrendsBox
-            title="En Beğenilmeyen Günler"
+            title={strings.mostUnfavoriteDays}
             data={trendsData?.dislikeTrend}
             navigation={navigation}
             style={{ marginVertical: 40 }}
           />
           <TrendsBox
-            title="En Çok Yorum Alan Günler"
+            title={strings.mostCommentDays}
             data={trendsData?.commentTrend}
             navigation={navigation}
           />
