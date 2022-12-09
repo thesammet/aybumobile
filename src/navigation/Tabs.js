@@ -9,7 +9,7 @@ import { tabIconSize } from '@/constants';
 import { useTheme } from '@react-navigation/native';
 import TabBar from '../components/TabBar';
 import Calendar from '../screens/Calendar';
-import Obs from '../screens/Obs';
+import DepartmentSite from '../screens/DepartmentSite';
 import HomeStack from '../stacks/HomeStack';
 import Trends from '../screens/Trends';
 
@@ -26,6 +26,7 @@ const Tabs = () => {
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Trends" component={Trends} />
       <Tab.Screen name="Syllabus" component={Calendar} />
+      <Tab.Screen name="DepartmentSite" component={DepartmentSite} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );

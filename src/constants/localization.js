@@ -17,8 +17,9 @@ export let strings = new LocalizedStrings({
         department: "Department",
         mood: "Mood",
         edit: "Edit",
-        calendarString1: "program couldn't found.",
+        calendarString1: "syllabus couldn't found.",
         calendarString2: "It will be added as soon as possible.",
+        departmentSite1: "website couldn't found.",
         fillTheGaps: "Fill the gaps.",
         start: "Start",
         onboarding1Text: "AYBU has a mobile app now.",
@@ -49,8 +50,11 @@ export let strings = new LocalizedStrings({
         thursday: "Thursday",
         friday: "Friday",
         saturday: "Saturday",
-        sunday: "Sunday"
-
+        sunday: "Sunday",
+        examSchedule: "Exam Schedule",
+        syllabus: "Syllabus",
+        helpAYBU: "You could help add this document to Aybü Mobil by sending it in pdf format by e-mail.",
+        clickToSendMail: "Click to send mail."
     },
     tr: {
         lang: "tr",
@@ -70,6 +74,7 @@ export let strings = new LocalizedStrings({
         edit: "Düzenle",
         calendarString1: "fakültesinin programı bulunamadı.",
         calendarString2: "En kısa zamanda eklenecektir.",
+        departmentSite1: "websitesi bulunamadı.",
         fillTheGaps: "Alanları doldurunuz.",
         start: "Başla",
         onboarding1Text: "Artık AYBÜ’nün de bir mobil uygulaması var.",
@@ -100,6 +105,10 @@ export let strings = new LocalizedStrings({
         thursday: "Perşembe",
         friday: "Cuma",
         saturday: "Cumartesi",
-        sunday: "Pazar"
+        sunday: "Pazar",
+        examSchedule: "Sınav Takvimi",
+        syllabus: "Ders Programı",
+        helpAYBU: "Bu belgeyi mail ile pdf formatında göndererek Aybü Mobil'e eklenmesinde yardımcı olabilirsiniz.",
+        clickToSendMail: "Mail göndermek için tıklayınız."
     }
 })

@@ -30,7 +30,6 @@ const Home = ({ navigation }) => {
   const { colors } = useTheme();
   const scrollx = useRef(new Animated.Value(0)).current;
   const [loading, setLoading] = useState(false);
-  const [betweenDate, setBetweenDate] = useState({});
 
   const [meals, setMeals] = useState([]);
 
@@ -45,7 +44,6 @@ const Home = ({ navigation }) => {
       if (response.error) {
         errorMessage(string.anErrorOccured);
       } else {
-        setBetweenDate(response?.betweenDate);
         let dataArr = response?.data;
         dataArr.unshift({ meal: { _id: '231243' }, key: 'left-spacer' });
         dataArr.push({ meal: { _id: '231423' }, key: 'right-spacer' });
@@ -91,7 +89,7 @@ const Home = ({ navigation }) => {
               contentContainerStyle={styles.flatListContainer}
               showsHorizontalScrollIndicator={false}
               renderItem={({ item, index }) => {
-                if (!item.meal || !item.likes) {
+                if (!item.meal || !item.ratingStatus) {
                   return (
                     <View key={item?.key} style={{ width: EMPTY_ITEM_SIZE }} />
                   );

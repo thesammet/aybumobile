@@ -90,13 +90,6 @@ const TabBar = ({ state, descriptors, navigation }) => {
                 style={tabButtonDynamicIconStyle(isFocused)}
               />
             )}
-            {/*label === 'Obs' && (
-              <Profil
-                width="28"
-                height="28"
-                style={tabButtonDynamicIconStyle(isFocused)}
-              />
-            )*/}
             {label === 'Trends' && (
               <Trend
                 width="32"
@@ -111,6 +104,13 @@ const TabBar = ({ state, descriptors, navigation }) => {
                 style={tabButtonDynamicIconStyle(isFocused)}
               />
             )}
+            {label === 'DepartmentSite' && (
+              <Profil
+                width="28"
+                height="28"
+                style={tabButtonDynamicIconStyle(isFocused)}
+              />
+            )}
             {label === 'Profile' && (
               <User
                 width="28"
@@ -118,15 +118,6 @@ const TabBar = ({ state, descriptors, navigation }) => {
                 style={tabButtonDynamicIconStyle(isFocused)}
               />
             )}
-            {/*!isFocused && (
-              <Text
-                style={[
-                  styles.buttonText,
-                  tabButtonTextDynamicStyle(isFocused),
-                ]}>
-                {label}
-              </Text>
-            )*/}
           </TouchableOpacity>
         );
       })}

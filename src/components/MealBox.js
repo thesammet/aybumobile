@@ -43,11 +43,11 @@ const MealBox = ({ item, style, index, navigation, type = '', ...props }) => {
             styles.mealBoxHead,
             {
               backgroundColor:
-                index == 1 ? colors.lightBlue : colors.mealBoxItemTop,
+                item?.meal?.date == moment().format('DD.MM.YYYY') ? colors.lightBlue : colors.mealBoxItemTop,
             },
           ]}>
           <Text style={[styles.mealBoxHeadText, styles.mealBoxHeadDayText]}>
-            {index == 1 && item?.meal?.date == moment().format('DD.MM.YYYY')
+            {item?.meal?.date == moment().format('DD.MM.YYYY')
               ? strings.today
               : getMeaningfulDayNames(getDayName(item?.meal?.date))}
           </Text>

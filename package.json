@@ -29,6 +29,7 @@
     "react-native": "0.70.3",
     "react-native-blob-util": "^0.16.3",
     "react-native-device-info": "^10.2.1",
+    "react-native-email": "^2.1.0",
     "react-native-gesture-bottom-sheet": "^1.1.0",
     "react-native-gesture-handler": "^2.7.1",
     "react-native-localization": "^2.3.1",
@@ -42,7 +43,7 @@
     "react-native-toast-message": "^2.1.5",
     "react-native-toggle-element": "^2.0.1",
     "react-native-uuid": "^2.0.1",
-    "react-native-webview": "^11.23.1"
+    "react-native-webview": "^11.25.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
