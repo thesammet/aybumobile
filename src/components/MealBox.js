@@ -4,20 +4,15 @@ import {
   responsiveWidth as rw,
   responsiveHeight as rh,
 } from '@/utils/responsive';
-import { Heart } from '../components/icons';
 import { useTheme } from '@react-navigation/native';
 import { handleMeals } from '../helpers/meal-helper';
 import ReactionBox from './ReactionBox';
 import { getDayName, getMeaningfulDayNames } from '../helpers/day-helper';
-import { rating } from '../api/rating';
-import { errorMessage } from '../utils/showToast';
-import { AuthContext } from '../context/Auth';
 import moment from 'moment';
 import { strings } from '../constants/localization';
 
 const MealBox = ({ item, style, index, navigation, type = '', ...props }) => {
   const { colors } = useTheme();
-  const { token } = useContext(AuthContext);
 
   const [mealList, setMealList] = useState([]);
 
@@ -43,7 +38,14 @@ const MealBox = ({ item, style, index, navigation, type = '', ...props }) => {
             styles.mealBoxHead,
             {
               backgroundColor:
-                item?.meal?.date == moment().format('DD.MM.YYYY') ? colors.lightBlue : colors.mealBoxItemTop,
+                type == "trends" ?
+                  index == 0 ? "#FFCA09" :
+                    index == 1 ? "#505052" :
+                      index == 2 ? "#838285" :
+                        '#B6B5B8'
+                  :
+                  item?.meal?.date == moment().format('DD.MM.YYYY') ? colors.lightBlue : colors.mealBoxItemTop
+              ,
             },
           ]}>
           <Text style={[styles.mealBoxHeadText, styles.mealBoxHeadDayText]}>

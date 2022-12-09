@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Image, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
 import Loading from '../components/Loading';
 import { getAcademic } from '../api/academic';
@@ -11,8 +11,7 @@ import {
   responsiveHeight as rh,
 } from '@/utils/responsive';
 import { strings } from '../constants/localization';
-import { handleEmail } from '../helpers/send-mail';
-import { Profil } from '../components/icons'
+
 const DepartmentSite = () => {
   const { token } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
@@ -39,7 +38,12 @@ const DepartmentSite = () => {
   }, []);
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: academicData?.announcement ? colors.background : colors.headerBg }]}>
+    <SafeAreaView style={[styles.container,
+    {
+      backgroundColor: academicData?.announcement
+        ? colors.background
+        : colors.headerBg
+    }]}>
       {!academicData?.announcement ?
         <View style={styles.emptyView}>
           <View />
@@ -73,7 +77,8 @@ const DepartmentSite = () => {
               setIsLoading(false);
             }
           }}
-        />}
+        />
+      }
       {isLoading && <Loading />}
     </SafeAreaView>
   );

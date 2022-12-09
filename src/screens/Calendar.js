@@ -20,6 +20,7 @@ import {
 import { strings } from '../constants/localization';
 import { ArrowLeft, Profil } from '../components/icons'
 import { handleEmail } from '../helpers/send-mail';
+import Loading from '../components/Loading';
 
 const Calendar = () => {
   const { token } = useContext(AuthContext);
@@ -50,88 +51,92 @@ const Calendar = () => {
   }, [uri]);
 
   return (
-    <View style={[styles.container, { backgroundColor: academicData?.exam ? colors.background : colors.headerBg }]}>
-      {loading
-        ? <ActivityIndicator size="large" color="black" style={styles.activityIndicatorView} />
-        : !academicData ?
-          <View style={styles.emptyView}>
-            <View />
+    <View style={[styles.container,
+    {
+      backgroundColor: academicData?.exam
+        ? colors.background
+        : colors.headerBg
+    }]}>
+      {!academicData ?
+        <View style={styles.emptyView}>
+          <View />
+          <View>
+            {theme === 'light' ? (
+              <Image
+                source={require('@/assets/images/aybumobilelight.png')}
+                style={[styles.logoView, { height: rh(48), }]}
+              />
+            ) : (
+              <Image
+                source={require('@/assets/images/aybumobiledark.png')}
+                style={[styles.logoView, { height: rh(48), }]}
+              />
+            )}
+            <Text
+              style={styles.emptyText}>
+              {department} {strings.calendarString1}{'\n'}{strings.calendarString2}
+            </Text>
+          </View>
+          <View style={styles.helpView}>
+            <Profil width={24} height={24} />
             <View>
-              {theme === 'light' ? (
-                <Image
-                  source={require('@/assets/images/aybumobilelight.png')}
-                  style={[styles.logoView, { height: rh(48), }]}
-                />
-              ) : (
-                <Image
-                  source={require('@/assets/images/aybumobiledark.png')}
-                  style={[styles.logoView, { height: rh(48), }]}
-                />
-              )}
               <Text
-                style={styles.emptyText}>
-                {department} {strings.calendarString1}{'\n'}{strings.calendarString2}
+                style={styles.helpAYBUText}>
+                {strings.helpAYBU}
               </Text>
-            </View>
-            <View style={styles.helpView}>
-              <Profil width={24} height={24} />
-              <View>
+              <TouchableOpacity
+                onPress={handleEmail}>
                 <Text
-                  style={styles.helpAYBUText}>
-                  {strings.helpAYBU}
+                  style={styles.sendMailText}>
+                  {strings.clickToSendMail}
                 </Text>
-                <TouchableOpacity
-                  onPress={handleEmail}>
-                  <Text
-                    style={styles.sendMailText}>
-                    {strings.clickToSendMail}
-                  </Text>
-                </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
-          :
-          academicData?.exam
-            ?
-            !uri ?
-              <View style={{ flex: 1 }}>
+        </View>
+        :
+        academicData?.exam
+          ?
+          !uri ?
+            <View style={{ flex: 1 }}>
+              <View style={styles.typeImageView}>
+                <TouchableOpacity onPress={() => {
+                  setUri(`data:application/pdf;base64,${academicData?.exam}`)
+                }} activeOpacity={.8}>
+                  <Image source={require('../assets/images/exam.png')} style={styles.image} />
+                </TouchableOpacity>
+                <Text style={styles.examScheduleText}>{strings.examSchedule}</Text>
+              </View>
+              {
+                academicData?.content &&
                 <View style={styles.typeImageView}>
                   <TouchableOpacity onPress={() => {
-                    setUri(`data:application/pdf;base64,${academicData?.exam}`)
+                    setUri(`data:application/pdf;base64,${academicData?.content}`)
                   }} activeOpacity={.8}>
-                    <Image source={require('../assets/images/exam.png')} style={styles.image} />
+                    <Image source={require('../assets/images/calendar.png')} style={styles.image} />
                   </TouchableOpacity>
-                  <Text style={styles.examScheduleText}>{strings.examSchedule}</Text>
-                </View>
-                {
-                  academicData?.content &&
-                  <View style={styles.typeImageView}>
-                    <TouchableOpacity onPress={() => {
-                      setUri(`data:application/pdf;base64,${academicData?.content}`)
-                    }} activeOpacity={.8}>
-                      <Image source={require('../assets/images/calendar.png')} style={styles.image} />
-                    </TouchableOpacity>
-                    <Text style={styles.syllabusText}>{strings.syllabus}</Text>
-                  </View>}
-              </View>
-              :
-              <View>
-                <TouchableOpacity onPress={() => { setUri(null) }} activeOpacity={.8} style={{ margin: 16 }}>
-                  <ArrowLeft width={24} height={24} />
-                </TouchableOpacity>
-                <Pdf
-                  source={{
-                    uri
-                  }}
-                  style={styles.pdf}
-                />
-              </View>
+                  <Text style={styles.syllabusText}>{strings.syllabus}</Text>
+                </View>}
+            </View>
             :
-            <Pdf
-              source={{ uri: `data:application/pdf;base64,${academicData.content}` }}
-              style={styles.pdf}
-            />
+            <View>
+              <TouchableOpacity onPress={() => { setUri(null) }} activeOpacity={.8} style={{ margin: 16 }}>
+                <ArrowLeft width={24} height={24} />
+              </TouchableOpacity>
+              <Pdf
+                source={{
+                  uri
+                }}
+                style={styles.pdf}
+              />
+            </View>
+          :
+          <Pdf
+            source={{ uri: `data:application/pdf;base64,${academicData.content}` }}
+            style={styles.pdf}
+          />
       }
+      {loading && <Loading />}
     </View>
   );
 };

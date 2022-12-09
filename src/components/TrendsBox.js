@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
   View,
   FlatList,
-  RefreshControl,
   Platform,
   Dimensions,
 } from 'react-native';
@@ -23,13 +22,13 @@ const TrendsBox = ({ title, data, style, navigation, ...props }) => {
       <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
       <FlatList
         data={data}
-        keyExtractor={item => item._id}
-        key={item => item._id}
+        keyExtractor={item => item.meal._id}
+        key={item => item.meal._id}
         horizontal
         pagingEnabled={true}
         showsHorizontalScrollIndicator={false}
         legacyImplementation={false}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <View
             style={{
               width: width,
@@ -37,8 +36,9 @@ const TrendsBox = ({ title, data, style, navigation, ...props }) => {
               alignItems: 'center',
             }}>
             <MealBox
-              key={uuid.v4()}
+              key={item.meal._id}
               item={item}
+              index={index}
               navigation={navigation}
               style={[styles.mealBox, { width: ITEM_SIZE }]}
               type="trends"
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '500',
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: 12,
   },
   mealBox: {
     flex: 1,
