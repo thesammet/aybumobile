@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, SafeAreaView, View, Image, Text } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Image, Text, ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
-import Loading from '../components/Loading';
 import { getAcademic } from '../api/academic';
 import { AuthContext } from '../context/Auth';
 import { ProfileContext } from '../context/Profile';
@@ -44,42 +43,46 @@ const DepartmentSite = () => {
         ? colors.background
         : colors.headerBg
     }]}>
-      {!academicData?.announcement ?
-        <View style={styles.emptyView}>
-          <View />
-          <View>
-            {theme === 'light' ? (
-              <Image
-                source={require('@/assets/images/aybumobilelight.png')}
-                style={[styles.logoView, { height: rh(48) }]}
-              />
-            ) : (
-              <Image
-                source={require('@/assets/images/aybumobiledark.png')}
-                style={[styles.logoView, { height: rh(48) }]}
-              />
-            )}
-            <Text
-              style={styles.emptyText}>
-              {department} {strings.departmentSite1}{'\n'}{strings.calendarString2}
-            </Text>
-          </View>
-        </View>
-        :
-        <WebView
-          originWhitelist={['*']}
-          source={{ uri: academicData?.announcement }}
-          pullToRefreshEnabled={true}
-          allowsBackForwardNavigationGestures={true}
-          onLoadProgress={syntheticEvent => {
-            const { nativeEvent } = syntheticEvent;
-            if (nativeEvent.progress === 1) {
-              setIsLoading(false);
-            }
-          }}
-        />
+      {
+        isLoading
+          ?
+          <ActivityIndicator size="large" color="white" style={{ justifyContent: 'center', flex: 1 }} />
+
+          : !academicData?.announcement ?
+            <View style={styles.emptyView}>
+              <View />
+              <View>
+                {theme === 'light' ? (
+                  <Image
+                    source={require('@/assets/images/aybumobilelight.png')}
+                    style={[styles.logoView, { height: rh(48) }]}
+                  />
+                ) : (
+                  <Image
+                    source={require('@/assets/images/aybumobiledark.png')}
+                    style={[styles.logoView, { height: rh(48) }]}
+                  />
+                )}
+                <Text
+                  style={styles.emptyText}>
+                  {department} {strings.departmentSite1}{'\n'}{strings.calendarString2}
+                </Text>
+              </View>
+            </View>
+            :
+            <WebView
+              originWhitelist={['*']}
+              source={{ uri: academicData?.announcement }}
+              pullToRefreshEnabled={true}
+              allowsBackForwardNavigationGestures={true}
+              onLoadProgress={syntheticEvent => {
+                const { nativeEvent } = syntheticEvent;
+                if (nativeEvent.progress === 1) {
+                  setIsLoading(false);
+                }
+              }}
+            />
       }
-      {isLoading && <Loading />}
     </SafeAreaView>
   );
 };
