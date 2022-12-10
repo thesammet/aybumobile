@@ -55,6 +55,7 @@ const Comments = ({ route, navigation }) => {
         errorMessage(strings.commentCouldntSend);
       } else {
         setComments(response?.data);
+        console.log(response?.data)
       }
     } catch (error) {
       errorMessage(strings.commentCouldntSend);
@@ -111,7 +112,6 @@ const Comments = ({ route, navigation }) => {
           renderItem={({ item }) => (
             <Comment
               comment={item}
-              onLikeComment={(_id, likeStatus) => commentRatingMethod(_id, likeStatus)}
             />
           )}
         />}

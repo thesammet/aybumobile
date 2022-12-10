@@ -30,12 +30,15 @@ const Home = ({ navigation }) => {
   const { colors } = useTheme();
   const scrollx = useRef(new Animated.Value(0)).current;
   const [loading, setLoading] = useState(false);
-
   const [meals, setMeals] = useState([]);
 
   useEffect(() => {
-    getFoodList();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getFoodList();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
 
   const getFoodList = async () => {
     setLoading(true);

@@ -35,7 +35,8 @@ const customDarkTheme = {
     sendIcon: '#FFFFFF',
     placeholderText: '#A0A0A0',
     commentInputText: '#FFFFFF',
-    noCommentText: '#FFFFFF'
+    noCommentText: '#FFFFFF',
+    shareFriendsText: '#FFFFFF'
   },
 };
 

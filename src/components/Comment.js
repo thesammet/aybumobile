@@ -32,11 +32,14 @@ const Comment = ({ comment }) => {
     }
   }, [likeStatus]);
 
+  useEffect(() => {
+    console.log(likeStatus)
+  })
   const commentRatingMethod = async () => {
-    setLikeStatus(!likeStatus)
     likeStatus
       ? setLikeCount(likeCount - 1)
       : setLikeCount(likeCount + 1)
+    setLikeStatus(!likeStatus)
     try {
       let response = await commentRating(token, comment?.comment._id, likeStatus);
       if (response.error) {

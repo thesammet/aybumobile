@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable } from 'react-native';
 import React, { useContext, useState } from 'react';
 import { ThemeContext } from '../context/Theme';
 import Header from '../components/Header';
@@ -9,13 +9,30 @@ import ToggleButton from 'react-native-toggle-element';
 import { Sun, Moon } from '../components/icons/'
 import { useTheme } from '@react-navigation/native';
 import { strings } from '../constants/localization';
-
 const Profile = ({ navigation }) => {
   const { colors } = useTheme()
   const { theme, changeTheme } = useContext(ThemeContext);
   const { username, faculty, department } = useContext(ProfileContext)
   const [toggleValue, setToggleValue] = useState(theme == 'light' ? true : false)
-
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          'AYBÜ Mobil İndirme Linkleri\nApple Store: https://apps.apple.com/us/app/ayb%C3%BC-mobile/id1658659307\nGoogle Play Store: https://play.google.com/store/apps/details?id=com.aybumobile',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   return (
     <View style={[styles.homeContainer, { backgroundColor: colors.background }]}>
       <Header type="inside" />
@@ -52,8 +69,16 @@ const Profile = ({ navigation }) => {
               width: 100,
             }}
           />
+          <TouchableOpacity
+            style={{ marginTop: 12 }}
+            onPress={onShare}
+            activeOpacity={.5}>
+            <Text style={[styles.shareWithFriends, { color: colors.shareFriendsText, }]}>Arkadaşlarınla paylaş!</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity activeOpacity={.7} onPress={() => { navigation.navigate('ProfileEdit') }}>
+        <TouchableOpacity activeOpacity={.7} onPress={() => {
+          navigation.navigate('ProfileEdit')
+        }}>
           <View style={[styles.editButton, { borderColor: colors.editBorderColor, backgroundColor: colors.editBackgroundColor },
           ]}>
             <Text style={[styles.editText, { color: '#0AD4EE' }]}>{strings.edit}</Text>
@@ -93,6 +118,12 @@ const styles = StyleSheet.create({
     {
       color: '#A0A0A0',
       marginBottom: 8,
+      alignSelf: 'center'
+    },
+  ],
+  shareWithFriends: [
+    TYPOGRAPHY.H5Semibold,
+    {
       alignSelf: 'center'
     },
   ],

@@ -23,7 +23,7 @@ import { ChevronDown, Check } from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
 import { sections } from '../assets/sources/sections';
 import { strings } from '../constants/localization';
-import { errorMessage } from '../utils/showToast';
+import { errorMessage, successMessage } from '../utils/showToast';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -59,13 +59,13 @@ export default function Auth() {
     let response = await register(deviceId, username, department, faculty);
 
     if (response.error) {
-      errorMessage(strings.error, strings.cantLogin);
+      errorMessage(strings.error, strings.cantRegister);
     } else {
       addUsername(username);
       addFaculty(faculty);
       addDepartment(department);
       addToken(response.token);
-      //todo success toast
+      successMessage(strings.success, strings.registeredSuccess);
     }
     setLoading(false);
   };

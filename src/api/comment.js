@@ -25,7 +25,6 @@ export const postComment = async (token, comment, food_id) => {
 export const commentRating = async (
   token,
   comment,
-  status, //If user like the comment make it 'true' else 'false'
 ) => {
   try {
     const response = await fetch(`${baseURL}/comment-rating`, {
@@ -35,8 +34,7 @@ export const commentRating = async (
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        comment,
-        status,
+        comment
       }),
     });
 

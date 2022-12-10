@@ -71,12 +71,12 @@ export default function ProfileEdit({ navigation }) {
       facultyVal,
     );
     if (response.error) {
-      errorMessage(strings.anErrorOccured);
+      errorMessage(strings.error, strings.anErrorOccured);
     } else {
       addUsername(usernameVal);
       addFaculty(facultyVal);
       addDepartment(departmentVal);
-      successMessage(strings.successUpdate);
+      successMessage(strings.success, strings.successUpdate);
       navigation.goBack();
     }
     setLoading(false);

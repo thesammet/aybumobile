@@ -1,4 +1,6 @@
 const baseURL = 'https://aybu-mobile.herokuapp.com';
+import { errorMessage } from '../utils/showToast';
+import { strings } from '../constants/localization';
 
 export const register = async (deviceId, username, department, faculty) => {
   try {
@@ -18,7 +20,7 @@ export const register = async (deviceId, username, department, faculty) => {
     const json = await response.json();
     return json;
   } catch (error) {
-    console.log('Register Error: ', error);
+    errorMessage(strings.error, strings.anErrorOccured);
     return { error: true };
   }
 };
@@ -41,7 +43,7 @@ export const updateProfile = async (token, department, username, faculty) => {
     const json = await response.json();
     return json;
   } catch (error) {
-    console.log('Update Profile Error: ', error);
+    errorMessage(strings.error, strings.anErrorOccured);
     return { error: true };
   }
 };
@@ -59,7 +61,7 @@ export const getProfile = async token => {
     const json = await response.json();
     return json;
   } catch (error) {
-    console.log('Get Profile Error: ', error);
+    errorMessage(strings.error, strings.anErrorOccured);
     return { error: true };
   }
 };
@@ -77,7 +79,7 @@ export const userRole = async token => {
     const json = await response.json();
     return json;
   } catch (error) {
-    console.log('Get User Role Error: ', error);
+    errorMessage(strings.error, strings.anErrorOccured);
     return { error: true };
   }
 };
@@ -95,7 +97,7 @@ export const deleteSelf = async token => {
     const json = await response.json();
     return json;
   } catch (error) {
-    console.log('Delete Profile Error: ', error);
+    errorMessage(strings.error, strings.anErrorOccured);
     return { error: true };
   }
 };
@@ -114,7 +116,7 @@ export const getAllUsers = async token => {
     const json = await response.json();
     return json;
   } catch (error) {
-    console.log('Get All Users Error: ', error);
+    errorMessage(strings.error, strings.anErrorOccured);
     return { error: true };
   }
 };
