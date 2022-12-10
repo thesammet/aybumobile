@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useContext } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
-import { NarniaFlag, Kratos, Editor, SteinsGate } from '../components/icons';
+import { Narnia, Kratos, Editor, SteinsGate } from '../components/icons';
 import moment from 'moment/min/moment-with-locales';
 import { strings } from '../constants/localization';
 import { errorMessage } from '../utils/showToast';
@@ -62,7 +62,7 @@ const Comment = ({ comment }) => {
           ) : comment?.username == 'Sapphique' ? (
             <SteinsGate width={24} height={24} style={styles.svgView} />
           ) : comment?.userRole == 'developer-admin' ? (
-            <NarniaFlag width={24} height={24} style={styles.svgView} />
+            <Narnia width={28} height={28} style={styles.svgDevAdminView} />
           ) : (
             comment?.userRole == 'admin' && (
               <Editor width={24} height={24} style={styles.svgView} />
@@ -160,6 +160,11 @@ const styles = StyleSheet.create({
   },
   svgView: {
     borderRadius: 24 / 2,
+    overflow: 'hidden',
+    marginRight: 8,
+  },
+  svgDevAdminView: {
+    borderRadius: 28 / 2,
     overflow: 'hidden',
     marginRight: 8,
   },

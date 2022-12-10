@@ -13,7 +13,7 @@ export {default as Meal2} from './Meal2';
 export {default as Meal} from './Meal';
 export {default as MessageCircle} from './MessageCircle';
 export {default as Moon} from './Moon';
-export {default as NarniaFlag} from './NarniaFlag';
+export {default as Narnia} from './Narnia';
 export {default as Profil} from './Profil';
 export {default as Send} from './Send';
 export {default as Star} from './Star';

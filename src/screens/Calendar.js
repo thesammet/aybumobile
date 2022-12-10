@@ -64,12 +64,12 @@ const Calendar = () => {
             {theme === 'light' ? (
               <Image
                 source={require('@/assets/images/aybumobilelight.png')}
-                style={[styles.logoView, { height: rh(48), }]}
+                style={[styles.logoView]}
               />
             ) : (
               <Image
                 source={require('@/assets/images/aybumobiledark.png')}
-                style={[styles.logoView, { height: rh(48), }]}
+                style={[styles.logoView]}
               />
             )}
             <Text

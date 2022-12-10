@@ -73,7 +73,7 @@ const Profile = ({ navigation }) => {
             style={{ marginTop: 12 }}
             onPress={onShare}
             activeOpacity={.5}>
-            <Text style={[styles.shareWithFriends, { color: colors.shareFriendsText, }]}>Arkadaşlarınla paylaş!</Text>
+            <Text style={[styles.shareWithFriends, { color: colors.shareFriendsText, }]}>{strings.sharedWithFriends}</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity activeOpacity={.7} onPress={() => {

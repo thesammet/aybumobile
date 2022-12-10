@@ -57,7 +57,8 @@ export let strings = new LocalizedStrings({
         examSchedule: "Exam Schedule",
         syllabus: "Syllabus",
         helpAYBU: "You could help add this document to Aybü Mobil by sending it in pdf format by e-mail.",
-        clickToSendMail: "Click to send mail."
+        clickToSendMail: "Click to send mail.",
+        sharedWithFriends: "Share with your friends!"
     },
     tr: {
         lang: "tr",
@@ -115,6 +116,7 @@ export let strings = new LocalizedStrings({
         examSchedule: "Sınav Takvimi",
         syllabus: "Ders Programı",
         helpAYBU: "Bu belgeyi mail ile pdf formatında göndererek Aybü Mobil'e eklenmesinde yardımcı olabilirsiniz.",
-        clickToSendMail: "Mail göndermek için tıklayınız."
+        clickToSendMail: "Mail göndermek için tıklayınız.",
+        sharedWithFriends: "Arkadaşlarınla paylaş!"
     }
 })
