@@ -1,13 +1,13 @@
-import React, {useState, createContext, useEffect} from 'react';
-import {storage} from '../config/storage';
+import React, { useState, createContext, useEffect } from 'react';
+import { storage } from '../config/storage';
 
 export const ProfileContext = createContext();
 
-export const ProfileProvider = ({children}) => {
+export const ProfileProvider = ({ children }) => {
   const [username, setUsername] = useState(null);
   const [faculty, setFaculty] = useState(null);
   const [department, setDepartment] = useState(null);
-  const [role,setRole] = useState(null);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     profileControl();
@@ -18,7 +18,7 @@ export const ProfileProvider = ({children}) => {
       const username = storage.getString('username');
       const faculty = storage.getString('faculty');
       const department = storage.getString('department');
-
+      const role = storage.getString('role')
       if (username) {
         setUsername(username);
       }
@@ -27,6 +27,9 @@ export const ProfileProvider = ({children}) => {
       }
       if (department) {
         setDepartment(department);
+      }
+      if (role) {
+        setRole(role)
       }
     } catch (error) {
       console.warn(error);
@@ -71,10 +74,12 @@ export const ProfileProvider = ({children}) => {
     setUsername(null);
     setFaculty(null);
     setDepartment(null);
+    setRole(null)
     try {
       storage.delete('username');
       storage.delete('department');
       storage.delete('faculty');
+      storage.delete('role');
     } catch (error) {
       console.log(error);
     }

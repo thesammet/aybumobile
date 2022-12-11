@@ -81,11 +81,13 @@ const Comments = ({ route, navigation }) => {
 
   const deleteUserComment = async (id) => {
     try {
-      let response = await deleteComment(token, id);
-      console.log("delete comment: ", response);
+      console.log(item)
+      let response = await deleteComment(token, id, item?.meal?._id);
+      console.log("delete response: ", response);
       successMessage('Yorum silindi.');
       getFoodComments();
     } catch (error) {
+      console.log("Delete Comment Error: ", error);
       errorMessage('Yorum silinemedi.');
     }
   };

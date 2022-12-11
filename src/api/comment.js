@@ -64,14 +64,18 @@ export const getSingleFoodComment = async (token, food_id) => {
   }
 };
 
-export const deleteComment = async (token, commentId) => {
+export const deleteComment = async (token, commentId, food) => {
   try {
+    console.log(food)
     const response = await fetch(`${baseURL}/comment/${commentId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({
+        food
+      })
     });
 
     const json = await response.json();

@@ -28,7 +28,7 @@ const customDarkTheme = {
     dateBoxElement: '#FFFFFF',
     dateText: '#474747',
     trendHeader: '#FF4A22',
-    dropdownChevronIcon: '#001A43',
+    dropdownChevronIcon: '#fff',
     mealBoxItemTop: '#202020',
     commentText: '#A0A0A0',
     commentInputBg: '#151515',

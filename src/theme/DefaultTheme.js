@@ -28,7 +28,7 @@ const customDefaultTheme = {
     dateBoxElement: '#001A43',
     dateText: '#909090',
     trendHeader: '#FF4A22',
-    dropdownChevronIcon: '#fff',
+    dropdownChevronIcon: '#001A43',
     mealBoxItemTop: '#D9D9D9',
     commentText: '#909090',
     commentInputBg: '#FFFFFF',
