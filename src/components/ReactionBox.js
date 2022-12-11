@@ -33,13 +33,13 @@ const ReactionBox = ({
   const { token } = useContext(AuthContext);
   const [mealItem, setMealItem] = useState(item);
 
-  let [likeCount, setLikeCount] = useState(mealItem.likes)
-  let [dislikeCount, setDislikeCount] = useState(mealItem.dislikes)
-  let [likeActive, setLikeActive] = useState(mealItem.ratingStatus
+  let [likeCount, setLikeCount] = useState(mealItem?.likes)
+  let [dislikeCount, setDislikeCount] = useState(mealItem?.dislikes)
+  let [likeActive, setLikeActive] = useState(mealItem?.ratingStatus
     == "like"
     ? true
     : false)
-  let [dislikeActive, setDislikeActive] = useState(mealItem.ratingStatus
+  let [dislikeActive, setDislikeActive] = useState(mealItem?.ratingStatus
     == "dislike"
     ? true
     : false)
@@ -74,7 +74,14 @@ const ReactionBox = ({
   }
 
   const ratingMethod = async (ratingType) => {
-    ratingType == 'like' ? handleLike() : handleDislike()
+    ratingType == 'inactive'
+      ?
+      likeActive ?
+        handleLike() :
+        handleDislike()
+      : ratingType == 'like'
+        ? handleLike()
+        : handleDislike()
     try {
       let response = await rating(token, ratingType, mealItem?.meal?._id);
       if (response.error) {
@@ -98,7 +105,7 @@ const ReactionBox = ({
       <TouchableOpacity
         style={[styles.reactionItem, { position: 'relative' }]}
         onPress={() => {
-          ratingMethod('like')
+          ratingMethod(likeActive ? 'inactive' : 'like')
         }}>
         {likeActive ? (
           <ThumbsUpFill width="24" height="24" color="#0AD4EE" />
@@ -112,7 +119,7 @@ const ReactionBox = ({
       <TouchableOpacity
         style={[styles.reactionItem, { marginHorizontal: 32 }]}
         onPress={() => {
-          ratingMethod('dislike')
+          ratingMethod(dislikeActive ? 'inactive' : 'dislike')
         }}>
         {dislikeActive ? (
           <ThumbsDownFill width="24" height="24" color="#0AD4EE" />
@@ -156,31 +163,3 @@ const styles = StyleSheet.create({
 });
 
 export default ReactionBox;
-/* const reactionChecker = (ratingType) => {
-
-    if (ratingType == "like") {
-      if (status == "like") {
-        setStatus('inactive')
-        setLikeCount(likeCount - 1)
-      } else if (status == "dislike") {
-        setStatus('like')
-        setDislikeCount(dislikeCount - 1)
-        setLikeCount(likeCount + 1)
-      } else {
-        setStatus('like')
-        setLikeCount(likeCount + 1)
-      }
-    } else {
-      if (status == "like") {
-        setStatus('dislike')
-        setDislikeCount(dislikeCount + 1)
-        setLikeCount(likeCount - 1)
-      } else if (status == "dislike") {
-        setStatus('inactive')
-        setLikeCount(dislikeCount - 1)
-      } else {
-        setStatus('dislike')
-        setDislikeCount(dislikeCount + 1)
-      }
-    }
-  } */

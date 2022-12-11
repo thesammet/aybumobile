@@ -2,14 +2,11 @@ const baseURL = 'https://aybu-mobile.herokuapp.com';
 
 export const rating = async (
   token,
-  rating, //'like' or 'dislike'
+  rating,
   food_id,
 ) => {
   try {
-    console.log('token:', token);
-    console.log('rating:', rating);
-    console.log('food_id:', food_id);
-
+    console.log("rating: " + rating)
     const response = await fetch(`${baseURL}/rating`, {
       method: 'POST',
       headers: {
@@ -27,6 +24,6 @@ export const rating = async (
     return json;
   } catch (error) {
     console.log('Rating Error: ', error);
-    return {error: true};
+    return { error: true };
   }
 };

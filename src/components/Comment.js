@@ -1,21 +1,21 @@
-import React, {useEffect, useRef, useState, useContext} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View, Modal} from 'react-native';
-import {useTheme} from '@react-navigation/native';
+import React, { useEffect, useRef, useState, useContext } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
-import {Narnia, Kratos, Editor, SteinsGate} from '../components/icons';
+import { Narnia, Kratos, Editor, SteinsGate } from '../components/icons';
 import moment from 'moment/min/moment-with-locales';
-import {strings} from '../constants/localization';
-import {errorMessage, successMessage} from '../utils/showToast';
-import {commentRating, deleteComment} from '../api/comment';
-import {AuthContext} from '../context/Auth';
+import { strings } from '../constants/localization';
+import { errorMessage, successMessage } from '../utils/showToast';
+import { commentRating, deleteComment } from '../api/comment';
+import { AuthContext } from '../context/Auth';
 import AppText from '../components/AppText';
-import {ProfileContext} from '../context/Profile';
+import { ProfileContext } from '../context/Profile';
 import AyButton from './AyButton';
 
-const Comment = ({comment, deleteUserComment}) => {
-  const {colors} = useTheme();
-  const {token} = useContext(AuthContext);
-  const { username, role} = useContext(ProfileContext);
+const Comment = ({ comment, deleteUserComment }) => {
+  const { colors } = useTheme();
+  const { token } = useContext(AuthContext);
+  const { username, role } = useContext(ProfileContext);
   const animation = useRef(null);
   const isFirstRun = useRef(true);
   const [likeStatus, setLikeStatus] = useState(comment?.isLike);
@@ -54,7 +54,6 @@ const Comment = ({comment, deleteUserComment}) => {
       if (response.error) {
         errorMessage('Reaksiyon iletilemedi.');
       } else {
-        console.log('a');
       }
     } catch (error) {
       errorMessage('Reaksiyon iletilemedi.');
@@ -78,11 +77,11 @@ const Comment = ({comment, deleteUserComment}) => {
         }}>
         <View style={styles.centeredModalView}>
           <View style={[styles.modalView]}>
-            <TouchableOpacity style={{borderWidth:1, paddingHorizontal:16,paddingVertical:8 ,borderRadius:8}} onPress={() => setModalVisible(false)}>
-              <Text style={{color:colors.text}}>CANCEL</Text>
+            <TouchableOpacity style={{ borderWidth: 1, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8 }} onPress={() => setModalVisible(false)}>
+              <Text style={{ color: colors.text }}>CANCEL</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{marginTop:16,borderWidth:1,paddingHorizontal:16,paddingVertical:8, borderRadius:8}} onPress={() => deleteUserComment(comment.comment._id)}>
-              <Text style={{color:colors.text}}>DELETE</Text>
+            <TouchableOpacity style={{ marginTop: 16, borderWidth: 1, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8 }} onPress={() => deleteUserComment(comment.comment._id)}>
+              <Text style={{ color: colors.text }}>DELETE</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -100,7 +99,7 @@ const Comment = ({comment, deleteUserComment}) => {
               <Editor width={24} height={24} style={styles.svgView} />
             )
           )}
-          <Text style={[styles.commentNameText, {color: colors.usernameText}]}>
+          <Text style={[styles.commentNameText, { color: colors.usernameText }]}>
             {comment?.username}
           </Text>
 
@@ -119,14 +118,14 @@ const Comment = ({comment, deleteUserComment}) => {
           )}
         </View>
 
-        <Text style={[styles.commentDateText, {color: colors.dateText}]}>
+        <Text style={[styles.commentDateText, { color: colors.dateText }]}>
           {moment(comment?.comment.createdAt)
             .locale(strings.lang == 'en' ? 'en' : 'tr')
             .fromNow()}
         </Text>
       </View>
       <View style={styles.commentBody}>
-        <Text style={[styles.commentText, {color: colors.commentText}]}>
+        <Text style={[styles.commentText, { color: colors.commentText }]}>
           {comment?.comment?.comment}
         </Text>
       </View>
@@ -143,7 +142,7 @@ const Comment = ({comment, deleteUserComment}) => {
             loop={false}
           />
           <Text
-            style={[styles.commentLikeCount, {color: colors.dateBoxElement}]}>
+            style={[styles.commentLikeCount, { color: colors.dateBoxElement }]}>
             {likeCount}
           </Text>
         </TouchableOpacity>
