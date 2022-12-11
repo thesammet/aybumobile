@@ -1,19 +1,29 @@
-import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable } from 'react-native';
-import React, { useContext, useState } from 'react';
-import { ThemeContext } from '../context/Theme';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Share,
+  Pressable,
+} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {ThemeContext} from '../context/Theme';
 import Header from '../components/Header';
 import UsernameBox from '../components/UsernameBox';
-import { ProfileContext } from '../context/Profile';
+import {ProfileContext} from '../context/Profile';
 import TYPOGRAPHY from '../constants/typography';
 import ToggleButton from 'react-native-toggle-element';
-import { Sun, Moon } from '../components/icons/'
-import { useTheme } from '@react-navigation/native';
-import { strings } from '../constants/localization';
-const Profile = ({ navigation }) => {
-  const { colors } = useTheme()
-  const { theme, changeTheme } = useContext(ThemeContext);
-  const { username, faculty, department } = useContext(ProfileContext)
-  const [toggleValue, setToggleValue] = useState(theme == 'light' ? true : false)
+import {Sun, Moon} from '../components/icons/';
+import {useTheme} from '@react-navigation/native';
+import {strings} from '../constants/localization';
+
+const Profile = ({navigation}) => {
+  const {colors} = useTheme();
+  const {theme, changeTheme} = useContext(ThemeContext);
+  const {username, faculty, department} = useContext(ProfileContext);
+  const [toggleValue, setToggleValue] = useState(
+    theme == 'light' ? true : false,
+  );
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -34,34 +44,59 @@ const Profile = ({ navigation }) => {
     }
   };
   return (
-    <View style={[styles.homeContainer, { backgroundColor: colors.background }]}>
+    <View style={[styles.homeContainer, {backgroundColor: colors.background}]}>
       <Header type="inside" />
       <UsernameBox username={username} />
       <View style={styles.innerView}>
-        <View >
+        <View>
           <Text style={styles.fieldText}>{strings.faculty}</Text>
-          <View style={[styles.departmentArea, { borderColor: colors.boxBorder, backgroundColor: colors.boxBg }]}>
-            <Text numberOfLines={2} style={[styles.departmentInnerText, { color: colors.usernameText }]}>{faculty}</Text>
+          <View
+            style={[
+              styles.departmentArea,
+              {borderColor: colors.boxBorder, backgroundColor: colors.boxBg},
+            ]}>
+            <Text
+              numberOfLines={2}
+              style={[
+                styles.departmentInnerText,
+                {color: colors.usernameText},
+              ]}>
+              {faculty}
+            </Text>
           </View>
-          <Text style={[styles.fieldText, { marginTop: 20 }]}>{strings.department}</Text>
-          <View style={[styles.departmentArea, { borderColor: colors.boxBorder, backgroundColor: colors.boxBg }]}>
-            <Text numberOfLines={2} style={[styles.departmentInnerText, { color: colors.usernameText }]}>{department}</Text>
+          <Text style={[styles.fieldText, {marginTop: 20}]}>
+            {strings.department}
+          </Text>
+          <View
+            style={[
+              styles.departmentArea,
+              {borderColor: colors.boxBorder, backgroundColor: colors.boxBg},
+            ]}>
+            <Text
+              numberOfLines={2}
+              style={[
+                styles.departmentInnerText,
+                {color: colors.usernameText},
+              ]}>
+              {department}
+            </Text>
           </View>
-          <Text style={[styles.fieldText, { marginTop: 20 }]}>{strings.mood}</Text>
+          <Text style={[styles.fieldText, {marginTop: 20}]}>
+            {strings.mood}
+          </Text>
           <ToggleButton
             value={toggleValue}
-            onPress={(newState) => { setToggleValue(newState); toggleValue ? changeTheme('dark') : changeTheme('light') }}
-            containerStyle={{ alignSelf: 'center', }}
-            thumbActiveComponent={
-              <Sun width="24" height="24" />
-            }
-            thumbInActiveComponent={
-              <Moon width="24" height="24" />
-            }
+            onPress={newState => {
+              setToggleValue(newState);
+              toggleValue ? changeTheme('dark') : changeTheme('light');
+            }}
+            containerStyle={{alignSelf: 'center'}}
+            thumbActiveComponent={<Sun width="24" height="24" />}
+            thumbInActiveComponent={<Moon width="24" height="24" />}
             thumbStyle={{
               backgroundColor: '#0AD4EE',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
             }}
             trackBar={{
               activeBackgroundColor: colors.toggleBack,
@@ -70,18 +105,34 @@ const Profile = ({ navigation }) => {
             }}
           />
           <TouchableOpacity
-            style={{ marginTop: 12 }}
+            style={{marginTop: 12}}
             onPress={onShare}
-            activeOpacity={.5}>
-            <Text style={[styles.shareWithFriends, { color: colors.shareFriendsText, }]}>{strings.sharedWithFriends}</Text>
+            activeOpacity={0.5}>
+            <Text
+              style={[
+                styles.shareWithFriends,
+                {color: colors.shareFriendsText},
+              ]}>
+              {strings.sharedWithFriends}
+            </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity activeOpacity={.7} onPress={() => {
-          navigation.navigate('ProfileEdit')
-        }}>
-          <View style={[styles.editButton, { borderColor: colors.editBorderColor, backgroundColor: colors.editBackgroundColor },
-          ]}>
-            <Text style={[styles.editText, { color: '#0AD4EE' }]}>{strings.edit}</Text>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            navigation.navigate('ProfileEdit');
+          }}>
+          <View
+            style={[
+              styles.editButton,
+              {
+                borderColor: colors.editBorderColor,
+                backgroundColor: colors.editBackgroundColor,
+              },
+            ]}>
+            <Text style={[styles.editText, {color: '#0AD4EE'}]}>
+              {strings.edit}
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -96,7 +147,6 @@ const styles = StyleSheet.create({
   innerView: {
     flex: 1,
     justifyContent: 'space-around',
-
   },
   editButton: {
     borderRadius: 32,
@@ -106,10 +156,10 @@ const styles = StyleSheet.create({
     shadowColor: '#0AD4EE',
     shadowOffset: {
       width: 0,
-      height: .1,
+      height: 0.1,
     },
     shadowOpacity: 0.3,
-    shadowRadius: .1,
+    shadowRadius: 0.1,
     elevation: 1,
     zIndex: 5,
   },
@@ -118,21 +168,22 @@ const styles = StyleSheet.create({
     {
       color: '#A0A0A0',
       marginBottom: 8,
-      alignSelf: 'center'
+      alignSelf: 'center',
     },
   ],
   shareWithFriends: [
     TYPOGRAPHY.H5Semibold,
     {
-      alignSelf: 'center'
+      alignSelf: 'center',
     },
   ],
   editText: [
     TYPOGRAPHY.H4Regular,
     {
       alignSelf: 'center',
-      marginVertical: 20
-    }],
+      marginVertical: 20,
+    },
+  ],
   departmentArea: {
     flexDirection: 'row',
     borderWidth: 1,
@@ -141,14 +192,15 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     justifyContent: 'space-between',
     width: '70%',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   departmentInnerText: [
     TYPOGRAPHY.H55Regular,
     {
       flex: 1,
-      textAlign: 'center'
-    }],
-})
+      textAlign: 'center',
+    },
+  ],
+});
 
 export default Profile;

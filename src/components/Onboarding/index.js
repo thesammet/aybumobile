@@ -17,19 +17,29 @@ import Square from './Square';
 import {data} from '@/helpers/onboarding-helper';
 import AppText from '../AppText';
 import {AuthContext} from '../../context/Auth';
+import {strings} from '../../constants/localization';
+import {ThemeContext} from '../../context/Theme';
+import {useTheme} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('screen');
 
 const Onboarding = () => {
   const {skipOnboarding} = useContext(AuthContext);
+  const {theme} = useContext(ThemeContext);
+  const {colors} = useTheme();
+
 
   const scrollx = useRef(new Animated.Value(0)).current;
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar
+        animated={true}
+        barStyle={theme === 'light' ? 'dark-content' : 'light-content'}
+        backgroundColor={colors.background}
+      />
       <TouchableOpacity style={styles.skipButton} onPress={skipOnboarding}>
-        <AppText style={styles.skipButtonText}>SKIP</AppText>
+        <AppText style={styles.skipButtonText}>{strings.skip}</AppText>
       </TouchableOpacity>
       <Backdrop scrollx={scrollx} />
       <Square scrollx={scrollx} />
@@ -81,7 +91,7 @@ const styles = StyleSheet.create({
   },
   skipButton: {
     position: 'absolute',
-    top: 100,
+    top: 60,
     right: 20,
     zIndex: 100,
     elevation: 100,

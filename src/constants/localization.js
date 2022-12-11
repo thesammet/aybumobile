@@ -58,7 +58,10 @@ export let strings = new LocalizedStrings({
         syllabus: "Syllabus",
         helpAYBU: "You could help add this document to Aybü Mobil by sending it in pdf format by e-mail.",
         clickToSendMail: "Click to send mail.",
-        sharedWithFriends: "Share with your friends!"
+        sharedWithFriends: "Share with your friends!",
+        skip:"Skip",
+        selectDepartment:"Select Department",
+        selectFaculty:"Select Faculty",
     },
     tr: {
         lang: "tr",
@@ -117,6 +120,9 @@ export let strings = new LocalizedStrings({
         syllabus: "Ders Programı",
         helpAYBU: "Bu belgeyi mail ile pdf formatında göndererek Aybü Mobil'e eklenmesinde yardımcı olabilirsiniz.",
         clickToSendMail: "Mail göndermek için tıklayınız.",
-        sharedWithFriends: "Arkadaşlarınla paylaş!"
+        sharedWithFriends: "Arkadaşlarınla paylaş!",
+        skip:"Geç",
+        selectDepartment:"Bölüm Seç",
+        selectFaculty:"Fakülte Seçin",
     }
 })

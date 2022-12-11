@@ -34,7 +34,9 @@ const TabBar = ({ state, descriptors, navigation }) => {
     <View
       style={[
         styles.tabContainer,
-        { backgroundColor: colors.background, width: rw(344), height: rh(80) },
+        { backgroundColor: colors.background, width: rw(344), height: rh(80),
+        shadowColor:colors.text
+        },
       ]}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -143,6 +145,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     zIndex: 3,
     elevation: 3,
+    marginBottom:10
   },
   tabButton: {
     alignItems: 'center',

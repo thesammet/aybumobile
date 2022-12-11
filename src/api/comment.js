@@ -63,3 +63,21 @@ export const getSingleFoodComment = async (token, food_id) => {
     return { error: true };
   }
 };
+
+export const deleteComment = async (token, commentId) => {
+  try {
+    const response = await fetch(`${baseURL}/comment/${commentId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    console.log('Delete Comment Error: ', error);
+    return { error: true };
+  }
+};

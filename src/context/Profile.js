@@ -7,6 +7,7 @@ export const ProfileProvider = ({children}) => {
   const [username, setUsername] = useState(null);
   const [faculty, setFaculty] = useState(null);
   const [department, setDepartment] = useState(null);
+  const [role,setRole] = useState(null);
 
   useEffect(() => {
     profileControl();
@@ -57,6 +58,15 @@ export const ProfileProvider = ({children}) => {
     }
   };
 
+  const addRole = async value => {
+    setRole(value);
+    try {
+      storage.set('role', value);
+    } catch (error) {
+      console.warn(error);
+    }
+  }
+
   const removeToken = async () => {
     setUsername(null);
     setFaculty(null);
@@ -79,6 +89,8 @@ export const ProfileProvider = ({children}) => {
         addUsername,
         addFaculty,
         addDepartment,
+        role,
+        addRole
       }}>
       {children}
     </ProfileContext.Provider>

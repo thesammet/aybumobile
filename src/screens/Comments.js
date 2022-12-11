@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, {useState, useEffect, useCallback, useContext} from 'react';
 import {
   View,
   Text,
@@ -12,21 +12,21 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-import { getSingleFoodComment, postComment } from '../api/comment';
+import {useTheme} from '@react-navigation/native';
+import {deleteComment, getSingleFoodComment, postComment} from '../api/comment';
 import BasicHeader from '../components/BasicHeader';
 import Comment from '../components/Comment';
-import { Send } from '../components/icons';
+import {Send} from '../components/icons';
 import Loading from '../components/Loading';
-import { AuthContext } from '../context/Auth';
-import { errorMessage } from '../utils/showToast';
-import { strings } from '../constants/localization';
+import {AuthContext} from '../context/Auth';
+import {errorMessage, successMessage} from '../utils/showToast';
+import {strings} from '../constants/localization';
 
-const Comments = ({ route, navigation }) => {
-  const { colors } = useTheme();
-  const { item } = route.params;
+const Comments = ({route, navigation}) => {
+  const {colors} = useTheme();
+  const {item} = route.params;
 
-  const { token } = useContext(AuthContext);
+  const {token} = useContext(AuthContext);
 
   const [comments, setComments] = useState([]);
   const [comment, onChangeComment] = useState('');
@@ -55,7 +55,7 @@ const Comments = ({ route, navigation }) => {
         errorMessage(strings.commentCouldntSend);
       } else {
         setComments(response?.data);
-        console.log(response?.data)
+        console.log(response?.data);
       }
     } catch (error) {
       errorMessage(strings.commentCouldntSend);
@@ -80,6 +80,18 @@ const Comments = ({ route, navigation }) => {
     }
   };
 
+  const deleteUserComment = async (id) => {
+    try {
+      let response = await deleteComment(token, id);
+      console.log("response: ", response);
+      successMessage('Yorum silindi.');
+      getFoodComments();
+    } catch(error){
+      console.log("Delete Comment Error: ", error);
+      errorMessage('Yorum silinemedi.');
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' && 'height'}
@@ -94,8 +106,11 @@ const Comments = ({ route, navigation }) => {
         type="isThree"
       />
       {loading && <Loading />}
-      {!loading && comments?.length == 0 ?
-        <Text style={[styles.noComment, { color: colors.noCommentText }]}>{strings.noComment1 + "\n" + strings.noComment2}</Text> :
+      {!loading && comments?.length == 0 ? (
+        <Text style={[styles.noComment, {color: colors.noCommentText}]}>
+          {strings.noComment1 + '\n' + strings.noComment2}
+        </Text>
+      ) : (
         <FlatList
           data={comments}
           keyExtractor={item => item.comment._id}
@@ -105,25 +120,22 @@ const Comments = ({ route, navigation }) => {
             paddingTop: 24,
             paddingBottom: 72,
           }}
-          ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
+          ItemSeparatorComponent={() => <View style={{height: 24}} />}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          renderItem={({ item }) => (
-            <Comment
-              comment={item}
-            />
-          )}
-        />}
+          renderItem={({item}) => <Comment comment={item} deleteUserComment={(id) => deleteUserComment(id)}/>}
+        />
+      )}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           <View
             style={[
               styles.commentInputContainer,
-              { backgroundColor: colors.commentInputBg },
+              {backgroundColor: colors.commentInputBg},
             ]}>
             <TextInput
-              style={[styles.commentInput, { color: colors.commentInputText }]}
+              style={[styles.commentInput, {color: colors.commentInputText}]}
               onChangeText={onChangeComment}
               value={comment}
               placeholder={strings.writeComment}
@@ -153,8 +165,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.17,
     shadowRadius: 3.65,
-    elevation: 999,
-    zIndex: 999,
+    elevation: 3,
+    zIndex: 3,
     position: 'absolute',
     bottom: 10,
     left: 0,
@@ -172,8 +184,8 @@ const styles = StyleSheet.create({
   },
   noComment: {
     textAlign: 'center',
-    marginTop: 24
-  }
+    marginTop: 24,
+  },
 });
 
 export default Comments;

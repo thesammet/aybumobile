@@ -36,6 +36,7 @@ export default function ProfileEdit({ navigation }) {
     addUsername,
     addFaculty,
     addDepartment,
+    addRole
   } = useContext(ProfileContext);
   const { colors } = useTheme();
   const bottomSheetfacultyVal = useRef();
@@ -73,6 +74,8 @@ export default function ProfileEdit({ navigation }) {
     if (response.error) {
       errorMessage(strings.error, strings.anErrorOccured);
     } else {
+
+      addRole(response.role);
       addUsername(usernameVal);
       addFaculty(facultyVal);
       addDepartment(departmentVal);
