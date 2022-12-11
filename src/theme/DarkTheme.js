@@ -16,7 +16,7 @@ const customDarkTheme = {
     tabBarButtonBackgroundActive: '#0AD4EE',
     tabBarIconColor: '#fff',
     tabBarIconColorActive: '#fff',
-    headerBg: '#0AD4EE',
+    headerBg: '#001A43',
     reactionBg: '#0F0F0F',
     welcomeBg: '#001A43',
     toggleBack: '#2C2C2C',

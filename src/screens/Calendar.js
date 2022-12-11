@@ -61,17 +61,12 @@ const Calendar = () => {
         <View style={styles.emptyView}>
           <View />
           <View>
-            {theme === 'light' ? (
-              <Image
-                source={require('@/assets/images/aybumobilelight.png')}
-                style={[styles.logoView]}
-              />
-            ) : (
-              <Image
-                source={require('@/assets/images/aybumobiledark.png')}
-                style={[styles.logoView]}
-              />
-            )}
+
+            <Image
+              source={require('@/assets/images/aybumobilelight.png')}
+              style={[styles.logoView]}
+            />
+
             <Text
               style={styles.emptyText}>
               {department} {strings.calendarString1}{'\n'}{strings.calendarString2}

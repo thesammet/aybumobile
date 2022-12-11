@@ -81,7 +81,6 @@ const Comments = ({ route, navigation }) => {
 
   const deleteUserComment = async (id) => {
     try {
-      console.log(item)
       let response = await deleteComment(token, id, item?.meal?._id);
       console.log("delete response: ", response);
       successMessage('Yorum silindi.');
