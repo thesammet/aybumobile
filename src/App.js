@@ -6,10 +6,18 @@ import Navigation from '@/navigation';
 import { ThemeProvider } from '@/context/Theme';
 import { ProfileProvider } from './context/Profile';
 import SplashScreen from 'react-native-splash-screen';
+import { requestTrackingPermission } from 'react-native-tracking-transparency';
 
+const iosTrack = async () => {
+  const trackingStatus = await requestTrackingPermission();
+  if (trackingStatus === 'authorized' || trackingStatus === 'unavailable') {
+    console.log("enable tracking")
+  }
+}
 const App = () => {
   useEffect(() => {
     Platform.OS === 'ios' && SplashScreen.hide();
+    Platform.OS === 'ios' && iosTrack();
   }, []);
   return (
     <AuthProvider>
