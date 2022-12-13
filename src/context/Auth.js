@@ -18,7 +18,10 @@ export const AuthProvider = ({ children }) => {
   }, [token, usernameInit]);
 
   const onBoardingControl = async () => {
-    //storage.delete('onboarding');
+    // storage.delete('onboarding');
+    // storage.delete('usernameInit');
+    // storage.delete('token');
+
     try {
       let onboarding = storage.getString('onboarding');
       console.log('onboarding', onboarding);

@@ -45,7 +45,8 @@ const Home = ({ navigation }) => {
     try {
       let response = await getMonthlyFood(token);
       if (response.error) {
-        errorMessage(string.anErrorOccured);
+        console.log("r: ", response)
+        errorMessage(strings.anErrorOccured);
       } else {
         let dataArr = response?.data;
         dataArr.unshift({ meal: { _id: '231243' }, key: 'left-spacer' });
@@ -54,7 +55,7 @@ const Home = ({ navigation }) => {
         setMeals(dataArr);
       }
     } catch (error) {
-      errorMessage(string.anErrorOccured);
+      errorMessage(strings.anErrorOccured);
     } finally {
       setLoading(false);
     }

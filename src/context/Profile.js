@@ -14,6 +14,10 @@ export const ProfileProvider = ({ children }) => {
   }, []);
 
   const profileControl = async () => {
+    // storage.delete('username');
+    // storage.delete('faculty');
+    // storage.delete('department');
+    // storage.delete('role');
     try {
       const username = storage.getString('username');
       const faculty = storage.getString('faculty');

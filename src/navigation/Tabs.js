@@ -12,6 +12,8 @@ import Calendar from '../screens/Calendar';
 import DepartmentSite from '../screens/DepartmentSite';
 import HomeStack from '../stacks/HomeStack';
 import Trends from '../screens/Trends';
+import Admission from '../screens/Admissions';
+import Admissions from '../screens/Admissions';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,8 +27,9 @@ const Tabs = () => {
       tabBar={props => <TabBar {...props} />}>
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Trends" component={Trends} />
+      <Tab.Screen name="Admissions" component={Admissions} />
       <Tab.Screen name="Syllabus" component={Calendar} />
-      <Tab.Screen name="DepartmentSite" component={DepartmentSite} />
+      {/* <Tab.Screen name="DepartmentSite" component={DepartmentSite} /> */}
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
