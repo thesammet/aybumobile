@@ -23,95 +23,45 @@ import { errorMessage, successMessage } from '../utils/showToast';
 import { strings } from '../constants/localization';
 import Admission from '../components/Admission';
 import { deletePostAdmin, getAllPosts, postSend } from '../api/aybu-social/post';
+import { getAllCommentsByPost, postCommentSend } from '../api/aybu-social/post_comment';
 
-/*
-[
-    {
-      id:1,
-      username: 'Admission 1',
-      userRole:"User",
-      createdAt: '01.01.2021',
-      admission:"lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc vel tincidunt lacinia.",
-      isLike: false,
-      likeCount: 0,
-    },
-    {
-      id:2,
-      username: 'Admission 2',
-      userRole:"User",
-      createdAt: '01.01.2021',
-      admission:"lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc vel tincidunt lacinia.",
-      isLike: true,
-      likeCount: 1,
-    },
-    {
-      id:3,
-      username: 'Admission 3',
-      userRole:"User",
-      createdAt: '01.01.2021',
-      admission:"lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc vel tincidunt lacinia.",
-      isLike: true,
-      likeCount: 1,
-    },
-    {
-      id:4,
-      username: 'Admission 4',
-      userRole:"User",
-      createdAt: '01.01.2021',
-      admission:"lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc vel tincidunt lacinia.",
-      isLike: false,
-      likeCount: 1,
-    },
-  ]
-*/
 
-const Admissions = ({ route, navigation }) => {
+const AdmissionComments = ({ route, navigation,deleteUserAdmissionComment }) => {
   const { colors } = useTheme();
 
   const { token } = useContext(AuthContext);
+  const {admission} = route.params;
 
-  const [admissions, setAdmissions] = useState([]);
-  const [admission, onChangeAdmission] = useState('');
+  const [admissionComments, setAdmissionComments] = useState([]);
+  const [admissionComment, onChangeAdmissionComment] = useState('');
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(0);
 
   useEffect(() => {
-    console.log("aaa: ", admissions);
+
     setLoading(true);
-    getAdmissions();
+    getAdmissionComments();
   }, []);
 
   const onRefresh = () => {
     setRefreshing(true);
     Keyboard.dismiss();
-    onChangeAdmission('');
-    getAdmissions();
+    onChangeAdmissionComment('');
+    getAdmissionComments();
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
   }
 
-  /*
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    Keyboard.dismiss();
-    onChangeComment('');
-    getFoodComments();
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 1000);
-  }, []);
-  */
-
-  const getAdmissions = async () => {
+  const getAdmissionComments = async () => {
     try {
-      let response = await getAllPosts(token, page, 6);
+      let response = await getAllCommentsByPost(token, admission?.post?._id ,page, 6);
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
         console.log("rr: ", response?.data)
-        setAdmissions([...admissions, ...response?.data]); // push state
+        setAdmissionComments([...admissionComments, ...response?.data]); // push state
         setPage(page + 1);
       }
     } catch (error) {
@@ -121,15 +71,14 @@ const Admissions = ({ route, navigation }) => {
     }
   };
 
-  const getMoreAdmissions = async () => {
-    console.log("moreeee")
+  const getMoreAdmissionComments = async () => {
     setLoading(true);
     try {
-      let response = await getAllPosts(token, page, 6);
+      let response = await getAllCommentsByPost(token,admission?.post?._id, page, 6);
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
-        setAdmissions([...admissions, ...response?.data]); // push state
+        setAdmissionComments([...admissionComments, ...response?.data]); // push state
         setPage(page + 1); // increase page
       }
     } catch (error) {
@@ -139,10 +88,10 @@ const Admissions = ({ route, navigation }) => {
     }
   }
 
-  const sendAdmission = async () => {
+  const sendAdmissionComment = async () => {
     setLoading(true);
     try {
-      let response = await postSend(token, admission);
+      let response = await postCommentSend(token, admissionComment, admission?.post?._id);
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
@@ -176,18 +125,18 @@ const Admissions = ({ route, navigation }) => {
       }}
       keyboardVerticalOffset={20}>
       <BasicHeader
-        text="İtiraf"
+        text="İtiraf Yorumu"
         navigation={navigation}
         type="isThree"
       />
       {loading && <Loading />}
-      {!loading && admissions?.length == 0 ? (
+      {!loading && admissionComments?.length == 0 ? (
         <Text style={[styles.noComment, { color: colors.noCommentText }]}>
           {strings.noAdmission1 + '\n' + strings.noAdmission2}
         </Text>
       ) : (
         <FlatList
-          data={admissions}
+          data={admissionComments}
           keyExtractor={item => item.id}
           key={item => item.id}
           contentContainerStyle={{
@@ -199,9 +148,9 @@ const Admissions = ({ route, navigation }) => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          renderItem={({ item }) => <Admission navigation={navigation} admission={item} deleteUserAdmission={(id) => deleteUserAdmission(id)} />}
+          renderItem={({ item }) => <Admission type="inside" navigation={navigation} admission={item} deleteUserAdmissionComment={(id) => deleteUserAdmissionComment(id)} />}
           onEndReachedThreshold={0.2}
-          onEndReached={getMoreAdmissions}
+          onEndReached={getMoreAdmissionComments}
         />
       )}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -213,13 +162,13 @@ const Admissions = ({ route, navigation }) => {
             ]}>
             <TextInput
               style={[styles.commentInput, { color: colors.commentInputText }]}
-              onChangeText={onChangeAdmission}
-              value={admission}
-              placeholder={strings.writeAdmission}
+              onChangeText={onChangeAdmissionComment}
+              value={admissionComment}
+              placeholder={strings.writeAdmissionComment}
               placeholderTextColor={colors.placeholderText}
               keyboardType="default"
             />
-            <TouchableOpacity onPress={() => sendAdmission()} activeOpacity={0.8}>
+            <TouchableOpacity onPress={() => sendAdmissionComment()} activeOpacity={0.8}>
               <Send width="24" height="24" color={colors.sendIcon} />
             </TouchableOpacity>
           </View>
@@ -265,4 +214,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Admissions;
+export default AdmissionComments;

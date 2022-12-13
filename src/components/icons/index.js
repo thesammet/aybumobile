@@ -13,6 +13,7 @@ export {default as Kratos} from './Kratos';
 export {default as Loader} from './Loader';
 export {default as Meal2} from './Meal2';
 export {default as Meal} from './Meal';
+export {default as MessageCircleNew} from './MessageCircleNew';
 export {default as MessageCircle} from './MessageCircle';
 export {default as Moon} from './Moon';
 export {default as Narnia} from './Narnia';

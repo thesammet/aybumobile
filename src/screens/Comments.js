@@ -32,12 +32,24 @@ const Comments = ({ route, navigation }) => {
   const [comment, onChangeComment] = useState('');
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     setLoading(true);
     getFoodComments();
   }, []);
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    Keyboard.dismiss();
+    onChangeComment('');
+    getFoodComments();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }
+
+  /*
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     Keyboard.dismiss();
@@ -47,14 +59,17 @@ const Comments = ({ route, navigation }) => {
       setRefreshing(false);
     }, 1000);
   }, []);
+  */
 
   const getFoodComments = async () => {
     try {
-      let response = await getSingleFoodComment(token, item?.meal?._id);
+      let response = await getSingleFoodComment(token, item?.meal?._id, page, 6);
       if (response.error) {
         errorMessage(strings.commentCouldntSend);
       } else {
-        setComments(response?.data);
+        console.log("rr: ", response?.data)
+        setComments([...comments, ...response?.data]); // push state
+        setPage(page + 1);
       }
     } catch (error) {
       errorMessage(strings.commentCouldntSend);
@@ -64,14 +79,17 @@ const Comments = ({ route, navigation }) => {
   };
 
   const getMoreFoodComments = async () => {
-    console.log("in")
+    console.log("moreeee")
     setLoading(true);
     try {
-      let response = await getSingleFoodComment(token, item?.meal?._id);
+      let response = await getSingleFoodComment(token, item?.meal?._id, page, 6);
       if (response.error) {
         errorMessage(strings.commentCouldntSend);
       } else {
-        setComments(response?.data);
+        
+        setComments([...comments, ...response?.data]); // push state
+        setPage(page + 1); // increase page
+        // setComments(response?.data);
       }
     } catch (error) {
       errorMessage(strings.commentCouldntSend);

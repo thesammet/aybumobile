@@ -2,7 +2,13 @@ import React, {useEffect, useRef, useState, useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View, Modal} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
-import {Narnia, Kratos, Editor, SteinsGate} from '../components/icons';
+import {
+  Narnia,
+  Kratos,
+  Editor,
+  SteinsGate,
+  MessageCircleNew,
+} from '../components/icons';
 import moment from 'moment/min/moment-with-locales';
 import {strings} from '../constants/localization';
 import {errorMessage, successMessage} from '../utils/showToast';
@@ -11,18 +17,33 @@ import {AuthContext} from '../context/Auth';
 import AppText from '../components/AppText';
 import {ProfileContext} from '../context/Profile';
 import AyButton from './AyButton';
+import {ratePost} from '../api/aybu-social/post';
+import {getAllCommentsByPost, ratePostComment} from '../api/aybu-social/post_comment';
 
-const Admission = ({admission, deleteUserAdmission}) => {
+const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
   const {colors} = useTheme();
+
   const {token} = useContext(AuthContext);
   const {username, role} = useContext(ProfileContext);
+
   const animation = useRef(null);
   const isFirstRun = useRef(true);
-  const [likeStatus, setLikeStatus] = useState(admission?.isLike);
-  const [likeCount, setLikeCount] = useState(admission?.likeCount);
-  const [modalVisible, setModalVisible] = useState(false);
 
+  const [likeStatus, setLikeStatus] = useState(admission?.ratingStatus);
+  const [likeCount, setLikeCount] = useState(admission?.post?.likeCount);
+  const [commentCount, setCommentCount] = useState(
+    admission?.post?.commentCount,
+  );
+  const [modalVisible, setModalVisible] = useState(false);
   const [specials, setSpecials] = useState(['developer-admin', 'admin']);
+
+  const [postComments, setPostComments] = useState([]);
+  const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    console.log('aa: ', admission);
+    getAdmissionComments();
+  }, []);
 
   useEffect(() => {
     if (isFirstRun.current) {
@@ -39,19 +60,66 @@ const Admission = ({admission, deleteUserAdmission}) => {
     }
   }, [likeStatus]);
 
-  const commentRatingMethod = async () => {
+  const getAdmissionComments = async () => {
+    try {
+      let response = await getAllCommentsByPost(
+        token,
+        admission?.post?._id,
+        page,
+        4,
+      );
+      if (response.error) {
+        console.log('getAdmissionComment: ', response);
+      } else {
+        console.log('getAdmissionComment: ', response);
+        setPostComments([...postComments, ...response?.data]);
+      }
+    } catch (error) {
+      console.log('error: ', error);
+    } finally {
+    }
+  };
+
+  const getMoreAdmissionComments = async () => {
+    try {
+      let response = await getAllCommentsByPost(
+        token,
+        admission?.post?._id,
+        page,
+        4,
+      );
+      if (response.error) {
+        console.log('getAdmissionComment: ', response);
+      } else {
+        console.log('getAdmissionComment: ', response);
+        setPostComments([...postComments, ...response?.data]);
+      }
+    } catch (error) {
+      console.log('error: ', error);
+    } finally {
+    }
+  };
+
+  const admissionRatingMethod = async () => {
     likeStatus ? setLikeCount(likeCount - 1) : setLikeCount(likeCount + 1);
     setLikeStatus(!likeStatus);
     try {
-      let response = await commentRating(
-        token,
-        admission?.id,
-        likeStatus,
-      );
-      if (response.error) {
-        errorMessage('Reaksiyon iletilemedi.');
+      if(type === "inside") {
+        let response = await ratePostComment(token, admission?.post.post, admission?.post?._id);
+        if (response.error) {
+          console.log("ratePostCommentinside: ", response);
+          errorMessage('Reaksiyon iletilemedi.');
+        } else {
+        }
       } else {
+        let response = await ratePost(token, admission?.post?._id);
+        if (response.error) {
+          console.log("ratePostComment: ", response);
+          errorMessage('Reaksiyon iletilemedi.');
+        } else {
+        }
       }
+
     } catch (error) {
       errorMessage('Reaksiyon iletilemedi.');
       console.log(error);
@@ -60,6 +128,10 @@ const Admission = ({admission, deleteUserAdmission}) => {
 
   const pressDeleteComment = () => {
     setModalVisible(true);
+  };
+
+  const pressedAdmissionComment = () => {
+    navigation.navigate('AdmissionComments', {admission: admission});
   };
 
   return (
@@ -91,7 +163,7 @@ const Admission = ({admission, deleteUserAdmission}) => {
                 paddingVertical: 8,
                 borderRadius: 8,
               }}
-              onPress={() => deleteUserAdmission(admission.id)}>
+              onPress={() => deleteUserAdmission(admission?.post?._id)}>
               <Text style={{color: colors.text}}>DELETE</Text>
             </TouchableOpacity>
           </View>
@@ -99,19 +171,19 @@ const Admission = ({admission, deleteUserAdmission}) => {
       </Modal>
       <View style={styles.commentHead}>
         <View style={styles.sampleRow}>
-          {admission?.username == 'Schaleef' ? (
+          {admission?.post?.owner?.username == 'Schaleef' ? (
             <Kratos width={24} height={24} style={styles.svgView} />
-          ) : admission?.username == 'Sapphique' ? (
+          ) : admission?.post?.owner?.username == 'Sapphique' ? (
             <SteinsGate width={24} height={24} style={styles.svgView} />
-          ) : admission?.userRole == 'developer-admin' ? (
+          ) : admission?.post?.owner?.userRole == 'developer-admin' ? (
             <Narnia width={28} height={28} style={styles.svgDevAdminView} />
           ) : (
-            admission?.userRole == 'admin' && (
+            admission?.post?.owner?.userRole == 'admin' && (
               <Editor width={24} height={24} style={styles.svgView} />
             )
           )}
           <Text style={[styles.commentNameText, {color: colors.usernameText}]}>
-            {admission?.username}
+            {admission?.post?.owner?.username}
           </Text>
 
           {specials.includes(role) && (
@@ -130,19 +202,19 @@ const Admission = ({admission, deleteUserAdmission}) => {
         </View>
 
         <Text style={[styles.commentDateText, {color: colors.dateText}]}>
-          {moment(admission?.createdAt)
+          {moment(admission?.post?.createdAt)
             .locale(strings.lang == 'en' ? 'en' : 'tr')
             .fromNow()}
         </Text>
       </View>
       <View style={styles.commentBody}>
         <Text style={[styles.commentText, {color: colors.commentText}]}>
-          {admission?.admission}
+          {admission?.post?.content}
         </Text>
       </View>
-      <View>
+      <View style={{flexDirection: 'row'}}>
         <TouchableOpacity
-          onPress={() => commentRatingMethod()}
+          onPress={() => admissionRatingMethod()}
           activeOpacity={0.8}
           style={styles.commentLikeButton}>
           <Lottie
@@ -157,6 +229,22 @@ const Admission = ({admission, deleteUserAdmission}) => {
             {likeCount}
           </Text>
         </TouchableOpacity>
+
+        {type !== 'inside' && (
+          <TouchableOpacity
+            onPress={() => pressedAdmissionComment()}
+            activeOpacity={0.8}
+            style={styles.showCommentButton}>
+            <MessageCircleNew width="22" height="22" color="#ccc" />
+            <Text
+              style={[
+                styles.commentCommentCount,
+                {color: colors.dateBoxElement},
+              ]}>
+              {commentCount}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -204,7 +292,18 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
+  showCommentButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: -5,
+    marginLeft: 16,
+  },
   commentLikeCount: {
+    fontSize: 16,
+    fontWeight: '400',
+  },
+  commentCommentCount: {
+    marginLeft: 4,
     fontSize: 16,
     fontWeight: '400',
   },
