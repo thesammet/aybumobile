@@ -1,54 +1,29 @@
 const baseURL = 'https://aybu-mobile.herokuapp.com';
 
-export const postComment = async (token, comment, food_id) => {
+export const postSend = async (token, content) => {
   try {
-    const response = await fetch(`${baseURL}/comment`, {
+    const response = await fetch(`${baseURL}/social-post`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        comment,
-        food: food_id,
+        content
       }),
     });
 
     const json = await response.json();
     return json;
   } catch (error) {
-    console.log('Post Comment Error: ', error);
+    console.log('Social Post Error: ', error);
     return { error: true };
   }
 };
 
-export const commentRating = async (
-  token,
-  comment,
-) => {
+export const getAllPosts = async (token, page, limit) => {
   try {
-    const response = await fetch(`${baseURL}/comment-rating`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        comment
-      }),
-    });
-
-    const json = await response.json();
-    return json;
-  } catch (error) {
-    console.log('Post Comment Rating Error: ', error);
-    return { error: true };
-  }
-};
-
-export const getSingleFoodComment = async (token, food_id, page, limit) => {
-  try {
-    const response = await fetch(`${baseURL}/comment/${food_id}?page=${page}&limit=${limit}`, {
+    const response = await fetch(`${baseURL}/social-post?page=${page}&limit=${limit}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -59,29 +34,43 @@ export const getSingleFoodComment = async (token, food_id, page, limit) => {
     const json = await response.json();
     return json;
   } catch (error) {
-    console.log('Get Single Food Comment Error: ', error);
+    console.log('Get All Posts Error: ', error);
     return { error: true };
   }
 };
 
-export const deleteComment = async (token, commentId, food) => {
+export const ratePost = async (token, post_id) => {
   try {
-    console.log(food)
-    const response = await fetch(`${baseURL}/comment/${commentId}`, {
-      method: 'DELETE',
+    const response = await fetch(`${baseURL}/social-post-like/${post_id}`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        food
-      })
     });
 
     const json = await response.json();
     return json;
   } catch (error) {
-    console.log('Delete Comment Error: ', error);
+    console.log('Social Post Like Error: ', error);
+    return { error: true };
+  }
+};
+
+export const deletePostAdmin = async (token, post_id) => {
+  try {
+    const response = await fetch(`${baseURL}/social-post/${post_id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      }
+    });
+
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    console.log('Delete Post Admin Error: ', error);
     return { error: true };
   }
 };
