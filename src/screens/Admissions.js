@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, {useState, useEffect, useCallback, useContext} from 'react';
 import {
   View,
   Text,
@@ -12,17 +12,18 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-import { deleteComment, getSingleFoodComment, postComment } from '../api/comment';
+import {useTheme} from '@react-navigation/native';
+import {deleteComment, getSingleFoodComment, postComment} from '../api/comment';
 import BasicHeader from '../components/BasicHeader';
 import Comment from '../components/Comment';
-import { Send } from '../components/icons';
+import {Send} from '../components/icons';
 import Loading from '../components/Loading';
-import { AuthContext } from '../context/Auth';
-import { errorMessage, successMessage } from '../utils/showToast';
-import { strings } from '../constants/localization';
+import {AuthContext} from '../context/Auth';
+import {errorMessage, successMessage} from '../utils/showToast';
+import {strings} from '../constants/localization';
 import Admission from '../components/Admission';
-import { deletePostAdmin, getAllPosts, postSend } from '../api/aybu-social/post';
+import {deletePostAdmin, getAllPosts, postSend} from '../api/aybu-social/post';
+import LoadingMore from '../components/LoadingMore';
 
 /*
 [
@@ -65,53 +66,64 @@ import { deletePostAdmin, getAllPosts, postSend } from '../api/aybu-social/post'
   ]
 */
 
-const Admissions = ({ route, navigation }) => {
-  const { colors } = useTheme();
+const Admissions = ({route, navigation}) => {
+  const {colors} = useTheme();
 
-  const { token } = useContext(AuthContext);
+  const {token} = useContext(AuthContext);
 
   const [admissions, setAdmissions] = useState([]);
   const [admission, onChangeAdmission] = useState('');
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(0);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   useEffect(() => {
-    console.log("aaa: ", admissions);
-    setLoading(true);
-    getAdmissions();
+    initAdmissions();
   }, []);
+
+  const initAdmissions = () => {
+    setLoading(true);
+    getAdmissions(0);
+  };
 
   const onRefresh = () => {
     setRefreshing(true);
     Keyboard.dismiss();
     onChangeAdmission('');
-    getAdmissions();
+    getAdmissions(0);
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
-  }
+  };
 
-  /*
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    Keyboard.dismiss();
-    onChangeComment('');
-    getFoodComments();
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 1000);
-  }, []);
-  */
-
-  const getAdmissions = async () => {
+  const getAdmissions = async givenPage => {
     try {
-      let response = await getAllPosts(token, page, 6);
+      let response = await getAllPosts(token, givenPage, 6);
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
-        console.log("rr: ", response?.data)
+        console.log('rr: ', response?.data);
         setAdmissions([...admissions, ...response?.data]); // push state
+        // push first
+        setPage(page + 1);
+      }
+    } catch (error) {
+      errorMessage(strings.admissionCouldntSend);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getAdmissionsAfter = async givenPage => {
+    try {
+      let response = await getAllPosts(token, givenPage, 6);
+      if (response.error) {
+        errorMessage(strings.admissionCouldntSend);
+      } else {
+        console.log('rr: ', response?.data);
+        setAdmissions([...response?.data, ...admissions]); // push state
+        // push first
         setPage(page + 1);
       }
     } catch (error) {
@@ -122,8 +134,8 @@ const Admissions = ({ route, navigation }) => {
   };
 
   const getMoreAdmissions = async () => {
-    console.log("moreeee")
-    setLoading(true);
+    console.log('moreeee');
+    setLoadingMore(true);
     try {
       let response = await getAllPosts(token, page, 6);
       if (response.error) {
@@ -135,9 +147,9 @@ const Admissions = ({ route, navigation }) => {
     } catch (error) {
       errorMessage(strings.admissionCouldntSend);
     } finally {
-      setLoading(false);
+      setLoadingMore(false);
     }
-  }
+  };
 
   const sendAdmission = async () => {
     setLoading(true);
@@ -146,7 +158,9 @@ const Admissions = ({ route, navigation }) => {
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
-        onRefresh();
+        successMessage(strings.admissionSent);
+        onChangeAdmission('');
+        getAdmissionsAfter(0);
       }
     } catch (error) {
       errorMessage(strings.admissionCouldntSend);
@@ -155,14 +169,14 @@ const Admissions = ({ route, navigation }) => {
     }
   };
 
-  const deleteUserAdmission = async (id) => {
+  const deleteUserAdmission = async id => {
     try {
       let response = await deletePostAdmin(token, id);
-      console.log("delete response: ", response);
+      console.log('delete response: ', response);
       successMessage('İtiraf silindi.');
-      getAdmissions();
+      getAdmissions(0);
     } catch (error) {
-      console.log("Delete Admission Error: ", error);
+      console.log('Delete Admission Error: ', error);
       errorMessage('İtiraf silinemedi.');
     }
   };
@@ -176,13 +190,16 @@ const Admissions = ({ route, navigation }) => {
       }}
       keyboardVerticalOffset={20}>
       <BasicHeader
-        text="İtiraf"
+        style={{backgroundColor: colors.trendHeader}}
         navigation={navigation}
-        type="isThree"
+        text={strings.admission}
+        textStyle={{fontWeight: 'bold', fontSize: 18}}
+        isBack={false}
       />
       {loading && <Loading />}
+      {loadingMore && <LoadingMore />}
       {!loading && admissions?.length == 0 ? (
-        <Text style={[styles.noComment, { color: colors.noCommentText }]}>
+        <Text style={[styles.noComment, {color: colors.noCommentText}]}>
           {strings.noAdmission1 + '\n' + strings.noAdmission2}
         </Text>
       ) : (
@@ -195,31 +212,43 @@ const Admissions = ({ route, navigation }) => {
             paddingTop: 24,
             paddingBottom: 72,
           }}
-          ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
+          ItemSeparatorComponent={() => <View style={{height: 24}} />}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          renderItem={({ item }) => <Admission navigation={navigation} admission={item} deleteUserAdmission={(id) => deleteUserAdmission(id)} />}
+          renderItem={({item}) => (
+            <Admission
+              navigation={navigation}
+              admission={item}
+              deleteUserAdmission={id => deleteUserAdmission(id)}
+            />
+          )}
           onEndReachedThreshold={0.2}
           onEndReached={getMoreAdmissions}
         />
       )}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           <View
             style={[
               styles.commentInputContainer,
-              { backgroundColor: colors.commentInputBg },
+              {backgroundColor: colors.commentInputBg},
             ]}>
             <TextInput
-              style={[styles.commentInput, { color: colors.commentInputText }]}
+              style={[styles.commentInput, {color: colors.commentInputText}]}
               onChangeText={onChangeAdmission}
               value={admission}
+              multiline={true}
+              numberOfLines={10}
+              textAlignVertical="top"
               placeholder={strings.writeAdmission}
               placeholderTextColor={colors.placeholderText}
               keyboardType="default"
+              
             />
-            <TouchableOpacity onPress={() => sendAdmission()} activeOpacity={0.8}>
+            <TouchableOpacity
+              onPress={() => sendAdmission()}
+              activeOpacity={0.8}>
               <Send width="24" height="24" color={colors.sendIcon} />
             </TouchableOpacity>
           </View>
@@ -258,6 +287,7 @@ const styles = StyleSheet.create({
     height: 48,
     fontSize: 16,
     paddingHorizontal: 16,
+    textAlignVertical: 'top',
   },
   noComment: {
     textAlign: 'center',

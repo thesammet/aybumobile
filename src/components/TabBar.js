@@ -104,7 +104,7 @@ const TabBar = ({state, descriptors, navigation}) => {
               />
             )}
             {label === 'Admissions' && (
-              <HeartEmpty
+              <Profil
                 width="28"
                 height="28"
                 style={tabButtonDynamicIconStyle(isFocused)}

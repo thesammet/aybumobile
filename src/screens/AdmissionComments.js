@@ -39,29 +39,62 @@ const AdmissionComments = ({ route, navigation,deleteUserAdmissionComment }) => 
   const [page, setPage] = useState(0);
 
   useEffect(() => {
-
-    setLoading(true);
-    getAdmissionComments();
+    initAdmissions();
   }, []);
+
+  // useEffect(() => {
+  //   // filter admissionComment by id
+  //   const filteredAdmissionComment = admissionComments.filter((admissionComment) => admissionComment._id === admissionComment._id);
+  //   if (filteredAdmissionComment.length === 0) {
+  //     setAdmissionComments([...admissionComments, admissionComment]);
+  //   } else {
+  //     const index = admissionComments.findIndex((admissionComment) => admissionComment._id === admissionComment._id);
+  //     admissionComments[index] = admissionComment;
+  //     setAdmissionComments([...admissionComments]);
+  //   }
+  // }, [admissionComments])
+  
+
+  const initAdmissions = () => {
+    setLoading(true);
+    getAdmissionComments(0);
+  }
 
   const onRefresh = () => {
     setRefreshing(true);
     Keyboard.dismiss();
     onChangeAdmissionComment('');
-    getAdmissionComments();
+    getAdmissionComments(0);
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
   }
 
-  const getAdmissionComments = async () => {
+  const getAdmissionComments = async (givenPage) => {
     try {
-      let response = await getAllCommentsByPost(token, admission?.post?._id ,page, 6);
+      let response = await getAllCommentsByPost(token, admission?.post?._id ,givenPage, 6);
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
         console.log("rr: ", response?.data)
         setAdmissionComments([...admissionComments, ...response?.data]); // push state
+        setPage(page + 1);
+      }
+    } catch (error) {
+      errorMessage(strings.admissionCouldntSend);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getAdmissionCommentsAfter = async (givenPage) => {
+    try {
+      let response = await getAllCommentsByPost(token, admission?.post?._id ,givenPage, 6);
+      if (response.error) {
+        errorMessage(strings.admissionCouldntSend);
+      } else {
+        console.log("rr: ", response?.data)
+        setAdmissionComments([...response?.data, ...admissionComments]); // push state
         setPage(page + 1);
       }
     } catch (error) {
@@ -95,7 +128,9 @@ const AdmissionComments = ({ route, navigation,deleteUserAdmissionComment }) => 
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
-        onRefresh();
+        successMessage(strings.admissionSent);
+        onChangeAdmissionComment('');
+        getAdmissionCommentsAfter(0);
       }
     } catch (error) {
       errorMessage(strings.admissionCouldntSend);
@@ -109,7 +144,7 @@ const AdmissionComments = ({ route, navigation,deleteUserAdmissionComment }) => 
       let response = await deletePostAdmin(token, id);
       console.log("delete response: ", response);
       successMessage('İtiraf silindi.');
-      getAdmissions();
+      getAdmissionComments(0);
     } catch (error) {
       console.log("Delete Admission Error: ", error);
       errorMessage('İtiraf silinemedi.');
@@ -164,6 +199,9 @@ const AdmissionComments = ({ route, navigation,deleteUserAdmissionComment }) => 
               style={[styles.commentInput, { color: colors.commentInputText }]}
               onChangeText={onChangeAdmissionComment}
               value={admissionComment}
+              multiline={true}
+              numberOfLines={10}
+              textAlignVertical="top"
               placeholder={strings.writeAdmissionComment}
               placeholderTextColor={colors.placeholderText}
               keyboardType="default"
@@ -207,6 +245,7 @@ const styles = StyleSheet.create({
     height: 48,
     fontSize: 16,
     paddingHorizontal: 16,
+    textAlignVertical: 'top',
   },
   noComment: {
     textAlign: 'center',
