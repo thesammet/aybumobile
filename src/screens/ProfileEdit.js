@@ -21,6 +21,7 @@ import Header from '../components/Header';
 import { ChevronDown, Check } from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
 import { sections } from '../assets/sources/sections';
+import { sections_en } from '../assets/sources/section_en';
 import { strings } from '../constants/localization';
 import {
   errorMessage,

@@ -9,7 +9,7 @@ export const sections = [
             { "name": "İnşaat Mühendisliği" },
             { "name": "Makine Mühendisliği" },
             { "name": "Metalurji ve Malzeme Mühendisliği" },
-            { "name": "Matematik Mühendisliği" },
+            { "name": "Matematik" },
             { "name": "Yazılım Mühendisliği" },
         ]
     },
@@ -23,7 +23,6 @@ export const sections = [
         "faculty": "Havacılık ve Uzay Bilimleri Fakültesi",
         "departments": [
             { "name": "Havacılık ve Uzay Mühendisliği" },
-            { "name": "Havacılık Yönetimi" },
         ]
     },
     {
@@ -112,9 +111,7 @@ export const sections = [
     {
         "faculty": "Tıp Fakültesi",
         "departments": [
-            { "name": "Cerrahi Tıp Bilimleri" },
-            { "name": "Dahili Tıp Bilimleri" },
-            { "name": "Temel Tıp Bilimleri" },
+            { "name": "Tıp" },
         ]
     },
     {

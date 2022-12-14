@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect, useRef} from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import {
   View,
   StyleSheet,
@@ -12,18 +12,19 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {register} from '../api/user';
-import {AuthContext} from '../context/Auth';
-import {ProfileContext} from '../context/Profile';
-import {useTheme} from '@react-navigation/native';
+import { register } from '../api/user';
+import { AuthContext } from '../context/Auth';
+import { ProfileContext } from '../context/Profile';
+import { useTheme } from '@react-navigation/native';
 import DeviceInfo from 'react-native-device-info';
 import TYPOGRAPHY from '../constants/typography';
 import Header from '../components/Header';
-import {ChevronDown, Check} from '../components/icons';
+import { ChevronDown, Check } from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
-import {sections} from '../assets/sources/sections';
-import {strings} from '../constants/localization';
-import {errorMessage, successMessage} from '../utils/showToast';
+import { sections } from '../assets/sources/sections';
+import { sections_en } from '../assets/sources/section_en';
+import { strings } from '../constants/localization';
+import { errorMessage, successMessage } from '../utils/showToast';
 import AppText from "../components/AppText"
 
 const windowHeight = Dimensions.get('window').height;
@@ -36,10 +37,10 @@ export default function Auth() {
   const [isValid, setValid] = useState(false);
   const [borderColor, setBorderColor] = useState('gray');
 
-  const {addToken} = useContext(AuthContext);
-  const {addUsername, addFaculty, addDepartment} = useContext(ProfileContext);
+  const { addToken } = useContext(AuthContext);
+  const { addUsername, addFaculty, addDepartment } = useContext(ProfileContext);
 
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   const bottomSheetFaculty = useRef();
   const bottomSheetDepartment = useRef();
@@ -71,7 +72,7 @@ export default function Auth() {
     setLoading(false);
   };
 
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
         setFaculty(item.faculty);
@@ -101,7 +102,7 @@ export default function Auth() {
     </TouchableOpacity>
   );
 
-  const renderItemDepartment = ({item}) => (
+  const renderItemDepartment = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
         setDepartment(item.name);
@@ -130,7 +131,7 @@ export default function Auth() {
   );
 
   return (
-    <View style={[{backgroundColor: colors.welcomeBg}, styles.container]}>
+    <View style={[{ backgroundColor: colors.welcomeBg }, styles.container]}>
       <Header type="outside" />
       <View style={styles.innerContainer}>
         <BottomSheet
@@ -173,7 +174,7 @@ export default function Auth() {
                   {
                     borderColor: borderColor,
                     color: colors.text,
-                  
+
                   },
                 ]}
                 placeholder={strings.urUsername}
@@ -224,7 +225,7 @@ export default function Auth() {
           <ActivityIndicator
             size="large"
             color="#0AD4EE"
-            style={{marginBottom: 12}}
+            style={{ marginBottom: 12 }}
           />
         ) : (
           <TouchableOpacity
@@ -238,7 +239,7 @@ export default function Auth() {
             <View
               style={[
                 styles.startButton,
-                {borderColor: isValid ? '#0AD4EE' : '#EBEBEB'},
+                { borderColor: isValid ? '#0AD4EE' : '#EBEBEB' },
                 isValid && {
                   shadowColor: '#0AD4EE',
                   shadowOffset: {
@@ -254,7 +255,7 @@ export default function Auth() {
               <Text
                 style={[
                   styles.startText,
-                  {color: isValid ? '#0AD4EE' : '#CECECE'},
+                  { color: isValid ? '#0AD4EE' : '#CECECE' },
                 ]}>
                 {strings.start}
               </Text>
