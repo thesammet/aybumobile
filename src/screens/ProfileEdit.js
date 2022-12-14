@@ -21,12 +21,12 @@ import Header from '../components/Header';
 import { ChevronDown, Check } from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
 import { sections } from '../assets/sources/sections';
-import { sections_en } from '../assets/sources/section_en';
 import { strings } from '../constants/localization';
 import {
   errorMessage,
   successMessage
 } from '../utils/showToast';
+import RNLocalize from "react-native-localize";
 
 export default function ProfileEdit({ navigation }) {
   const { token } = useContext(AuthContext);
@@ -34,11 +34,14 @@ export default function ProfileEdit({ navigation }) {
     username,
     faculty,
     department,
+    departmentCode,
     addUsername,
     addFaculty,
     addDepartment,
-    addRole
+    addRole,
+    addDepartmentCode
   } = useContext(ProfileContext);
+
   const { colors } = useTheme();
   const bottomSheetfacultyVal = useRef();
   const bottomSheetdepartmentVal = useRef();
@@ -46,6 +49,8 @@ export default function ProfileEdit({ navigation }) {
   const [usernameVal, setUsernameVal] = useState(username);
   const [currentdepartment, setCurrentdepartment] = useState();
   const [departmentVal, setDepartmentVal] = useState(department);
+  const [departmentCodeVal, setDepartmentCodeVal] = useState(departmentCode)
+  const [languageCode, setLanguageCode] = useState('en')
   const [facultyVal, setFacultyVal] = useState(faculty);
   const [isValid, setValid] = useState(false);
   const [borderColor, setBorderColor] = useState('gray');
@@ -64,6 +69,11 @@ export default function ProfileEdit({ navigation }) {
     }
   });
 
+  useEffect(() => {
+    const localizeObj = RNLocalize.getLocales()
+    setLanguageCode(localizeObj[0].languageCode)
+  })
+
   const updateProfileMethod = async deviceId => {
     setLoading(true);
     let response = await updateProfile(
@@ -80,6 +90,7 @@ export default function ProfileEdit({ navigation }) {
       addUsername(usernameVal);
       addFaculty(facultyVal);
       addDepartment(departmentVal);
+      addDepartmentCode(departmentCodeVal)
       successMessage(strings.success, strings.successUpdate);
       navigation.goBack();
     }
@@ -119,7 +130,9 @@ export default function ProfileEdit({ navigation }) {
   const renderItemdepartmentVal = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
-        setDepartmentVal(item.name);
+        setDepartmentVal(languageCode == "tr" ?
+          item.tr : item.en);
+        setDepartmentCodeVal(item.code)
         bottomSheetdepartmentVal.current.close();
       }}>
       <View style={styles.renderItem}>
@@ -127,18 +140,24 @@ export default function ProfileEdit({ navigation }) {
           style={[
             TYPOGRAPHY.H5Regular,
             {
-              color: item.name == departmentVal ? '#001A43' : '#909090',
+              color:
+                languageCode == "tr" ?
+                  item.tr == department ? '#001A43' : '#909090'
+                  : item.en == department ? '#001A43' : '#909090',
               margin: 10,
               marginRight: 20,
               flex: 1,
             },
           ]}>
-          {item.name}
+          {languageCode == "tr" ?
+            item.tr : item.en}
         </Text>
         <Check
           width={24}
           height={24}
-          color={item.name == departmentVal ? '#0AD4EE' : '#EBEBEB'}
+          color={languageCode == "tr" ?
+            item.tr == department ? '#0AD4EE' : '#EBEBEB' :
+            item.en == department ? '#0AD4EE' : '#EBEBEB'}
         />
       </View>
     </TouchableOpacity>
@@ -179,7 +198,7 @@ export default function ProfileEdit({ navigation }) {
           <FlatList
             data={currentdepartment}
             renderItem={renderItemdepartmentVal}
-            keyExtractor={item => item.name}
+            keyExtractor={item => item.code}
           />
         </BottomSheet>
         <KeyboardAvoidingView>

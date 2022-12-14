@@ -45,7 +45,6 @@ const Home = ({ navigation }) => {
     try {
       let response = await getMonthlyFood(token);
       if (response.error) {
-        console.log("r: ", response)
         errorMessage(strings.anErrorOccured);
       } else {
         let dataArr = response?.data;

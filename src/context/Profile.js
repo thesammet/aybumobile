@@ -8,20 +8,18 @@ export const ProfileProvider = ({ children }) => {
   const [faculty, setFaculty] = useState(null);
   const [department, setDepartment] = useState(null);
   const [role, setRole] = useState(null);
+  const [departmentCode, setDepartmentCode] = useState(null);
 
   useEffect(() => {
     profileControl();
   }, []);
 
   const profileControl = async () => {
-    // storage.delete('username');
-    // storage.delete('faculty');
-    // storage.delete('department');
-    // storage.delete('role');
     try {
       const username = storage.getString('username');
       const faculty = storage.getString('faculty');
       const department = storage.getString('department');
+      const departmentCode = storage.getString('department_code');
       const role = storage.getString('role')
       if (username) {
         setUsername(username);
@@ -34,6 +32,9 @@ export const ProfileProvider = ({ children }) => {
       }
       if (role) {
         setRole(role)
+      }
+      if (departmentCode) {
+        setDepartmentCode(departmentCode)
       }
     } catch (error) {
       console.warn(error);
@@ -48,18 +49,11 @@ export const ProfileProvider = ({ children }) => {
       console.warn(error);
     }
   };
+
   const addFaculty = async value => {
     setFaculty(value);
     try {
       storage.set('faculty', value);
-    } catch (error) {
-      console.warn(error);
-    }
-  };
-  const addDepartment = async value => {
-    setDepartment(value);
-    try {
-      storage.set('department', value);
     } catch (error) {
       console.warn(error);
     }
@@ -72,6 +66,24 @@ export const ProfileProvider = ({ children }) => {
     } catch (error) {
       console.warn(error);
     }
+  };
+
+  const addDepartment = async value => {
+    setDepartment(value);
+    try {
+      storage.set('department', value);
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
+  const addDepartmentCode = async value => {
+    setDepartmentCode(value);
+    try {
+      storage.set('department_code', value);
+    } catch (error) {
+      console.warn(error);
+    }
   }
 
   const removeToken = async () => {
@@ -79,11 +91,13 @@ export const ProfileProvider = ({ children }) => {
     setFaculty(null);
     setDepartment(null);
     setRole(null)
+    setDepartmentCode(null)
     try {
       storage.delete('username');
       storage.delete('department');
       storage.delete('faculty');
       storage.delete('role');
+      storage.delete('department_code');
     } catch (error) {
       console.log(error);
     }
@@ -99,7 +113,10 @@ export const ProfileProvider = ({ children }) => {
         addFaculty,
         addDepartment,
         role,
-        addRole
+        addRole,
+        departmentCode,
+        addDepartmentCode,
+        removeToken
       }}>
       {children}
     </ProfileContext.Provider>

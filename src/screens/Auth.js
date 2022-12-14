@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
+  Platform
 } from 'react-native';
 import { register } from '../api/user';
 import { AuthContext } from '../context/Auth';
@@ -22,10 +23,10 @@ import Header from '../components/Header';
 import { ChevronDown, Check } from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
 import { sections } from '../assets/sources/sections';
-import { sections_en } from '../assets/sources/section_en';
 import { strings } from '../constants/localization';
 import { errorMessage, successMessage } from '../utils/showToast';
 import AppText from "../components/AppText"
+import RNLocalize from "react-native-localize";
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -33,12 +34,14 @@ export default function Auth() {
   const [username, setUsername] = useState('');
   const [currentDepartments, setCurrentDepartments] = useState([]);
   const [department, setDepartment] = useState(null);
+  const [departmentRole, setDepartmentRole] = useState(null)
   const [faculty, setFaculty] = useState(null);
   const [isValid, setValid] = useState(false);
   const [borderColor, setBorderColor] = useState('gray');
+  const [languageCode, setLanguageCode] = useState('en')
 
   const { addToken } = useContext(AuthContext);
-  const { addUsername, addFaculty, addDepartment } = useContext(ProfileContext);
+  const { addUsername, addFaculty, addDepartment, addDepartmentCode } = useContext(ProfileContext);
 
   const { colors } = useTheme();
 
@@ -49,6 +52,11 @@ export default function Auth() {
   useEffect(() => {
     validMethod();
   }, [username, department, faculty]);
+
+  useEffect(() => {
+    const localizeObj = RNLocalize.getLocales()
+    setLanguageCode(localizeObj[0].languageCode)
+  })
 
   const validMethod = () => {
     username.length > 0 && department && faculty
@@ -66,7 +74,9 @@ export default function Auth() {
       addUsername(username);
       addFaculty(faculty);
       addDepartment(department);
+      addDepartmentCode(departmentRole)
       addToken(response.token);
+
       successMessage(strings.success, strings.registeredSuccess);
     }
     setLoading(false);
@@ -105,7 +115,10 @@ export default function Auth() {
   const renderItemDepartment = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
-        setDepartment(item.name);
+        setDepartment(
+          languageCode == "tr" ?
+            item.tr : item.en);
+        setDepartmentRole(item.code)
         bottomSheetDepartment.current.close();
       }}>
       <View style={styles.renderItem}>
@@ -113,18 +126,25 @@ export default function Auth() {
           style={[
             TYPOGRAPHY.H5Regular,
             {
-              color: item.name == department ? '#001A43' : '#909090',
+              color:
+                languageCode == "tr" ?
+                  item.tr == department ? '#001A43' : '#909090'
+                  : item.en == department ? '#001A43' : '#909090',
               margin: 10,
               marginRight: 20,
               flex: 1,
             },
           ]}>
-          {item.name}
+          {languageCode == "tr" ?
+            item.tr : item.en}
         </Text>
         <Check
           width={24}
           height={24}
-          color={item.name == department ? '#0AD4EE' : '#EBEBEB'}
+          color={languageCode == "tr" ?
+            item.tr == department ? '#0AD4EE' : '#EBEBEB' :
+            item.en == department ? '#0AD4EE' : '#EBEBEB'
+          }
         />
       </View>
     </TouchableOpacity>
@@ -159,7 +179,7 @@ export default function Auth() {
           <FlatList
             data={currentDepartments}
             renderItem={renderItemDepartment}
-            keyExtractor={item => item.name}
+            keyExtractor={item => item.code}
           />
         </BottomSheet>
         <KeyboardAvoidingView>
@@ -173,8 +193,7 @@ export default function Auth() {
                   styles.input,
                   {
                     borderColor: borderColor,
-                    color: colors.text,
-
+                    color: '#001A43',
                   },
                 ]}
                 placeholder={strings.urUsername}
@@ -185,7 +204,7 @@ export default function Auth() {
                 onFocus={() => setBorderColor('#00112b')}
                 edit={true}
                 text={username}
-                textAlign="center"
+
               />
 
               <Text style={styles.fieldText}>{strings.mustFaculty}</Text>
@@ -196,7 +215,7 @@ export default function Auth() {
                   Keyboard.dismiss();
                 }}>
                 <View style={styles.departmentArea}>
-                  <Text numberOfLines={2} style={styles.departmentInnerText}>
+                  <Text numberOfLines={1} style={styles.departmentInnerText}>
                     {faculty ? faculty : strings.selectFaculty}
                   </Text>
                   <ChevronDown height={24} width={24} color={'#001A43'} />
@@ -212,7 +231,7 @@ export default function Auth() {
                   Keyboard.dismiss();
                 }}>
                 <View style={styles.departmentArea}>
-                  <Text numberOfLines={2} style={styles.departmentInnerText}>
+                  <Text numberOfLines={1} style={styles.departmentInnerText}>
                     {department ? department : strings.selectDepartment}
                   </Text>
                   <ChevronDown height={24} width={24} color={'#001A43'} />
@@ -240,7 +259,7 @@ export default function Auth() {
               style={[
                 styles.startButton,
                 { borderColor: isValid ? '#0AD4EE' : '#EBEBEB' },
-                isValid && {
+                Platform.OS != 'android' && isValid && {
                   shadowColor: '#0AD4EE',
                   shadowOffset: {
                     width: 0,
@@ -315,6 +334,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 32,
     paddingVertical: 20,
+    textAlign: "center"
   },
   departmentArea: {
     flexDirection: 'row',

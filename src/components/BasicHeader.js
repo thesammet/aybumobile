@@ -42,11 +42,13 @@ const BasicHeader = ({
       <Text style={[styles.headerText, styles.dateText, textStyle]}>
         {text}
       </Text>
-      {type === 'isThree' && (
-        <Text style={[styles.headerText, styles.dayText]}>
-          {getMeaningfulDayNames(getDayName(text))}
-        </Text>
-      )}
+      {type === 'isThree' &&
+        (
+          <Text style={[styles.headerText, styles.dayText]}>
+            {getMeaningfulDayNames(getDayName(text))}
+          </Text>
+        )}
+      {type === 'postComments' && <View style={{ flex: 1 }} />}
     </View>
   );
 };
@@ -56,7 +58,6 @@ export default BasicHeader;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    //justifyContent: 'space-between',
     alignItems: 'flex-end',
     paddingHorizontal: 24,
     paddingBottom: 20,

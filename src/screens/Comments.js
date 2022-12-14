@@ -67,7 +67,6 @@ const Comments = ({ route, navigation }) => {
       if (response.error) {
         errorMessage(strings.commentCouldntSend);
       } else {
-        console.log("rr: ", response?.data)
         setComments([...comments, ...response?.data]); // push state
         setPage(page + 1);
       }
@@ -79,14 +78,13 @@ const Comments = ({ route, navigation }) => {
   };
 
   const getMoreFoodComments = async () => {
-    console.log("moreeee")
     setLoading(true);
     try {
       let response = await getSingleFoodComment(token, item?.meal?._id, page, 6);
       if (response.error) {
         errorMessage(strings.commentCouldntSend);
       } else {
-        
+
         setComments([...comments, ...response?.data]); // push state
         setPage(page + 1); // increase page
         // setComments(response?.data);
@@ -117,11 +115,9 @@ const Comments = ({ route, navigation }) => {
   const deleteUserComment = async (id) => {
     try {
       let response = await deleteComment(token, id, item?.meal?._id);
-      console.log("delete response: ", response);
       successMessage('Yorum silindi.');
       getFoodComments();
     } catch (error) {
-      console.log("Delete Comment Error: ", error);
       errorMessage('Yorum silinemedi.');
     }
   };

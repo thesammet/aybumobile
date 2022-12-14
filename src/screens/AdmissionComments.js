@@ -26,11 +26,11 @@ import { deletePostAdmin, getAllPosts, postSend } from '../api/aybu-social/post'
 import { getAllCommentsByPost, postCommentSend } from '../api/aybu-social/post_comment';
 
 
-const AdmissionComments = ({ route, navigation,deleteUserAdmissionComment }) => {
+const AdmissionComments = ({ route, navigation, deleteUserAdmissionComment }) => {
   const { colors } = useTheme();
 
   const { token } = useContext(AuthContext);
-  const {admission} = route.params;
+  const { admission } = route.params;
 
   const [admissionComments, setAdmissionComments] = useState([]);
   const [admissionComment, onChangeAdmissionComment] = useState('');
@@ -53,7 +53,7 @@ const AdmissionComments = ({ route, navigation,deleteUserAdmissionComment }) => 
   //     setAdmissionComments([...admissionComments]);
   //   }
   // }, [admissionComments])
-  
+
 
   const initAdmissions = () => {
     setLoading(true);
@@ -72,7 +72,7 @@ const AdmissionComments = ({ route, navigation,deleteUserAdmissionComment }) => 
 
   const getAdmissionComments = async (givenPage) => {
     try {
-      let response = await getAllCommentsByPost(token, admission?.post?._id ,givenPage, 6);
+      let response = await getAllCommentsByPost(token, admission?.post?._id, givenPage, 6);
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
@@ -89,7 +89,7 @@ const AdmissionComments = ({ route, navigation,deleteUserAdmissionComment }) => 
 
   const getAdmissionCommentsAfter = async (givenPage) => {
     try {
-      let response = await getAllCommentsByPost(token, admission?.post?._id ,givenPage, 6);
+      let response = await getAllCommentsByPost(token, admission?.post?._id, givenPage, 6);
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
@@ -107,7 +107,7 @@ const AdmissionComments = ({ route, navigation,deleteUserAdmissionComment }) => 
   const getMoreAdmissionComments = async () => {
     setLoading(true);
     try {
-      let response = await getAllCommentsByPost(token,admission?.post?._id, page, 6);
+      let response = await getAllCommentsByPost(token, admission?.post?._id, page, 6);
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
@@ -160,9 +160,9 @@ const AdmissionComments = ({ route, navigation,deleteUserAdmissionComment }) => 
       }}
       keyboardVerticalOffset={20}>
       <BasicHeader
-        text="İtiraf Yorumu"
+        text={strings.postComments}
         navigation={navigation}
-        type="isThree"
+        type="postComments"
       />
       {loading && <Loading />}
       {!loading && admissionComments?.length == 0 ? (

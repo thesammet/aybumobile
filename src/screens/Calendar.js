@@ -37,7 +37,6 @@ const Calendar = () => {
     if (response.error) {
       setAcademicData(null);
     } else {
-      console.log(response)
       setAcademicData(response.data);
     }
     setLoading(false);
@@ -46,9 +45,6 @@ const Calendar = () => {
   useEffect(() => {
     getAcademicMethod();
   }, []);
-  useEffect(() => {
-    console.log(uri)
-  }, [uri]);
 
   return (
     <View style={[styles.container,
