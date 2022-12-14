@@ -5,6 +5,8 @@ platform :ios, '12.4'
 install! 'cocoapods', :deterministic_uuids => false
 
 target 'aybumobile' do
+  #config = use_frameworks! :linkage => :static
+  #$RNFirebaseAsStaticFramework = true
   config = use_native_modules!
 
   # Flags change depending on the env values.
