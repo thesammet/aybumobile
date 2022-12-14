@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "956387631337",
+    "project_id": "aybumobile",
+    "storage_bucket": "aybumobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956387631337:android:8735b1cfb4768a1cc1d078",
+        "android_client_info": {
+          "package_name": "com.aybumobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "956387631337-aseh5s62ove3mua1hhajpbg8464tv957.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aybumobile",
+            "certificate_hash": "cc576360f1d93a674c6e357937e44c756b32071d"
+          }
+        },
+        {
+          "client_id": "956387631337-11e8i73p7o2fc83m8fqt8pueiea0ap8b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYhSSJ2wTwNUSi3iuXSNdSO7Y76bIsgk0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "956387631337-11e8i73p7o2fc83m8fqt8pueiea0ap8b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
