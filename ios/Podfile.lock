@@ -428,6 +428,8 @@ PODS:
     - React-Core
   - RNGestureHandler (2.7.1):
     - React-Core
+  - RNLocalize (2.2.4):
+    - React-Core
   - RNReanimated (2.11.0):
     - DoubleConversion
     - FBLazyVector
@@ -536,6 +538,7 @@ DEPENDENCIES:
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNLocalize (from `../node_modules/react-native-localize`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -660,6 +663,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNLocalize:
+    :path: "../node_modules/react-native-localize"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -738,6 +743,7 @@ SPEC CHECKSUMS:
   RNDeviceInfo: c31137f22ee779fe3931d1a8d60cc1af80ef4077
   RNFBApp: 729c0666395b1953198dc4a1ec6deb8fbe1c302e
   RNGestureHandler: b7a872907ee289ada902127f2554fa1d2c076122
+  RNLocalize: 0df7970cfc60389f00eb62fd7c097dc75af3fb4f
   RNReanimated: e5fa0ea421d3874b25165cfeecd72db2b62e02ca
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
