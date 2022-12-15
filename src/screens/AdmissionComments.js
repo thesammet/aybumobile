@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, {useState, useEffect, useCallback, useContext} from 'react';
 import {
   View,
   Text,
@@ -12,31 +12,37 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-import { deleteComment, getSingleFoodComment, postComment } from '../api/comment';
+import {useTheme} from '@react-navigation/native';
+import {deleteComment, getSingleFoodComment, postComment} from '../api/comment';
 import BasicHeader from '../components/BasicHeader';
 import Comment from '../components/Comment';
-import { Send } from '../components/icons';
+import {Send} from '../components/icons';
 import Loading from '../components/Loading';
-import { AuthContext } from '../context/Auth';
-import { errorMessage, successMessage } from '../utils/showToast';
-import { strings } from '../constants/localization';
+import {AuthContext} from '../context/Auth';
+import {errorMessage, successMessage} from '../utils/showToast';
+import {strings} from '../constants/localization';
 import Admission from '../components/Admission';
-import { deletePostAdmin, getAllPosts, postSend } from '../api/aybu-social/post';
-import { getAllCommentsByPost, postCommentSend } from '../api/aybu-social/post_comment';
+import {deletePostAdmin, getAllPosts, postSend} from '../api/aybu-social/post';
+import {
+  getAllCommentsByPost,
+  postCommentSend,
+} from '../api/aybu-social/post_comment';
 
+const AdmissionComments = ({route, navigation, deleteUserAdmissionComment}) => {
+  const {colors} = useTheme();
 
-const AdmissionComments = ({ route, navigation, deleteUserAdmissionComment }) => {
-  const { colors } = useTheme();
-
-  const { token } = useContext(AuthContext);
-  const { admission } = route.params;
+  const {token} = useContext(AuthContext);
+  const {admission} = route.params;
 
   const [admissionComments, setAdmissionComments] = useState([]);
   const [admissionComment, onChangeAdmissionComment] = useState('');
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(0);
+  const [
+    onEndReachedCalledDuringMomentum,
+    setOnEndReachedCalledDuringMomentum,
+  ] = useState(false);
 
   useEffect(() => {
     initAdmissions();
@@ -54,11 +60,10 @@ const AdmissionComments = ({ route, navigation, deleteUserAdmissionComment }) =>
   //   }
   // }, [admissionComments])
 
-
   const initAdmissions = () => {
     setLoading(true);
     getAdmissionComments(0);
-  }
+  };
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -68,16 +73,21 @@ const AdmissionComments = ({ route, navigation, deleteUserAdmissionComment }) =>
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
-  }
+  };
 
-  const getAdmissionComments = async (givenPage) => {
+  const getAdmissionComments = async givenPage => {
     try {
-      let response = await getAllCommentsByPost(token, admission?.post?._id, givenPage, 6);
+      let response = await getAllCommentsByPost(
+        token,
+        admission?.post?._id,
+        givenPage,
+        6,
+      );
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
-        console.log("rr: ", response?.data)
-        setAdmissionComments([...admissionComments, ...response?.data]); // push state
+        console.log('rr: ', response?.data);
+        setAdmissionComments([...response?.data]); // push state
         setPage(page + 1);
       }
     } catch (error) {
@@ -87,14 +97,19 @@ const AdmissionComments = ({ route, navigation, deleteUserAdmissionComment }) =>
     }
   };
 
-  const getAdmissionCommentsAfter = async (givenPage) => {
+  const getAdmissionCommentsAfter = async givenPage => {
     try {
-      let response = await getAllCommentsByPost(token, admission?.post?._id, givenPage, 6);
+      let response = await getAllCommentsByPost(
+        token,
+        admission?.post?._id,
+        givenPage,
+        6,
+      );
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
-        console.log("rr: ", response?.data)
-        setAdmissionComments([...response?.data, ...admissionComments]); // push state
+        console.log('rr: ', response?.data);
+        setAdmissionComments([...response?.data]); // push state
         setPage(page + 1);
       }
     } catch (error) {
@@ -107,7 +122,12 @@ const AdmissionComments = ({ route, navigation, deleteUserAdmissionComment }) =>
   const getMoreAdmissionComments = async () => {
     setLoading(true);
     try {
-      let response = await getAllCommentsByPost(token, admission?.post?._id, page, 6);
+      let response = await getAllCommentsByPost(
+        token,
+        admission?.post?._id,
+        page,
+        6,
+      );
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
@@ -119,12 +139,16 @@ const AdmissionComments = ({ route, navigation, deleteUserAdmissionComment }) =>
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const sendAdmissionComment = async () => {
     setLoading(true);
     try {
-      let response = await postCommentSend(token, admissionComment, admission?.post?._id);
+      let response = await postCommentSend(
+        token,
+        admissionComment,
+        admission?.post?._id,
+      );
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
@@ -139,14 +163,14 @@ const AdmissionComments = ({ route, navigation, deleteUserAdmissionComment }) =>
     }
   };
 
-  const deleteUserAdmission = async (id) => {
+  const deleteUserAdmission = async id => {
     try {
       let response = await deletePostAdmin(token, id);
-      console.log("delete response: ", response);
+      console.log('delete response: ', response);
       successMessage('İtiraf silindi.');
       getAdmissionComments(0);
     } catch (error) {
-      console.log("Delete Admission Error: ", error);
+      console.log('Delete Admission Error: ', error);
       errorMessage('İtiraf silinemedi.');
     }
   };
@@ -166,7 +190,7 @@ const AdmissionComments = ({ route, navigation, deleteUserAdmissionComment }) =>
       />
       {loading && <Loading />}
       {!loading && admissionComments?.length == 0 ? (
-        <Text style={[styles.noComment, { color: colors.noCommentText }]}>
+        <Text style={[styles.noComment, {color: colors.noCommentText}]}>
           {strings.noAdmission1 + '\n' + strings.noAdmission2}
         </Text>
       ) : (
@@ -179,24 +203,37 @@ const AdmissionComments = ({ route, navigation, deleteUserAdmissionComment }) =>
             paddingTop: 24,
             paddingBottom: 72,
           }}
-          ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
+          ItemSeparatorComponent={() => <View style={{height: 24}} />}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          renderItem={({ item }) => <Admission type="inside" navigation={navigation} admission={item} deleteUserAdmissionComment={(id) => deleteUserAdmissionComment(id)} />}
-          onEndReachedThreshold={0.2}
-          onEndReached={getMoreAdmissionComments}
+          renderItem={({item}) => (
+            <Admission
+              type="inside"
+              navigation={navigation}
+              admission={item}
+              deleteUserAdmissionComment={id => deleteUserAdmissionComment(id)}
+            />
+          )}
+          onEndReachedThreshold={0.001}
+          onEndReached={() => {
+            onEndReachedCalledDuringMomentum && getMoreAdmissionComments();
+            setOnEndReachedCalledDuringMomentum(false);
+          }}
+          onMomentumScrollBegin={() => {
+            setOnEndReachedCalledDuringMomentum(true);
+          }}
         />
       )}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           <View
             style={[
               styles.commentInputContainer,
-              { backgroundColor: colors.commentInputBg },
+              {backgroundColor: colors.commentInputBg},
             ]}>
             <TextInput
-              style={[styles.commentInput, { color: colors.commentInputText }]}
+              style={[styles.commentInput, {color: colors.commentInputText}]}
               onChangeText={onChangeAdmissionComment}
               value={admissionComment}
               multiline={true}
@@ -206,7 +243,9 @@ const AdmissionComments = ({ route, navigation, deleteUserAdmissionComment }) =>
               placeholderTextColor={colors.placeholderText}
               keyboardType="default"
             />
-            <TouchableOpacity onPress={() => sendAdmissionComment()} activeOpacity={0.8}>
+            <TouchableOpacity
+              onPress={() => sendAdmissionComment()}
+              activeOpacity={0.8}>
               <Send width="24" height="24" color={colors.sendIcon} />
             </TouchableOpacity>
           </View>

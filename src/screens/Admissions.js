@@ -25,46 +25,6 @@ import Admission from '../components/Admission';
 import {deletePostAdmin, getAllPosts, postSend} from '../api/aybu-social/post';
 import LoadingMore from '../components/LoadingMore';
 
-/*
-[
-    {
-      id:1,
-      username: 'Admission 1',
-      userRole:"User",
-      createdAt: '01.01.2021',
-      admission:"lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc vel tincidunt lacinia.",
-      isLike: false,
-      likeCount: 0,
-    },
-    {
-      id:2,
-      username: 'Admission 2',
-      userRole:"User",
-      createdAt: '01.01.2021',
-      admission:"lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc vel tincidunt lacinia.",
-      isLike: true,
-      likeCount: 1,
-    },
-    {
-      id:3,
-      username: 'Admission 3',
-      userRole:"User",
-      createdAt: '01.01.2021',
-      admission:"lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc vel tincidunt lacinia.",
-      isLike: true,
-      likeCount: 1,
-    },
-    {
-      id:4,
-      username: 'Admission 4',
-      userRole:"User",
-      createdAt: '01.01.2021',
-      admission:"lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc vel tincidunt lacinia.",
-      isLike: false,
-      likeCount: 1,
-    },
-  ]
-*/
 
 const Admissions = ({route, navigation}) => {
   const {colors} = useTheme();
@@ -104,7 +64,7 @@ const Admissions = ({route, navigation}) => {
         errorMessage(strings.admissionCouldntSend);
       } else {
         console.log('rr: ', response?.data);
-        setAdmissions([...admissions, ...response?.data]); // push state
+        setAdmissions([...response?.data]); // push state
         // push first
         setPage(page + 1);
       }
@@ -122,7 +82,7 @@ const Admissions = ({route, navigation}) => {
         errorMessage(strings.admissionCouldntSend);
       } else {
         console.log('rr: ', response?.data);
-        setAdmissions([...response?.data, ...admissions]); // push state
+        setAdmissions([...response?.data]); // push state
         // push first
         setPage(page + 1);
       }
