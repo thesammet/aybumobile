@@ -25,7 +25,6 @@ import Admission from '../components/Admission';
 import {deletePostAdmin, getAllPosts, postSend} from '../api/aybu-social/post';
 import LoadingMore from '../components/LoadingMore';
 
-
 const Admissions = ({route, navigation}) => {
   const {colors} = useTheme();
 
@@ -81,7 +80,6 @@ const Admissions = ({route, navigation}) => {
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
-        console.log('rr: ', response?.data);
         setAdmissions([...response?.data]); // push state
         // push first
         setPage(page + 1);
@@ -94,7 +92,6 @@ const Admissions = ({route, navigation}) => {
   };
 
   const getMoreAdmissions = async () => {
-    console.log('moreeee');
     setLoadingMore(true);
     try {
       let response = await getAllPosts(token, page, 6);

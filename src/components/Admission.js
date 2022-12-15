@@ -69,9 +69,8 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
         4,
       );
       if (response.error) {
-        console.log('getAdmissionComment: ', response);
+        console.log('getAdmissionComment error: ', response);
       } else {
-        console.log('getAdmissionComment: ', response);
         setPostComments([...postComments, ...response?.data]);
       }
     } catch (error) {
