@@ -41,7 +41,7 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
   const [page, setPage] = useState(0);
 
   useEffect(() => {
-    console.log('aa: ', admission);
+    console.log('admission: ', admission.ratingStatus);
     getAdmissionComments();
   }, []);
 
@@ -110,6 +110,7 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
           console.log("ratePostCommentinside: ", response);
           errorMessage('Reaksiyon iletilemedi.');
         } else {
+          console.log("ratePostCommentinside: ", response);
         }
       } else {
         let response = await ratePost(token, admission?.post?._id);
@@ -117,6 +118,7 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
           console.log("ratePostComment: ", response);
           errorMessage('Reaksiyon iletilemedi.');
         } else {
+          console.log("ratePostComment: ", response);
         }
       }
 
