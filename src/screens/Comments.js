@@ -35,31 +35,23 @@ const Comments = ({ route, navigation }) => {
   const [page, setPage] = useState(0);
 
   useEffect(() => {
-    setLoading(true);
-    getFoodComments();
+    initComments();
   }, []);
+
+  const initComments = () => {
+    setLoading(true);
+    getCommentsAfter(0);
+  }
 
   const onRefresh = () => {
     setRefreshing(true);
     Keyboard.dismiss();
     onChangeComment('');
-    getFoodComments();
+    getCommentsAfter(0);
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
   }
-
-  /*
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    Keyboard.dismiss();
-    onChangeComment('');
-    getFoodComments();
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 1000);
-  }, []);
-  */
 
   const getFoodComments = async () => {
     try {
@@ -67,7 +59,23 @@ const Comments = ({ route, navigation }) => {
       if (response.error) {
         errorMessage(strings.commentCouldntSend);
       } else {
-        setComments([...comments, ...response?.data]); // push state
+        setComments([...response?.data]); // push state
+        setPage(page + 1);
+      }
+    } catch (error) {
+      errorMessage(strings.commentCouldntSend);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getCommentsAfter = async givenPage => {
+    try {
+      let response = await getSingleFoodComment(token, item?.meal?._id, givenPage, 6);
+      if (response.error) {
+        errorMessage(strings.commentCouldntSend);
+      } else {
+        setComments([...response?.data]); // push state
         setPage(page + 1);
       }
     } catch (error) {
@@ -84,7 +92,6 @@ const Comments = ({ route, navigation }) => {
       if (response.error) {
         errorMessage(strings.commentCouldntSend);
       } else {
-
         setComments([...comments, ...response?.data]); // push state
         setPage(page + 1); // increase page
         // setComments(response?.data);
@@ -103,7 +110,9 @@ const Comments = ({ route, navigation }) => {
       if (response.error) {
         errorMessage(strings.commentCouldntSend);
       } else {
-        onRefresh();
+        successMessage(strings.commentsent);
+        onChangeComment('');
+        getCommentsAfter(0);
       }
     } catch (error) {
       errorMessage(strings.commentCouldntSend);
@@ -116,7 +125,7 @@ const Comments = ({ route, navigation }) => {
     try {
       let response = await deleteComment(token, id, item?.meal?._id);
       successMessage('Yorum silindi.');
-      getFoodComments();
+      getCommentsAfter(0);
     } catch (error) {
       errorMessage('Yorum silinemedi.');
     }

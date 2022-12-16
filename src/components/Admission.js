@@ -41,9 +41,13 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
   const [page, setPage] = useState(0);
 
   useEffect(() => {
-    console.log('admission: ', admission.ratingStatus);
     getAdmissionComments();
   }, []);
+
+  useEffect(() => {
+    console.log('cccc: ',  admission?.post?.commentCount,);
+  }, [])
+  
 
   useEffect(() => {
     if (isFirstRun.current) {
@@ -104,12 +108,13 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
     setLikeStatus(!likeStatus);
     try {
       if(type === "inside") {
+        console.log("inside: ", admission?.post.post, admission?.post?._id)
         let response = await ratePostComment(token, admission?.post.post, admission?.post?._id);
         if (response.error) {
-          console.log("ratePostCommentinside: ", response);
+          console.log("ratePostCommentinside error: ", response);
           errorMessage('Reaksiyon iletilemedi.');
         } else {
-          console.log("ratePostCommentinside: ", response);
+          //console.log("ratePostCommentinside: ", response);
         }
       } else {
         let response = await ratePost(token, admission?.post?._id);
