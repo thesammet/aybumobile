@@ -24,6 +24,7 @@ import {strings} from '../constants/localization';
 import Admission from '../components/Admission';
 import {deletePostAdmin, getAllPosts, postSend} from '../api/aybu-social/post';
 import {
+  deleteSocialPostCommentAdmin,
   getAllCommentsByPost,
   postCommentSend,
 } from '../api/aybu-social/post_comment';
@@ -164,6 +165,8 @@ const AdmissionComments = ({route, navigation}) => {
   };
 
   const deleteUserAdmissionComment = async (postId, commentId) => {
+    console.log("postId: ", postId)
+    console.log("commentId: ", commentId)
     try {
       let response = await deleteSocialPostCommentAdmin(token, postId, commentId);
       console.log('delete response: ', response);
@@ -212,7 +215,7 @@ const AdmissionComments = ({route, navigation}) => {
               type="inside"
               navigation={navigation}
               admission={item}
-              deleteUserAdmission={id => deleteUserAdmissionComment(id)}
+              deleteUserAdmission={(postId,id) => deleteUserAdmissionComment(postId, id)}
             />
           )}
           onEndReachedThreshold={0.001}
