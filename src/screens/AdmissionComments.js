@@ -28,7 +28,7 @@ import {
   postCommentSend,
 } from '../api/aybu-social/post_comment';
 
-const AdmissionComments = ({route, navigation, deleteUserAdmissionComment}) => {
+const AdmissionComments = ({route, navigation}) => {
   const {colors} = useTheme();
 
   const {token} = useContext(AuthContext);
@@ -163,9 +163,9 @@ const AdmissionComments = ({route, navigation, deleteUserAdmissionComment}) => {
     }
   };
 
-  const deleteUserAdmission = async id => {
+  const deleteUserAdmissionComment = async (postId, commentId) => {
     try {
-      let response = await deletePostAdmin(token, id);
+      let response = await deleteSocialPostCommentAdmin(token, postId, commentId);
       console.log('delete response: ', response);
       successMessage('İtiraf silindi.');
       getAdmissionComments(0);
@@ -212,7 +212,7 @@ const AdmissionComments = ({route, navigation, deleteUserAdmissionComment}) => {
               type="inside"
               navigation={navigation}
               admission={item}
-              deleteUserAdmissionComment={id => deleteUserAdmissionComment(id)}
+              deleteUserAdmission={id => deleteUserAdmissionComment(id)}
             />
           )}
           onEndReachedThreshold={0.001}

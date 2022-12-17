@@ -18,7 +18,10 @@ import AppText from '../components/AppText';
 import {ProfileContext} from '../context/Profile';
 import AyButton from './AyButton';
 import {ratePost} from '../api/aybu-social/post';
-import {getAllCommentsByPost, ratePostComment} from '../api/aybu-social/post_comment';
+import {
+  getAllCommentsByPost,
+  ratePostComment,
+} from '../api/aybu-social/post_comment';
 
 const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
   const {colors} = useTheme();
@@ -43,11 +46,6 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
   useEffect(() => {
     getAdmissionComments();
   }, []);
-
-  useEffect(() => {
-    console.log('cccc: ',  admission?.post?.commentCount,);
-  }, [])
-  
 
   useEffect(() => {
     if (isFirstRun.current) {
@@ -107,11 +105,15 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
     likeStatus ? setLikeCount(likeCount - 1) : setLikeCount(likeCount + 1);
     setLikeStatus(!likeStatus);
     try {
-      if(type === "inside") {
-        console.log("inside: ", admission?.post.post, admission?.post?._id)
-        let response = await ratePostComment(token, admission?.post.post, admission?.post?._id);
+      if (type === 'inside') {
+        console.log('inside: ', admission?.post.post, admission?.post?._id);
+        let response = await ratePostComment(
+          token,
+          admission?.post.post,
+          admission?.post?._id,
+        );
         if (response.error) {
-          console.log("ratePostCommentinside error: ", response);
+          console.log('ratePostCommentinside error: ', response);
           errorMessage('Reaksiyon iletilemedi.');
         } else {
           //console.log("ratePostCommentinside: ", response);
@@ -119,13 +121,12 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
       } else {
         let response = await ratePost(token, admission?.post?._id);
         if (response.error) {
-          console.log("ratePostComment: ", response);
+          console.log('ratePostComment: ', response);
           errorMessage('Reaksiyon iletilemedi.');
         } else {
-          console.log("ratePostComment: ", response);
+          console.log('ratePostComment: ', response);
         }
       }
-
     } catch (error) {
       errorMessage('Reaksiyon iletilemedi.');
       console.log(error);
@@ -138,6 +139,15 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
 
   const pressedAdmissionComment = () => {
     navigation.navigate('AdmissionComments', {admission: admission});
+  };
+
+  const deleteAdmission = () => {
+    if(type === 'inside'){
+      deleteUserAdmission(admission?.post.post, admission?.post?._id)
+    } else {
+      deleteUserAdmission(admission?.post?._id);
+    }
+    setModalVisible(false);
   };
 
   return (
@@ -169,7 +179,9 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
                 paddingVertical: 8,
                 borderRadius: 8,
               }}
-              onPress={() => deleteUserAdmission(admission?.post?._id)}>
+              onPress={() => {
+                deleteAdmission();
+              }}>
               <Text style={{color: colors.text}}>DELETE</Text>
             </TouchableOpacity>
           </View>
