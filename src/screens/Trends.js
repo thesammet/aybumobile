@@ -46,7 +46,7 @@ const Trends = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <BasicHeader
-        style={{ backgroundColor: '#FFCA09' }}
+        style={{ backgroundColor: '#0AD4EE' }}
         navigation={navigation}
         text={strings.trends}
         textStyle={{ fontWeight: 'bold', fontSize: 18 }}

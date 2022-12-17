@@ -64,7 +64,6 @@ export default function ProfileEdit({ navigation }) {
   useEffect(() => {
     for (let i = 0; i < sections.length; i++) {
       if (languageCode == 'tr' ? sections[i].faculty.tr : sections[i].faculty.en == facultyVal) {
-        console.log("oldu:" + sections[i].departments)
         setCurrentdepartment(sections[i].departments);
       }
     }
