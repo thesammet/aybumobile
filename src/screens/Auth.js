@@ -85,7 +85,10 @@ export default function Auth() {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
-        setFaculty(item.faculty);
+        setFaculty(
+          languageCode == "tr"
+            ? item.faculty.tr
+            : item.faculty.en);
         bottomSheetFaculty.current.close();
         setCurrentDepartments(item.departments);
         setDepartment(null);
@@ -95,18 +98,26 @@ export default function Auth() {
           style={[
             TYPOGRAPHY.H5Regular,
             {
-              color: item.faculty == faculty ? '#001A43' : '#909090',
+              color:
+                languageCode == "tr" ?
+                  item.faculty.tr == faculty ? '#001A43' : '#909090'
+                  : item.faculty.en == faculty ? '#001A43' : '#909090',
               margin: 10,
               marginRight: 20,
               flex: 1,
             },
           ]}>
-          {item.faculty}
+          {languageCode == "tr"
+            ? item.faculty.tr
+            : item.faculty.en}
         </Text>
         <Check
           width={24}
           height={24}
-          color={item.faculty == faculty ? '#0AD4EE' : '#EBEBEB'}
+          color={
+            languageCode == "tr" ?
+              item.faculty.tr == faculty ? '#0AD4EE' : '#EBEBEB'
+              : item.faculty.en == faculty ? '#0AD4EE' : '#EBEBEB'}
         />
       </View>
     </TouchableOpacity>
@@ -165,7 +176,10 @@ export default function Auth() {
           <FlatList
             data={sections}
             renderItem={renderItem}
-            keyExtractor={item => item.faculty}
+            keyExtractor={item =>
+              languageCode == "tr"
+                ? item.faculty.tr
+                : item.faculty.en}
           />
         </BottomSheet>
         <BottomSheet

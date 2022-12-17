@@ -1,6 +1,9 @@
 export const sections = [
     {
-        "faculty": "Mühendislik ve Doğa Bilimleri Fakültesi",
+        "faculty": {
+            "tr": "Mühendislik ve Doğa Bilimleri Fakültesi",
+            "en": "Faculty of Engineering and Natural Sciences",
+        },
         "departments": [
             { "tr": "Bilgisayar Mühendisliği", "en": "Computer Engineering", "code": "Bilgisayar Mühendisliği" },
             { "tr": "Elektrik-Elektronik Mühendisliği", "en": "Electrical-Electronics Engineering", "code": "Elektrik-Elektronik Mühendisliği" },
@@ -14,25 +17,37 @@ export const sections = [
         ]
     },
     {
-        "faculty": "Diş Hekimliği Fakültesi",
+        "faculty": {
+            "tr": "Diş Hekimliği Fakültesi",
+            "en": "Faculty of Dentistry",
+        },
         "departments": [
             { "tr": "Diş Hekimliği", "en": "Dentistry", "code": "Diş Hekimliği" },
         ]
     },
     {
-        "faculty": "Havacılık ve Uzay Bilimleri Fakültesi",
+        "faculty": {
+            "tr": "Havacılık ve Uzay Bilimleri Fakültesi",
+            "en": "Faculty of Aeronautics and Astronautics",
+        },
         "departments": [
             { "tr": "Havacılık ve Uzay Mühendisliği", "en": "Aerospace Engineering", "code": "Havacılık ve Uzay Mühendisliği" },
         ]
     },
     {
-        "faculty": "Hukuk Fakültesi",
+        "faculty": {
+            "tr": "Hukuk Fakültesi",
+            "en": "Faculty of Law",
+        },
         "departments": [
             { "tr": "Hukuk", "en": "Law", "code": "Hukuk" },
         ]
     },
     {
-        "faculty": "İnsan ve Toplum Bilimleri Fakültesi",
+        "faculty": {
+            "tr": "İnsan ve Toplum Bilimleri Fakültesi",
+            "en": "Faculty of Humanities and Social Sciences",
+        },
         "departments": [
             { "tr": "Bilgi ve Belge Yönetimi Bölümü", "en": "Information and Document Management Department", "code": "Bilgi ve Belge Yönetimi Bölümü" },
             { "tr": "Doğu Dilleri ve Edebiyatları Bölümü", "en": "Eastern Languages and Literatures", "code": "Doğu Dilleri ve Edebiyatları Bölümü" },
@@ -47,7 +62,10 @@ export const sections = [
         ]
     },
     {
-        "faculty": "İslami İlimler Fakültesi",
+        "faculty": {
+            "tr": "İslami İlimler Fakültesi",
+            "en": "Faculty of Islamic Sciences",
+        },
         "departments": [
             { "tr": "Temel İslam Bilimleri Bölümü", "en": "Basic Islamic Sciences", "code": "Temel İslam Bilimleri Bölümü" },
             { "tr": "Felsefe ve Din Bilimleri Bölümü", "en": "Philosophy and Religious Sciences", "code": "Felsefe ve Din Bilimleri Bölümü" },
@@ -55,7 +73,10 @@ export const sections = [
         ]
     },
     {
-        "faculty": "İşletme Fakültesi",
+        "faculty": {
+            "tr": "İşletme Fakültesi",
+            "en": "Faculty of Management",
+        },
         "departments": [
             { "tr": "Finans ve Bankacılık", "en": "Finance and Banking", "code": "Finans ve Bankacılık" },
             { "tr": "İşletme", "en": "Business", "code": "İşletme" },
@@ -64,7 +85,10 @@ export const sections = [
         ]
     },
     {
-        "faculty": "Mimarlık ve Güzel Sanatlar Fakültesi",
+        "faculty": {
+            "tr": "Mimarlık ve Güzel Sanatlar Fakültesi",
+            "en": "Faculty of Architecture and Fine Arts",
+        },
         "departments": [
             { "tr": "Mimarlık", "en": "Architecture", "code": "Mimarlık" },
             { "tr": "Görsel İletişim Tasarımı", "en": "Visual Communication Design", "code": "Görsel İletişim Tasarımı" },
@@ -72,7 +96,10 @@ export const sections = [
         ]
     },
     {
-        "faculty": "Sağlık Bilimleri Fakültesi",
+        "faculty": {
+            "tr": "Mimarlık ve Güzel Sanatlar Fakültesi",
+            "en": "Faculty of Health Sciences",
+        },
         "departments": [
             { "tr": "Beslenme ve Diyetetik", "en": "Nutrition and Dietetics", "code": "Beslenme ve Diyetetik" },
             { "tr": "Çocuk Gelişimi", "en": "Pediatric Development", "code": "Çocuk Gelişimi" },
@@ -85,7 +112,10 @@ export const sections = [
         ]
     },
     {
-        "faculty": "Siyasal Bilgiler Fakültesi",
+        "faculty": {
+            "tr": "Siyasal Bilgiler Fakültesi",
+            "en": "Faculty of Political Sciences",
+        },
         "departments": [
             { "tr": "İktisat Bölümü", "en": "Economics", "code": "İktisat Bölümü" },
             { "tr": "Maliye Bölümü", "en": "Finance", "code": "Maliye Bölümü" },
@@ -94,7 +124,10 @@ export const sections = [
         ]
     },
     {
-        "faculty": "Spor Bilimleri Fakültesi",
+        "faculty": {
+            "tr": "Spor Bilimleri Fakültesi",
+            "en": "Sports Science Faculty",
+        },
         "departments": [
             { "tr": "Antrenörlük Eğitimi Bölümü", "en": "Coaching Education", "code": "Antrenörlük Eğitimi Bölümü" },
             { "tr": "Egzersiz ve Spor Bilimleri Bölümü", "en": "Exercise and Sport Sciences Department", "code": "Egzersiz ve Spor Bilimleri Bölümü" },
@@ -102,20 +135,29 @@ export const sections = [
         ]
     },
     {
-        "faculty": "Şereflikoçhisar Uygulamalı Bilimler Fakültesi",
+        "faculty": {
+            "tr": "Şereflikoçhisar Uygulamalı Bilimler Fakültesi",
+            "en": "Şereflikochisar Faculty of Applied Sciences",
+        },
         "departments": [
             { "tr": "Finans ve Bankacılık", "en": "Finance and Banking", "code": "Finans ve Bankacılık" },
             { "tr": "Uluslararası Ticaret ve Lojistik", "en": "International Trade and Logistics", "code": "Uluslararası Ticaret ve Lojistik" },
         ]
     },
     {
-        "faculty": "Tıp Fakültesi",
+        "faculty": {
+            "tr": "Tıp Fakültesi",
+            "en": "Medical School",
+        },
         "departments": [
             { "tr": "Tıp", "en": "Medicine", "code": "Tıp" },
         ]
     },
     {
-        "faculty": "Türk Musikisi Devlet Konservatuvarı",
+        "faculty": {
+            "tr": "Türk Musikisi Devlet Konservatuvarı",
+            "en": "Turkish Music State Conservatory",
+        },
         "departments": [
             { "tr": "Türk Müziği Bölümü", "en": "Turkish Music Department", "code": "Türk Müziği Bölümü" },
         ]

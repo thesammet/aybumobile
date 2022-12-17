@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
-import { Calendar, Heart, Meal, Profil, Trend, TrendsEmpty, User, HeartEmpty } from './icons';
+import { Calendar, Globe, Meal, Profil, Trend, TrendsEmpty, User, HeartEmpty } from './icons';
 import {
   responsiveWidth as rw,
   responsiveHeight as rh,
@@ -118,7 +118,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
               />
             )}
             {label === 'DepartmentSite' && (
-              <Calendar
+              <Globe
                 width="28"
                 height="28"
                 style={tabButtonDynamicIconStyle(isFocused)}

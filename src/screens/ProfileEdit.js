@@ -63,7 +63,8 @@ export default function ProfileEdit({ navigation }) {
 
   useEffect(() => {
     for (let i = 0; i < sections.length; i++) {
-      if (sections[i].faculty == facultyVal) {
+      if (languageCode == 'tr' ? sections[i].faculty.tr : sections[i].faculty.en == facultyVal) {
+        console.log("oldu:" + sections[i].departments)
         setCurrentdepartment(sections[i].departments);
       }
     }
@@ -100,7 +101,10 @@ export default function ProfileEdit({ navigation }) {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
-        setFacultyVal(item.faculty);
+        setFacultyVal(
+          languageCode == "tr"
+            ? item.faculty.tr
+            : item.faculty.en);
         bottomSheetfacultyVal.current.close();
         setCurrentdepartment(item.departments);
         setDepartmentVal(null);
@@ -110,18 +114,25 @@ export default function ProfileEdit({ navigation }) {
           style={[
             TYPOGRAPHY.H5Regular,
             {
-              color: item.faculty == facultyVal ? '#001A43' : '#909090',
+              color: languageCode == "tr" ?
+                item.faculty.tr == faculty ? '#001A43' : '#909090'
+                : item.faculty.en == faculty ? '#001A43' : '#909090',
               margin: 10,
               marginRight: 20,
               flex: 1,
             },
           ]}>
-          {item.faculty}
+          {languageCode == "tr"
+            ? item.faculty.tr
+            : item.faculty.en}
         </Text>
         <Check
           width={24}
           height={24}
-          color={item.faculty == facultyVal ? '#0AD4EE' : '#EBEBEB'}
+          color={
+            languageCode == "tr" ?
+              item.faculty.tr == faculty ? '#0AD4EE' : '#EBEBEB'
+              : item.faculty.en == faculty ? '#0AD4EE' : '#EBEBEB'}
         />
       </View>
     </TouchableOpacity>
@@ -130,8 +141,9 @@ export default function ProfileEdit({ navigation }) {
   const renderItemdepartmentVal = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
-        setDepartmentVal(languageCode == "tr" ?
-          item.tr : item.en);
+        setDepartmentVal(
+          languageCode == "tr" ?
+            item.tr : item.en);
         setDepartmentCodeVal(item.code)
         bottomSheetdepartmentVal.current.close();
       }}>
@@ -142,8 +154,8 @@ export default function ProfileEdit({ navigation }) {
             {
               color:
                 languageCode == "tr" ?
-                  item.tr == department ? '#001A43' : '#909090'
-                  : item.en == department ? '#001A43' : '#909090',
+                  item.tr == departmentVal ? '#001A43' : '#909090'
+                  : item.en == departmentVal ? '#001A43' : '#909090',
               margin: 10,
               marginRight: 20,
               flex: 1,
@@ -156,8 +168,8 @@ export default function ProfileEdit({ navigation }) {
           width={24}
           height={24}
           color={languageCode == "tr" ?
-            item.tr == department ? '#0AD4EE' : '#EBEBEB' :
-            item.en == department ? '#0AD4EE' : '#EBEBEB'}
+            item.tr == departmentVal ? '#0AD4EE' : '#EBEBEB' :
+            item.en == departmentVal ? '#0AD4EE' : '#EBEBEB'}
         />
       </View>
     </TouchableOpacity>
@@ -184,7 +196,10 @@ export default function ProfileEdit({ navigation }) {
           <FlatList
             data={sections}
             renderItem={renderItem}
-            keyExtractor={item => item.faculty}
+            keyExtractor={item =>
+              languageCode == "tr"
+                ? item.faculty.tr
+                : item.faculty.en}
           />
         </BottomSheet>
         <BottomSheet
@@ -237,7 +252,7 @@ export default function ProfileEdit({ navigation }) {
                     <Text
                       numberOfLines={2}
                       style={styles.departmentValInnerText}>
-                      {facultyVal ? facultyVal : 'Fakülte seçin'}
+                      {facultyVal ? facultyVal : strings.selectFaculty}
                     </Text>
                     <ChevronDown
                       height={24}
@@ -259,7 +274,7 @@ export default function ProfileEdit({ navigation }) {
                     <Text
                       numberOfLines={2}
                       style={styles.departmentValInnerText}>
-                      {departmentVal ? departmentVal : 'Bölüm seçin'}
+                      {departmentVal ? departmentVal : strings.selectDepartment}
                     </Text>
                     <ChevronDown
                       height={24}

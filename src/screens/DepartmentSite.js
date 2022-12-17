@@ -16,12 +16,12 @@ const DepartmentSite = () => {
   const { theme } = useContext(ThemeContext);
   const { colors } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
-  const { department } = useContext(ProfileContext);
+  const { department, departmentCode } = useContext(ProfileContext);
   const [academicData, setAcademicData] = useState([]);
 
   const getAcademicMethod = async () => {
     setIsLoading(true);
-    let response = await getAcademic(token, department);
+    let response = await getAcademic(token, departmentCode);
     if (response.error) {
       setAcademicData(null);
     } else {
