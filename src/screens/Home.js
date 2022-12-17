@@ -44,6 +44,7 @@ const Home = ({ navigation }) => {
     setLoading(true);
     try {
       let response = await getMonthlyFood(token);
+      console.log(JSON.stringify(response))
       if (response.error) {
         errorMessage(strings.anErrorOccured);
       } else {
@@ -65,8 +66,8 @@ const Home = ({ navigation }) => {
       <Header type="inside" />
       <DateBox
         mealLastIndex={meals?.length}
-        firstDate={meals[1]?.meal.date}
-        lastDate={meals[meals?.length - 2]?.meal.date}
+        firstDate={meals[1]?.meal?.date}
+        lastDate={meals[meals?.length - 2]?.meal?.date}
       />
       {loading ? (
         <Loading />

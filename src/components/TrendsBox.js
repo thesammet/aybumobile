@@ -22,8 +22,8 @@ const TrendsBox = ({ title, data, style, navigation, ...props }) => {
       <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
       <FlatList
         data={data}
-        keyExtractor={item => item.meal._id}
-        key={item => item.meal._id}
+        keyExtractor={item => item.meal?._id}
+        key={item => item.meal?._id}
         horizontal
         pagingEnabled={true}
         showsHorizontalScrollIndicator={false}
@@ -36,7 +36,7 @@ const TrendsBox = ({ title, data, style, navigation, ...props }) => {
               alignItems: 'center',
             }}>
             <MealBox
-              key={item.meal._id}
+              key={item.meal?._id}
               item={item}
               index={index}
               navigation={navigation}

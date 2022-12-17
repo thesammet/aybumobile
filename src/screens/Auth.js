@@ -211,6 +211,7 @@ export default function Auth() {
                   },
                 ]}
                 placeholder={strings.urUsername}
+                placeholderTextColor="grey"
                 value={username}
                 onChangeText={value => {
                   setUsername(value);
