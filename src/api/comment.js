@@ -47,7 +47,6 @@ export const commentRating = async (
 };
 
 export const getSingleFoodComment = async (token, food_id, page, limit) => {
-  console.log("tt: ", token)
   try {
     const response = await fetch(`${baseURL}/comment/${food_id}?page=${page}&limit=${limit}`, {
       method: 'GET',

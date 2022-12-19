@@ -11,7 +11,7 @@ import { requestTrackingPermission } from 'react-native-tracking-transparency';
 const iosTrack = async () => {
   const trackingStatus = await requestTrackingPermission();
   if (trackingStatus === 'authorized' || trackingStatus === 'unavailable') {
-    console.log("enable tracking")
+    //todo: enable tracking
   }
 }
 const App = () => {

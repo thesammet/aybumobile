@@ -744,7 +744,7 @@ SPEC CHECKSUMS:
   RNFBApp: 729c0666395b1953198dc4a1ec6deb8fbe1c302e
   RNGestureHandler: b7a872907ee289ada902127f2554fa1d2c076122
   RNLocalize: 0df7970cfc60389f00eb62fd7c097dc75af3fb4f
-  RNReanimated: e5fa0ea421d3874b25165cfeecd72db2b62e02ca
+  RNReanimated: bbacca7792c38aec58175096cee61ad731826127
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
