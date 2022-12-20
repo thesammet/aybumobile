@@ -44,7 +44,6 @@ const Home = ({ navigation }) => {
     setLoading(true);
     try {
       let response = await getMonthlyFood(token);
-      console.log(JSON.stringify(response))
       if (response.error) {
         errorMessage(strings.anErrorOccured);
       } else {
