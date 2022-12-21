@@ -97,7 +97,7 @@ export const sections = [
     },
     {
         "faculty": {
-            "tr": "Mimarlık ve Güzel Sanatlar Fakültesi",
+            "tr": "Sağlık Bilimleri Fakültesi",
             "en": "Faculty of Health Sciences",
         },
         "departments": [

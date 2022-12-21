@@ -63,7 +63,9 @@ export default function ProfileEdit({ navigation }) {
 
   useEffect(() => {
     for (let i = 0; i < sections.length; i++) {
-      if (languageCode == 'tr' ? sections[i].faculty.tr : sections[i].faculty.en == facultyVal) {
+      if (languageCode == 'tr'
+        ? sections[i].faculty.tr == facultyVal
+        : sections[i].faculty.en == facultyVal) {
         setCurrentdepartment(sections[i].departments);
       }
     }
@@ -114,8 +116,8 @@ export default function ProfileEdit({ navigation }) {
             TYPOGRAPHY.H5Regular,
             {
               color: languageCode == "tr" ?
-                item.faculty.tr == faculty ? '#001A43' : '#909090'
-                : item.faculty.en == faculty ? '#001A43' : '#909090',
+                item.faculty.tr == facultyVal ? '#001A43' : '#909090'
+                : item.faculty.en == facultyVal ? '#001A43' : '#909090',
               margin: 10,
               marginRight: 20,
               flex: 1,
@@ -130,8 +132,8 @@ export default function ProfileEdit({ navigation }) {
           height={24}
           color={
             languageCode == "tr" ?
-              item.faculty.tr == faculty ? '#0AD4EE' : '#EBEBEB'
-              : item.faculty.en == faculty ? '#0AD4EE' : '#EBEBEB'}
+              item.faculty.tr == facultyVal ? '#0AD4EE' : '#EBEBEB'
+              : item.faculty.en == facultyVal ? '#0AD4EE' : '#EBEBEB'}
         />
       </View>
     </TouchableOpacity>
@@ -196,9 +198,9 @@ export default function ProfileEdit({ navigation }) {
             data={sections}
             renderItem={renderItem}
             keyExtractor={item =>
-              languageCode == "tr"
-                ? item.faculty.tr
-                : item.faculty.en}
+              languageCode == 'tr' ?
+                item.faculty.tr :
+                item.faculty.en}
           />
         </BottomSheet>
         <BottomSheet

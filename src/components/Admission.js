@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState, useContext} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View, Modal} from 'react-native';
-import {useTheme} from '@react-navigation/native';
+import React, { useEffect, useRef, useState, useContext } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
 import {
   Narnia,
@@ -10,24 +10,22 @@ import {
   MessageCircleNew,
 } from '../components/icons';
 import moment from 'moment/min/moment-with-locales';
-import {strings} from '../constants/localization';
-import {errorMessage, successMessage} from '../utils/showToast';
-import {commentRating, deleteComment} from '../api/comment';
-import {AuthContext} from '../context/Auth';
+import { strings } from '../constants/localization';
+import { errorMessage } from '../utils/showToast';
+import { AuthContext } from '../context/Auth';
 import AppText from '../components/AppText';
-import {ProfileContext} from '../context/Profile';
-import AyButton from './AyButton';
-import {ratePost} from '../api/aybu-social/post';
+import { ProfileContext } from '../context/Profile';
+import { ratePost } from '../api/aybu-social/post';
 import {
   getAllCommentsByPost,
   ratePostComment,
 } from '../api/aybu-social/post_comment';
 
-const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
-  const {colors} = useTheme();
+const Admission = ({ type = '', navigation, admission, deleteUserAdmission }) => {
+  const { colors } = useTheme();
 
-  const {token} = useContext(AuthContext);
-  const {username, role} = useContext(ProfileContext);
+  const { token } = useContext(AuthContext);
+  const { username, role } = useContext(ProfileContext);
 
   const animation = useRef(null);
   const isFirstRun = useRef(true);
@@ -45,6 +43,7 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
 
   useEffect(() => {
     getAdmissionComments();
+    console.log(admission)
   }, []);
 
   useEffect(() => {
@@ -138,11 +137,11 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
   };
 
   const pressedAdmissionComment = () => {
-    navigation.navigate('AdmissionComments', {admission: admission});
+    navigation.navigate('AdmissionComments', { admission: admission });
   };
 
   const deleteAdmission = () => {
-    if(type === 'inside'){
+    if (type === 'inside') {
       deleteUserAdmission(admission?.post.post, admission?.post?._id)
     } else {
       deleteUserAdmission(admission?.post?._id);
@@ -169,7 +168,7 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
                 borderRadius: 8,
               }}
               onPress={() => setModalVisible(false)}>
-              <Text style={{color: colors.text}}>CANCEL</Text>
+              <Text style={{ color: colors.text }}>CANCEL</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={{
@@ -182,7 +181,7 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
               onPress={() => {
                 deleteAdmission();
               }}>
-              <Text style={{color: colors.text}}>DELETE</Text>
+              <Text style={{ color: colors.text }}>DELETE</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -193,14 +192,14 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
             <Kratos width={24} height={24} style={styles.svgView} />
           ) : admission?.post?.owner?.username == 'Sapphique' ? (
             <SteinsGate width={24} height={24} style={styles.svgView} />
-          ) : admission?.post?.owner?.userRole == 'developer-admin' ? (
+          ) : admission?.post?.owner?.role == 'developer-admin' ? (
             <Narnia width={28} height={28} style={styles.svgDevAdminView} />
           ) : (
-            admission?.post?.owner?.userRole == 'admin' && (
+            admission?.post?.owner?.role == 'admin' && (
               <Editor width={24} height={24} style={styles.svgView} />
             )
           )}
-          <Text style={[styles.commentNameText, {color: colors.usernameText}]}>
+          <Text style={[styles.commentNameText, { color: colors.usernameText }]}>
             {admission?.post?.owner?.username}
           </Text>
 
@@ -219,18 +218,18 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
           )}
         </View>
 
-        <Text style={[styles.commentDateText, {color: colors.dateText}]}>
+        <Text style={[styles.commentDateText, { color: colors.dateText }]}>
           {moment(admission?.post?.createdAt)
             .locale(strings.lang == 'en' ? 'en' : 'tr')
             .fromNow()}
         </Text>
       </View>
       <View style={styles.commentBody}>
-        <Text style={[styles.commentText, {color: colors.commentText}]}>
+        <Text style={[styles.commentText, { color: colors.commentText }]}>
           {admission?.post?.content}
         </Text>
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity
           onPress={() => admissionRatingMethod()}
           activeOpacity={0.8}
@@ -243,7 +242,7 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
             loop={false}
           />
           <Text
-            style={[styles.commentLikeCount, {color: colors.dateBoxElement}]}>
+            style={[styles.commentLikeCount, { color: colors.dateBoxElement }]}>
             {likeCount}
           </Text>
         </TouchableOpacity>
@@ -257,7 +256,7 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
             <Text
               style={[
                 styles.commentCommentCount,
-                {color: colors.dateBoxElement},
+                { color: colors.dateBoxElement },
               ]}>
               {commentCount}
             </Text>

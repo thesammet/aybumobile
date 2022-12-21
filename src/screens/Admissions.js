@@ -55,6 +55,7 @@ const Admissions = ({ route, navigation }) => {
     onChangeAdmission('');
     setPage(0)
     getAdmissions(0);
+    console.log(admissions)
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
@@ -174,8 +175,8 @@ const Admissions = ({ route, navigation }) => {
       ) : (
         <FlatList
           data={admissions}
-          keyExtractor={item => item.id}
-          key={item => item.id}
+          keyExtractor={item => item?.post?._id}
+          key={item => item?.post?._id}
           contentContainerStyle={{
             paddingHorizontal: 35,
             paddingTop: 24,
@@ -213,7 +214,6 @@ const Admissions = ({ route, navigation }) => {
               placeholder={strings.writeAdmission}
               placeholderTextColor={colors.placeholderText}
               keyboardType="default"
-
             />
             <TouchableOpacity
               onPress={() => sendAdmission()}
