@@ -1,4 +1,4 @@
-# vocan
+# aybumobile
 Ankara Yildirim Beyazit University-Mobile Application
 Backend: Node.js /
 Mobile: React Native /
