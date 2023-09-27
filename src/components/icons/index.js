@@ -17,6 +17,7 @@ export {default as MessageCircleNew} from './MessageCircleNew';
 export {default as MessageCircle} from './MessageCircle';
 export {default as Moon} from './Moon';
 export {default as Narnia} from './Narnia';
+export {default as Plus} from './Plus';
 export {default as Profil} from './Profil';
 export {default as Send} from './Send';
 export {default as Star} from './Star';

@@ -1,34 +1,41 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import {
+  useState,
+  useRef,
+  useMemo,
+  useEffect,
+  useCallback,
+  useContext,
+} from 'react';
 import {
   View,
   Text,
   FlatList,
   RefreshControl,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   Keyboard,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-import { deleteComment, getSingleFoodComment, postComment } from '../api/comment';
+import {useTheme} from '@react-navigation/native';
 import BasicHeader from '../components/BasicHeader';
-import Comment from '../components/Comment';
-import { Send } from '../components/icons';
+import {Send, Plus} from '../components/icons';
 import Loading from '../components/Loading';
-import { AuthContext } from '../context/Auth';
-import { errorMessage, successMessage } from '../utils/showToast';
-import { strings } from '../constants/localization';
+import {AuthContext} from '../context/Auth';
+import {errorMessage, successMessage} from '../utils/showToast';
+import {strings} from '../constants/localization';
 import Admission from '../components/Admission';
-import { deletePostAdmin, getAllPosts, postSend } from '../api/aybu-social/post';
+import {deletePostAdmin, getAllPosts, postSend} from '../api/aybu-social/post';
 import LoadingMore from '../components/LoadingMore';
+import {
+  BottomSheetTextInput,
+  BottomSheetModal,
+  BottomSheetModalProvider,
+  BottomSheetBackdrop,
+} from '@gorhom/bottom-sheet';
 
-const Admissions = ({ route, navigation }) => {
-  const { colors } = useTheme();
-
-  const { token } = useContext(AuthContext);
+const Admissions = ({navigation}) => {
+  const {colors} = useTheme();
+  const {token} = useContext(AuthContext);
 
   const [admissions, setAdmissions] = useState([]);
   const [admission, onChangeAdmission] = useState('');
@@ -37,9 +44,50 @@ const Admissions = ({ route, navigation }) => {
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
 
+  /* start bottom sheet */
+  const bottomSheetModalRef = useRef(null);
+  const snapPoints = useMemo(() => ['24%', '30%'], []);
+
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handleSheetChanges = useCallback(index => {
+    console.log('handleSheetChanges', index); // 1, -1
+  }, []);
+
+  const renderBackdrop = useCallback(
+    props => <BottomSheetBackdrop opacity={0.1} {...props} />,
+    [],
+  );
+
+  const openAdmissionSheet = () => {
+    handlePresentModalPress();
+  };
+
+  /* end bottom sheet */
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {},
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        bottomSheetModalRef.current?.close();
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      initAdmissions()
+      initAdmissions();
     });
     return unsubscribe;
   }, [navigation]);
@@ -53,26 +101,25 @@ const Admissions = ({ route, navigation }) => {
     setRefreshing(true);
     Keyboard.dismiss();
     onChangeAdmission('');
-    setPage(0)
+    setPage(0);
     getAdmissions(0);
-    console.log(admissions)
+    console.log(admissions);
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
   };
 
   const getAdmissions = async givenPage => {
-
     try {
       let response = await getAllPosts(token, givenPage, 6);
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
-        setAdmissions(null)
+        setAdmissions(null);
         setAdmissions([...response?.data]); // push state
         // push first
         //setPage(page + 1);
-        setPage(1)
+        setPage(1);
       }
     } catch (error) {
       errorMessage(strings.admissionCouldntSend);
@@ -83,15 +130,15 @@ const Admissions = ({ route, navigation }) => {
 
   const getAdmissionsAfter = async givenPage => {
     try {
-      setPage(0)
+      setPage(0);
       let response = await getAllPosts(token, givenPage, 6);
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
-        setAdmissions(null)
+        setAdmissions(null);
         setAdmissions([...response?.data]); // push state
         // push first
-        setPage(0)
+        setPage(0);
       }
     } catch (error) {
       errorMessage(strings.admissionCouldntSend);
@@ -121,14 +168,16 @@ const Admissions = ({ route, navigation }) => {
     setLoading(true);
     try {
       let response = await postSend(token, admission);
+      onChangeAdmission('');
+
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
-        Keyboard.dismiss()
-        successMessage(strings.admissionSent);
-        onChangeAdmission('');
-        setPage(0)
+        Keyboard.dismiss();
+        //successMessage(strings.admissionSent);
+        setPage(0);
         getAdmissions(0);
+        bottomSheetModalRef.current?.close();
       }
     } catch (error) {
       errorMessage(strings.admissionCouldntSend);
@@ -143,33 +192,34 @@ const Admissions = ({ route, navigation }) => {
       if (response.error) {
         errorMessage(strings.anErrorOccured);
       } else {
-        successMessage('İtiraf silindi.');
+        successMessage('Gönderi silindi.');
         getAdmissions(0);
       }
     } catch (error) {
-      errorMessage('İtiraf silinemedi.');
+      errorMessage('Gönderi silinemedi.');
     }
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' && 'height'}
+    <View
+      // behavior={Platform.OS === 'ios' && 'height'}
       style={{
         flex: 1,
         position: 'relative',
       }}
-      keyboardVerticalOffset={40}>
+      // keyboardVerticalOffset={40}
+    >
       <BasicHeader
-        style={{ backgroundColor: colors.trendHeader }}
+        style={{backgroundColor: colors.trendHeader}}
         navigation={navigation}
         text={strings.admission}
-        textStyle={{ fontWeight: 'bold', fontSize: 18 }}
+        textStyle={{fontWeight: 'bold', fontSize: 18}}
         isBack={false}
       />
       {loading && <Loading />}
-      {loadingMore && <LoadingMore />}
+      {/* {loadingMore && <LoadingMore />} */}
       {!loading && admissions?.length == 0 ? (
-        <Text style={[styles.noComment, { color: colors.noCommentText }]}>
+        <Text style={[styles.noComment, {color: colors.noCommentText}]}>
           {strings.noAdmission1 + '\n' + strings.noAdmission2}
         </Text>
       ) : (
@@ -182,11 +232,11 @@ const Admissions = ({ route, navigation }) => {
             paddingTop: 24,
             paddingBottom: 72,
           }}
-          ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
+          ItemSeparatorComponent={() => <View style={{height: 24}} />}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <Admission
               navigation={navigation}
               admission={item}
@@ -197,20 +247,21 @@ const Admissions = ({ route, navigation }) => {
           onEndReached={getMoreAdmissions}
         />
       )}
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1 }}>
+      {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{flex: 1}}>
           <View
             style={[
               styles.commentInputContainer,
-              { backgroundColor: colors.commentInputBg },
+              {backgroundColor: colors.commentInputBg},
             ]}>
             <TextInput
-              style={[styles.commentInput, { color: colors.commentInputText }]}
+              style={[styles.commentInput, {color: colors.commentInputText}]}
               onChangeText={onChangeAdmission}
-              value={admission}
+              defaultValue={admission}
               multiline={true}
-              numberOfLines={10}
+              numberOfLines={4}
               textAlignVertical="top"
+              // verticalAlign="center"
               placeholder={strings.writeAdmission}
               placeholderTextColor={colors.placeholderText}
               keyboardType="default"
@@ -222,8 +273,86 @@ const Admissions = ({ route, navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+      </TouchableWithoutFeedback> */}
+
+      <BottomSheetModalProvider>
+        <View style={{flex: 1}}>
+          <TouchableOpacity
+            onPress={() => {
+              openAdmissionSheet();
+            }}
+            style={{
+              position: 'absolute',
+              bottom: 20,
+              right: 24,
+              borderWidth: 0,
+              outline: 0,
+              width: 56,
+              height: 56,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 999,
+              backgroundColor: colors.trendHeader,
+            }}
+            activeOpacity={0.8}>
+            <Plus width="28" height="28" color="#fff" />
+          </TouchableOpacity>
+
+          <BottomSheetModal
+            ref={bottomSheetModalRef}
+            index={1}
+            snapPoints={snapPoints}
+            onChange={handleSheetChanges}
+            backdropComponent={renderBackdrop}
+            handleIndicatorStyle={{
+              backgroundColor: colors.tabBarTextActive,
+            }}
+            handleStyle={{
+              backgroundColor: colors.mealBackground,
+              borderTopRightRadius: 12,
+              borderTopLeftRadius: 12,
+            }}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                paddingBottom: Platform.OS === 'ios' ? 64 : 48,
+                paddingHorizontal: 8,
+                backgroundColor: colors.mealBackground,
+                marginTop: Platform.OS === 'ios' ? 0 : -24,
+              }}>
+              <BottomSheetTextInput
+                id="admission"
+                defaultValue={admission}
+                onChangeText={onChangeAdmission}
+                placeholder="Write Something..."
+                autoFocus={true}
+                blurOnSubmit={true}
+                numberOfLines={5}
+                multiline
+                scrollEnabled={false}
+                selectionColor={colors.commentInputText}
+                placeholderTextColor="#ccc"
+                style={[styles.commentInput, {color: colors.commentInputText}]}
+              />
+              <TouchableOpacity
+                style={{
+                  marginLeft: 'auto',
+                  padding: 3,
+                  marginRight: 8,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                onPress={() => sendAdmission()}
+                activeOpacity={0.8}>
+                <Send width="28" height="28" color={colors.sendIcon} />
+              </TouchableOpacity>
+            </View>
+          </BottomSheetModal>
+        </View>
+      </BottomSheetModalProvider>
+    </View>
   );
 };
 
@@ -252,11 +381,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
   },
   commentInput: {
-    flex: 1,
-    height: 48,
     fontSize: 16,
     paddingHorizontal: 16,
-    textAlignVertical: 'top',
+    paddingVertical: 8,
+    textAlignVertical: 'center',
+    // borderWidth: 0.5,
+    borderColor: '#ddd',
+    borderRadius: 12,
+    height: Platform.OS === 'ios' ? 70 : 'auto',
   },
   noComment: {
     textAlign: 'center',

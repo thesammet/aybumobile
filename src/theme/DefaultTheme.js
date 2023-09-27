@@ -1,4 +1,4 @@
-import { DefaultTheme } from '@react-navigation/native';
+import {DefaultTheme} from '@react-navigation/native';
 
 const customDefaultTheme = {
   ...DefaultTheme,
@@ -32,11 +32,11 @@ const customDefaultTheme = {
     mealBoxItemTop: '#D9D9D9',
     commentText: '#909090',
     commentInputBg: '#FFFFFF',
-    sendIcon: '#001A43',
+    sendIcon: '#FF4A22',
     placeholderText: '#B9B9B9',
     commentInputText: '#001A43',
     noCommentText: '#001A43',
-    shareFriendsText: '#001A43'
+    shareFriendsText: '#001A43',
   },
 };
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, {useContext, useState, useEffect, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -11,22 +11,22 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  Platform
+  Platform,
 } from 'react-native';
-import { register } from '../api/user';
-import { AuthContext } from '../context/Auth';
-import { ProfileContext } from '../context/Profile';
-import { useTheme } from '@react-navigation/native';
+import {register} from '../api/user';
+import {AuthContext} from '../context/Auth';
+import {ProfileContext} from '../context/Profile';
+import {useTheme} from '@react-navigation/native';
 import DeviceInfo from 'react-native-device-info';
 import TYPOGRAPHY from '../constants/typography';
 import Header from '../components/Header';
-import { ChevronDown, Check } from '../components/icons';
+import {ChevronDown, Check} from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
-import { sections } from '../assets/sources/sections';
-import { strings } from '../constants/localization';
-import { errorMessage, successMessage } from '../utils/showToast';
-import AppText from "../components/AppText"
-import RNLocalize from "react-native-localize";
+import {sections} from '../assets/sources/sections';
+import {strings} from '../constants/localization';
+import {errorMessage, successMessage} from '../utils/showToast';
+import AppText from '../components/AppText';
+import RNLocalize from 'react-native-localize';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -34,16 +34,17 @@ export default function Auth() {
   const [username, setUsername] = useState('');
   const [currentDepartments, setCurrentDepartments] = useState([]);
   const [department, setDepartment] = useState(null);
-  const [departmentRole, setDepartmentRole] = useState(null)
+  const [departmentRole, setDepartmentRole] = useState(null);
   const [faculty, setFaculty] = useState(null);
   const [isValid, setValid] = useState(false);
   const [borderColor, setBorderColor] = useState('gray');
-  const [languageCode, setLanguageCode] = useState('en')
+  const [languageCode, setLanguageCode] = useState('en');
 
-  const { addToken } = useContext(AuthContext);
-  const { addUsername, addFaculty, addDepartment, addDepartmentCode } = useContext(ProfileContext);
+  const {addToken} = useContext(AuthContext);
+  const {addUsername, addFaculty, addDepartment, addDepartmentCode} =
+    useContext(ProfileContext);
 
-  const { colors } = useTheme();
+  const {colors} = useTheme();
 
   const bottomSheetFaculty = useRef();
   const bottomSheetDepartment = useRef();
@@ -54,9 +55,9 @@ export default function Auth() {
   }, [username, department, faculty]);
 
   useEffect(() => {
-    const localizeObj = RNLocalize.getLocales()
-    setLanguageCode(localizeObj[0].languageCode)
-  })
+    const localizeObj = RNLocalize.getLocales();
+    setLanguageCode(localizeObj[0].languageCode);
+  });
 
   const validMethod = () => {
     username.length > 0 && department && faculty
@@ -74,21 +75,18 @@ export default function Auth() {
       addUsername(username);
       addFaculty(faculty);
       addDepartment(department);
-      addDepartmentCode(departmentRole)
+      addDepartmentCode(departmentRole);
       addToken(response.token);
 
-      successMessage(strings.success, strings.registeredSuccess);
+      // successMessage(strings.success, strings.registeredSuccess);
     }
     setLoading(false);
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <TouchableOpacity
       onPress={() => {
-        setFaculty(
-          languageCode == "tr"
-            ? item.faculty.tr
-            : item.faculty.en);
+        setFaculty(languageCode == 'tr' ? item.faculty.tr : item.faculty.en);
         bottomSheetFaculty.current.close();
         setCurrentDepartments(item.departments);
         setDepartment(null);
@@ -99,37 +97,42 @@ export default function Auth() {
             TYPOGRAPHY.H5Regular,
             {
               color:
-                languageCode == "tr" ?
-                  item.faculty.tr == faculty ? '#001A43' : '#909090'
-                  : item.faculty.en == faculty ? '#001A43' : '#909090',
+                languageCode == 'tr'
+                  ? item.faculty.tr == faculty
+                    ? '#001A43'
+                    : '#909090'
+                  : item.faculty.en == faculty
+                  ? '#001A43'
+                  : '#909090',
               margin: 10,
               marginRight: 20,
               flex: 1,
             },
           ]}>
-          {languageCode == "tr"
-            ? item.faculty.tr
-            : item.faculty.en}
+          {languageCode == 'tr' ? item.faculty.tr : item.faculty.en}
         </Text>
         <Check
           width={24}
           height={24}
           color={
-            languageCode == "tr" ?
-              item.faculty.tr == faculty ? '#0AD4EE' : '#EBEBEB'
-              : item.faculty.en == faculty ? '#0AD4EE' : '#EBEBEB'}
+            languageCode == 'tr'
+              ? item.faculty.tr == faculty
+                ? '#0AD4EE'
+                : '#EBEBEB'
+              : item.faculty.en == faculty
+              ? '#0AD4EE'
+              : '#EBEBEB'
+          }
         />
       </View>
     </TouchableOpacity>
   );
 
-  const renderItemDepartment = ({ item }) => (
+  const renderItemDepartment = ({item}) => (
     <TouchableOpacity
       onPress={() => {
-        setDepartment(
-          languageCode == "tr" ?
-            item.tr : item.en);
-        setDepartmentRole(item.code)
+        setDepartment(languageCode == 'tr' ? item.tr : item.en);
+        setDepartmentRole(item.code);
         bottomSheetDepartment.current.close();
       }}>
       <View style={styles.renderItem}>
@@ -138,23 +141,31 @@ export default function Auth() {
             TYPOGRAPHY.H5Regular,
             {
               color:
-                languageCode == "tr" ?
-                  item.tr == department ? '#001A43' : '#909090'
-                  : item.en == department ? '#001A43' : '#909090',
+                languageCode == 'tr'
+                  ? item.tr == department
+                    ? '#001A43'
+                    : '#909090'
+                  : item.en == department
+                  ? '#001A43'
+                  : '#909090',
               margin: 10,
               marginRight: 20,
               flex: 1,
             },
           ]}>
-          {languageCode == "tr" ?
-            item.tr : item.en}
+          {languageCode == 'tr' ? item.tr : item.en}
         </Text>
         <Check
           width={24}
           height={24}
-          color={languageCode == "tr" ?
-            item.tr == department ? '#0AD4EE' : '#EBEBEB' :
-            item.en == department ? '#0AD4EE' : '#EBEBEB'
+          color={
+            languageCode == 'tr'
+              ? item.tr == department
+                ? '#0AD4EE'
+                : '#EBEBEB'
+              : item.en == department
+              ? '#0AD4EE'
+              : '#EBEBEB'
           }
         />
       </View>
@@ -162,7 +173,7 @@ export default function Auth() {
   );
 
   return (
-    <View style={[{ backgroundColor: colors.welcomeBg }, styles.container]}>
+    <View style={[{backgroundColor: colors.welcomeBg}, styles.container]}>
       <Header type="outside" />
       <View style={styles.innerContainer}>
         <BottomSheet
@@ -177,9 +188,8 @@ export default function Auth() {
             data={sections}
             renderItem={renderItem}
             keyExtractor={item =>
-              languageCode == "tr"
-                ? item.faculty.tr
-                : item.faculty.en}
+              languageCode == 'tr' ? item.faculty.tr : item.faculty.en
+            }
           />
         </BottomSheet>
         <BottomSheet
@@ -199,7 +209,9 @@ export default function Auth() {
         <KeyboardAvoidingView>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.infoView}>
-              <AppText style={styles.fillTheGapsText}>{strings.fillTheGaps}</AppText>
+              <AppText style={styles.fillTheGapsText}>
+                {strings.fillTheGaps}
+              </AppText>
               <AppText style={styles.fieldText}>{strings.username}</AppText>
               <TextInput
                 style={[
@@ -219,7 +231,6 @@ export default function Auth() {
                 onFocus={() => setBorderColor('#00112b')}
                 edit={true}
                 text={username}
-
               />
 
               <Text style={styles.fieldText}>{strings.mustFaculty}</Text>
@@ -259,7 +270,7 @@ export default function Auth() {
           <ActivityIndicator
             size="large"
             color="#0AD4EE"
-            style={{ marginBottom: 12 }}
+            style={{marginBottom: 12}}
           />
         ) : (
           <TouchableOpacity
@@ -273,23 +284,24 @@ export default function Auth() {
             <View
               style={[
                 styles.startButton,
-                { borderColor: isValid ? '#0AD4EE' : '#EBEBEB' },
-                Platform.OS != 'android' && isValid && {
-                  shadowColor: '#0AD4EE',
-                  shadowOffset: {
-                    width: 0,
-                    height: 10,
+                {borderColor: isValid ? '#0AD4EE' : '#EBEBEB'},
+                Platform.OS != 'android' &&
+                  isValid && {
+                    shadowColor: '#0AD4EE',
+                    shadowOffset: {
+                      width: 0,
+                      height: 10,
+                    },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 3.95,
+                    elevation: 5,
+                    zIndex: 5,
                   },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 3.95,
-                  elevation: 5,
-                  zIndex: 5,
-                },
               ]}>
               <Text
                 style={[
                   styles.startText,
-                  { color: isValid ? '#0AD4EE' : '#CECECE' },
+                  {color: isValid ? '#0AD4EE' : '#CECECE'},
                 ]}>
                 {strings.start}
               </Text>
@@ -349,7 +361,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 32,
     paddingVertical: 20,
-    textAlign: "center"
+    textAlign: 'center',
   },
   departmentArea: {
     flexDirection: 'row',

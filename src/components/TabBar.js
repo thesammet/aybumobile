@@ -1,15 +1,23 @@
-import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
-import { Calendar, Globe, Meal, Profil, Trend, TrendsEmpty, User, HeartEmpty } from './icons';
+import {Text, View, TouchableOpacity, StyleSheet, Platform} from 'react-native';
+import {
+  Calendar,
+  Globe,
+  Meal,
+  Profil,
+  Trend,
+  TrendsEmpty,
+  User,
+  HeartEmpty,
+} from './icons';
 import {
   responsiveWidth as rw,
   responsiveHeight as rh,
 } from '@/utils/responsive';
-import { useTheme } from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 import Trends from '../screens/Trends';
 
-const TabBar = ({ state, descriptors, navigation }) => {
-  const { colors } = useTheme();
+const TabBar = ({state, descriptors, navigation}) => {
+  const {colors} = useTheme();
 
   const tabButtonDynamicStyle = focused => {
     return {
@@ -38,19 +46,19 @@ const TabBar = ({ state, descriptors, navigation }) => {
         {
           backgroundColor: colors.background,
           width: rw(344),
-          height: rh(80),
+          height: rh(66),
           shadowColor: colors.text,
         },
       ]}>
       {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
+        const {options} = descriptors[route.key];
 
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-              ? options.title
-              : route.name;
+            ? options.title
+            : route.name;
 
         const isFocused = state.index === index;
 
@@ -63,7 +71,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
 
           if (!isFocused && !event.defaultPrevented) {
             // The `merge: true` option makes sure that the params inside the tab screen are preserved
-            navigation.navigate({ name: route.name, merge: true });
+            navigation.navigate({name: route.name, merge: true});
           }
         };
 
@@ -79,14 +87,15 @@ const TabBar = ({ state, descriptors, navigation }) => {
           <TouchableOpacity
             key={index}
             accessibilityRole="button"
-            accessibilityState={isFocused ? { selected: true } : {}}
+            accessibilityState={isFocused ? {selected: true} : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
+            activeOpacity={0.7}
             style={[
               styles.tabButton,
-              { width: rw(60), height: rh(60) },
+              {width: rw(54), height: rh(54)},
               tabButtonDynamicStyle(isFocused),
             ]}>
             {label === 'Home' && (
@@ -156,7 +165,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     zIndex: 3,
     elevation: 3,
-    marginBottom: 10,
+    marginBottom: Platform.OS === 'ios' ? 4 : 12,
   },
   tabButton: {
     alignItems: 'center',

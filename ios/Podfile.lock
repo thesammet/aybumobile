@@ -421,7 +421,7 @@ PODS:
     - React-perflogger (= 0.70.3)
   - ReactNativeLocalization (2.3.1):
     - React-Core
-  - RNDeviceInfo (10.2.1):
+  - RNDeviceInfo (10.11.0):
     - React-Core
   - RNFBApp (12.9.3):
     - Firebase/CoreOnly (= 8.8.0)
@@ -740,11 +740,11 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: e9b1f9310158a1e265bcdfdfd8c62d6174b947a2
   ReactCommon: 01064177e66d652192c661de899b1076da962fd9
   ReactNativeLocalization: 076497d7ca70341c751cd3b3e7c86187332a182d
-  RNDeviceInfo: c31137f22ee779fe3931d1a8d60cc1af80ef4077
+  RNDeviceInfo: bf8a32acbcb875f568217285d1793b0e8588c974
   RNFBApp: 729c0666395b1953198dc4a1ec6deb8fbe1c302e
   RNGestureHandler: b7a872907ee289ada902127f2554fa1d2c076122
   RNLocalize: 0df7970cfc60389f00eb62fd7c097dc75af3fb4f
-  RNReanimated: e5fa0ea421d3874b25165cfeecd72db2b62e02ca
+  RNReanimated: 8087b41c5521e9fda327ce93e248d87614cfe980
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608

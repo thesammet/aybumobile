@@ -1,4 +1,4 @@
-import { DarkTheme } from '@react-navigation/native';
+import {DarkTheme} from '@react-navigation/native';
 
 const customDarkTheme = {
   ...DarkTheme,
@@ -32,11 +32,11 @@ const customDarkTheme = {
     mealBoxItemTop: '#202020',
     commentText: '#A0A0A0',
     commentInputBg: '#151515',
-    sendIcon: '#FFFFFF',
+    sendIcon: '#FF4A22',
     placeholderText: '#A0A0A0',
     commentInputText: '#FFFFFF',
     noCommentText: '#FFFFFF',
-    shareFriendsText: '#FFFFFF'
+    shareFriendsText: '#FFFFFF',
   },
 };
 
