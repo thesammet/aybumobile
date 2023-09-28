@@ -84,7 +84,7 @@ const Comments = ({route, navigation}) => {
         setPage(page + 1);
       }
     } catch (error) {
-      errorMessage(strings.commentCouldntSend);
+      // errorMessage(strings.commentCouldntSend);
     } finally {
       setLoading(false);
     }
@@ -107,7 +107,7 @@ const Comments = ({route, navigation}) => {
         // setComments(response?.data);
       }
     } catch (error) {
-      errorMessage(strings.commentCouldntSend);
+      // errorMessage(strings.commentCouldntSend);
     } finally {
       setLoading(false);
     }
@@ -118,7 +118,7 @@ const Comments = ({route, navigation}) => {
     try {
       let response = await postComment(token, comment, item?.meal?._id);
       if (response.error) {
-        errorMessage(strings.commentCouldntSend);
+        //errorMessage(strings.commentCouldntSend);
       } else {
         successMessage(strings.commentsent);
         onChangeComment('');

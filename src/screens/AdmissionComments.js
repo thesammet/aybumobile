@@ -94,13 +94,13 @@ const AdmissionComments = ({route, navigation}) => {
         6,
       );
       if (response.error) {
-        errorMessage(strings.admissionCouldntSend);
+        //errorMessage(strings.admissionCouldntSend);
       } else {
         setAdmissionComments([...response?.data]); // push state
         setPage(page + 1);
       }
     } catch (error) {
-      errorMessage(strings.admissionCouldntSend);
+      //errorMessage(strings.admissionCouldntSend);
     } finally {
       setLoading(false);
     }
@@ -115,13 +115,13 @@ const AdmissionComments = ({route, navigation}) => {
         6,
       );
       if (response.error) {
-        errorMessage(strings.admissionCouldntSend);
+        //errorMessage(strings.admissionCouldntSend);
       } else {
         setAdmissionComments([...response?.data]); // push state
         setPage(page + 1);
       }
     } catch (error) {
-      errorMessage(strings.admissionCouldntSend);
+      //errorMessage(strings.admissionCouldntSend);
     } finally {
       setLoading(false);
     }
@@ -137,13 +137,13 @@ const AdmissionComments = ({route, navigation}) => {
         6,
       );
       if (response.error) {
-        errorMessage(strings.admissionCouldntSend);
+        //errorMessage(strings.admissionCouldntSend);
       } else {
         setAdmissionComments([...admissionComments, ...response?.data]); // push state
         setPage(page + 1); // increase page
       }
     } catch (error) {
-      errorMessage(strings.admissionCouldntSend);
+      //errorMessage(strings.admissionCouldntSend);
     } finally {
       setLoading(false);
     }
@@ -159,7 +159,7 @@ const AdmissionComments = ({route, navigation}) => {
       );
       onChangeAdmissionComment('');
       if (response.error) {
-        errorMessage(strings.admissionCouldntSend);
+        //errorMessage(strings.admissionCouldntSend);
       } else {
         // successMessage(strings.admissionSent);
         onChangeAdmissionComment('');
@@ -167,7 +167,7 @@ const AdmissionComments = ({route, navigation}) => {
         bottomSheetModalRef2.current?.close();
       }
     } catch (error) {
-      errorMessage(strings.admissionCouldntSend);
+      //errorMessage(strings.admissionCouldntSend);
     } finally {
       setLoading(false);
     }
