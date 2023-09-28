@@ -28,7 +28,6 @@ const Onboarding = () => {
   const {theme} = useContext(ThemeContext);
   const {colors} = useTheme();
 
-
   const scrollx = useRef(new Animated.Value(0)).current;
 
   return (
@@ -123,14 +122,14 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontWeight: '800',
-    fontSize: 28,
+    fontSize: 34,
     marginBottom: 10,
     color: '#fff',
   },
   itemDescription: {
     fontWeight: '300',
     color: '#fff',
-    fontSize: 14,
+    fontSize: 18,
   },
 });
 

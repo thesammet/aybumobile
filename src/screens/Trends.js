@@ -8,6 +8,7 @@ import {AuthContext} from '../context/Auth';
 import Loading from '../components/Loading';
 import {errorMessage} from '../utils/showToast';
 import {strings} from '../constants/localization';
+import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 
 const Trends = ({navigation}) => {
   const {colors} = useTheme();
@@ -36,6 +37,14 @@ const Trends = ({navigation}) => {
     }
   };
 
+  const getBannerUnitId = () => {
+    return __DEV__
+      ? TestIds.BANNER
+      : Platform.OS === 'ios'
+      ? 'ca-app-pub-6556478222911747/3994339534'
+      : 'ca-app-pub-6556478222911747/2479993601';
+  };
+
   return (
     <View style={{flex: 1}}>
       <BasicHeader
@@ -44,6 +53,13 @@ const Trends = ({navigation}) => {
         text={strings.trends}
         textStyle={{fontWeight: 'bold', fontSize: 18}}
         isBack={false}
+      />
+      <BannerAd
+        unitId={getBannerUnitId()}
+        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
       />
       {loading ? (
         <Loading />

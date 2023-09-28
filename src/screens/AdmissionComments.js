@@ -33,7 +33,7 @@ import {
   postCommentSend,
 } from '../api/aybu-social/post_comment';
 import {useKeyboard} from '@react-native-community/hooks';
-import BottomSheet from 'react-native-gesture-bottom-sheet';
+import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 
 const AdmissionComments = ({route, navigation}) => {
   const {colors} = useTheme();
@@ -188,6 +188,14 @@ const AdmissionComments = ({route, navigation}) => {
     }
   };
 
+  const getBannerUnitId = () => {
+    return __DEV__
+      ? TestIds.BANNER
+      : Platform.OS === 'ios'
+      ? 'ca-app-pub-6556478222911747/4303415003'
+      : 'ca-app-pub-6556478222911747/4354551746';
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' && 'height'}
@@ -200,6 +208,13 @@ const AdmissionComments = ({route, navigation}) => {
         text={strings.postComments}
         navigation={navigation}
         type="postComments"
+      />
+      <BannerAd
+        unitId={getBannerUnitId()}
+        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
       />
       {loading && <Loading size="small" />}
       {!loading && admissionComments?.length == 0 ? (
@@ -250,7 +265,7 @@ const AdmissionComments = ({route, navigation}) => {
                 bottom: keyboard.keyboardShown
                   ? Platform.OS === 'ios'
                     ? 40
-                    : 10
+                    : 30
                   : 10,
               },
             ]}>
@@ -269,7 +284,7 @@ const AdmissionComments = ({route, navigation}) => {
             <TouchableOpacity
               onPress={() => sendAdmissionComment()}
               activeOpacity={0.8}>
-              <Send width="24" height="24" color={colors.headersBg} />
+              <Send width="24" height="24" color="#000" />
             </TouchableOpacity>
           </View>
         </View>
@@ -283,7 +298,7 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
     paddingRight: 16,
-    paddingTop: 4,
+    paddingTop: Platform.OS === 'ios' ? 4 : 0,
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {

@@ -32,7 +32,7 @@ import {
   BottomSheetModalProvider,
   BottomSheetBackdrop,
 } from '@gorhom/bottom-sheet';
-import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
+import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 
 const Admissions = ({navigation}) => {
   const {colors} = useTheme();
@@ -205,6 +205,14 @@ const Admissions = ({navigation}) => {
     }
   };
 
+  const getBannerUnitId = () => {
+    return __DEV__
+      ? TestIds.BANNER
+      : Platform.OS === 'ios'
+      ? 'ca-app-pub-6556478222911747/8504715598'
+      : 'ca-app-pub-6556478222911747/8316727926';
+  };
+
   return (
     <View
       // behavior={Platform.OS === 'ios' && 'height'}
@@ -225,11 +233,7 @@ const Admissions = ({navigation}) => {
       {loading && <LoadingMore />}
 
       <BannerAd
-        unitId={
-          Platform.OS === 'ios'
-            ? 'ca-app-pub-6556478222911747/8504715598'
-            : 'ca-app-pub-6556478222911747/8316727926'
-        }
+        unitId={getBannerUnitId()}
         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
         requestOptions={{
           requestNonPersonalizedAdsOnly: true,
@@ -340,7 +344,7 @@ const Admissions = ({navigation}) => {
                 flex: 1,
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                paddingBottom: Platform.OS === 'ios' ? 64 : 48,
+                paddingBottom: Platform.OS === 'ios' ? 64 : 8,
                 paddingHorizontal: 8,
                 backgroundColor: colors.mealBackground,
                 marginTop: Platform.OS === 'ios' ? 0 : -24,

@@ -371,6 +371,9 @@ PODS:
   - React-jsinspector (0.70.3)
   - React-logger (0.70.3):
     - glog
+  - react-native-admob-native-ads (0.6.6):
+    - Google-Mobile-Ads-SDK
+    - React-Core
   - react-native-blob-util (0.16.3):
     - React-Core
   - react-native-mmkv (2.4.3):
@@ -556,6 +559,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-admob-native-ads (from `../node_modules/react-native-admob-native-ads`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-pdf (from `../node_modules/react-native-pdf`)
@@ -662,6 +666,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-admob-native-ads:
+    :path: "../node_modules/react-native-admob-native-ads"
   react-native-blob-util:
     :path: "../node_modules/react-native-blob-util"
   react-native-mmkv:
@@ -770,6 +776,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 7e2e1772ef7b97168c880eeaf3749d8c145ffd6e
   React-jsinspector: 0553c9fe7218e1f127be070bd5a4d2fc19fb8190
   React-logger: cffcc09e8aba8a3014be8d18da7f922802e9f19e
+  react-native-admob-native-ads: 97b6667c5d4d3e5a75baf264450dbb54ba53a181
   react-native-blob-util: 4ec16cc21bfc8de8f0ddfd2c81ada00f8c34b646
   react-native-mmkv: 1265a348a4711097ba29c8bcefd5971f48220f2b
   react-native-pdf: 33c622cbdf776a649929e8b9d1ce2d313347c4fa
