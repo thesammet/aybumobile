@@ -6,29 +6,28 @@ import {
   Share,
   Pressable,
 } from 'react-native';
-import React, { useContext, useState } from 'react';
-import { ThemeContext } from '../context/Theme';
+import React, {useContext, useState} from 'react';
+import {ThemeContext} from '../context/Theme';
 import Header from '../components/Header';
 import UsernameBox from '../components/UsernameBox';
-import { ProfileContext } from '../context/Profile';
+import {ProfileContext} from '../context/Profile';
 import TYPOGRAPHY from '../constants/typography';
 import ToggleButton from 'react-native-toggle-element';
-import { Sun, Moon } from '../components/icons/';
-import { useTheme } from '@react-navigation/native';
-import { strings } from '../constants/localization';
+import {Sun, Moon} from '../components/icons/';
+import {useTheme} from '@react-navigation/native';
+import {strings} from '../constants/localization';
 
-const Profile = ({ navigation }) => {
-  const { colors } = useTheme();
-  const { theme, changeTheme } = useContext(ThemeContext);
-  const { username, faculty, department } = useContext(ProfileContext);
+const Profile = ({navigation}) => {
+  const {colors} = useTheme();
+  const {theme, changeTheme} = useContext(ThemeContext);
+  const {username, faculty, department} = useContext(ProfileContext);
   const [toggleValue, setToggleValue] = useState(
     theme == 'light' ? true : false,
   );
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message:
-          `${strings.downloadLinks}\nApple Store: https://apps.apple.com/us/app/ayb%C3%BC-mobile/id1658659307\nGoogle Play Store: https://play.google.com/store/apps/details?id=com.aybumobile`,
+        message: `${strings.downloadLinks}\nApple Store: https://apps.apple.com/us/app/ayb%C3%BC-mobile/id1658659307\nGoogle Play Store: https://play.google.com/store/apps/details?id=com.aybumobile`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -44,7 +43,7 @@ const Profile = ({ navigation }) => {
     }
   };
   return (
-    <View style={[styles.homeContainer, { backgroundColor: colors.background }]}>
+    <View style={[styles.homeContainer, {backgroundColor: colors.background}]}>
       <Header type="inside" />
       <UsernameBox username={username} />
       <View style={styles.innerView}>
@@ -53,35 +52,35 @@ const Profile = ({ navigation }) => {
           <View
             style={[
               styles.departmentArea,
-              { borderColor: colors.boxBorder, backgroundColor: colors.boxBg },
+              {borderColor: colors.boxBorder, backgroundColor: colors.boxBg},
             ]}>
             <Text
               numberOfLines={2}
               style={[
                 styles.departmentInnerText,
-                { color: colors.usernameText },
+                {color: colors.usernameText},
               ]}>
               {faculty}
             </Text>
           </View>
-          <Text style={[styles.fieldText, { marginTop: 20 }]}>
+          <Text style={[styles.fieldText, {marginTop: 20}]}>
             {strings.department}
           </Text>
           <View
             style={[
               styles.departmentArea,
-              { borderColor: colors.boxBorder, backgroundColor: colors.boxBg },
+              {borderColor: colors.boxBorder, backgroundColor: colors.boxBg},
             ]}>
             <Text
               numberOfLines={2}
               style={[
                 styles.departmentInnerText,
-                { color: colors.usernameText },
+                {color: colors.usernameText},
               ]}>
               {department}
             </Text>
           </View>
-          <Text style={[styles.fieldText, { marginTop: 20 }]}>
+          <Text style={[styles.fieldText, {marginTop: 20}]}>
             {strings.mood}
           </Text>
           <ToggleButton
@@ -90,7 +89,7 @@ const Profile = ({ navigation }) => {
               setToggleValue(newState);
               toggleValue ? changeTheme('dark') : changeTheme('light');
             }}
-            containerStyle={{ alignSelf: 'center' }}
+            containerStyle={{alignSelf: 'center'}}
             thumbActiveComponent={<Sun width="24" height="24" />}
             thumbInActiveComponent={<Moon width="24" height="24" />}
             thumbStyle={{
@@ -105,13 +104,13 @@ const Profile = ({ navigation }) => {
             }}
           />
           <TouchableOpacity
-            style={{ marginTop: 12 }}
+            style={{marginTop: 16}}
             onPress={onShare}
             activeOpacity={0.5}>
             <Text
               style={[
                 styles.shareWithFriends,
-                { color: colors.shareFriendsText },
+                {color: colors.shareFriendsText},
               ]}>
               {strings.sharedWithFriends}
             </Text>
@@ -130,7 +129,7 @@ const Profile = ({ navigation }) => {
                 backgroundColor: colors.editBackgroundColor,
               },
             ]}>
-            <Text style={[styles.editText, { color: '#0AD4EE' }]}>
+            <Text style={[styles.editText, {color: '#0AD4EE'}]}>
               {strings.edit}
             </Text>
           </View>

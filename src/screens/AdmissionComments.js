@@ -32,15 +32,11 @@ import {
   getAllCommentsByPost,
   postCommentSend,
 } from '../api/aybu-social/post_comment';
-import {
-  BottomSheetTextInput,
-  BottomSheetModal,
-  BottomSheetModalProvider,
-  BottomSheetBackdrop,
-} from '@gorhom/bottom-sheet';
+import {useKeyboard} from '@react-native-community/hooks';
 
 const AdmissionComments = ({route, navigation}) => {
   const {colors} = useTheme();
+  const keyboard = useKeyboard();
 
   const {token} = useContext(AuthContext);
   const {admission} = route.params;
@@ -54,47 +50,6 @@ const AdmissionComments = ({route, navigation}) => {
     onEndReachedCalledDuringMomentum,
     setOnEndReachedCalledDuringMomentum,
   ] = useState(false);
-
-  /* start bottom sheet */
-  const bottomSheetModalRef2 = useRef(null);
-  const snapPoints2 = useMemo(() => ['24%', '30%'], []);
-
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef2.current?.present();
-  }, []);
-
-  const handleSheetChanges = useCallback(index => {
-    console.log('handleSheetChanges', index); // 1, -1
-  }, []);
-
-  const renderBackdrop = useCallback(
-    props => <BottomSheetBackdrop opacity={0.1} {...props} />,
-    [],
-  );
-
-  const openAdmissionSheet = () => {
-    handlePresentModalPress();
-  };
-
-  /* end bottom sheet */
-
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      () => {},
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        bottomSheetModalRef2.current?.close();
-      },
-    );
-
-    return () => {
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
-  }, []);
 
   useEffect(() => {
     initAdmissions();
@@ -218,15 +173,12 @@ const AdmissionComments = ({route, navigation}) => {
   };
 
   const deleteUserAdmissionComment = async (postId, commentId) => {
-    console.log('postId: ', postId);
-    console.log('commentId: ', commentId);
     try {
       let response = await deleteSocialPostCommentAdmin(
         token,
         postId,
         commentId,
       );
-      console.log('delete response: ', response);
       successMessage('Yorum silindi.');
       getAdmissionComments(0);
     } catch (error) {
@@ -236,20 +188,19 @@ const AdmissionComments = ({route, navigation}) => {
   };
 
   return (
-    <View
-      // behavior={Platform.OS === 'ios' && 'height'}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' && 'height'}
       style={{
         flex: 1,
         position: 'relative',
       }}
-      // keyboardVerticalOffset={20}
-    >
+      keyboardVerticalOffset={20}>
       <BasicHeader
         text={strings.postComments}
         navigation={navigation}
         type="postComments"
       />
-      {loading && <Loading />}
+      {loading && <Loading size="small" />}
       {!loading && admissionComments?.length == 0 ? (
         <Text style={[styles.noComment, {color: colors.noCommentText}]}>
           {strings.noAdmission1 + '\n' + strings.noAdmission2}
@@ -257,8 +208,8 @@ const AdmissionComments = ({route, navigation}) => {
       ) : (
         <FlatList
           data={admissionComments}
-          keyExtractor={item => item.id}
-          key={item => item.id}
+          keyExtractor={item => item?.post?._id}
+          key={item => item?.post?._id}
           contentContainerStyle={{
             paddingHorizontal: 35,
             paddingTop: 24,
@@ -288,20 +239,28 @@ const AdmissionComments = ({route, navigation}) => {
           }}
         />
       )}
-      {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{flex: 1}}>
           <View
             style={[
               styles.commentInputContainer,
-              {backgroundColor: colors.commentInputBg},
+              {
+                backgroundColor: colors.commentInputBg,
+                bottom: keyboard.keyboardShown
+                  ? Platform.OS === 'ios'
+                    ? 40
+                    : 10
+                  : 10,
+              },
             ]}>
             <TextInput
               style={[styles.commentInput, {color: colors.commentInputText}]}
               onChangeText={onChangeAdmissionComment}
               value={admissionComment}
               multiline={true}
-              numberOfLines={10}
-              textAlignVertical="top"
+              numberOfLines={4}
+              textAlignVertical="center"
+              verticalAlign="center"
               placeholder={strings.writeAdmissionComment}
               placeholderTextColor={colors.placeholderText}
               keyboardType="default"
@@ -309,96 +268,12 @@ const AdmissionComments = ({route, navigation}) => {
             <TouchableOpacity
               onPress={() => sendAdmissionComment()}
               activeOpacity={0.8}>
-              <Send width="24" height="24" color={colors.sendIcon} />
+              <Send width="24" height="24" color={colors.headersBg} />
             </TouchableOpacity>
           </View>
         </View>
-      </TouchableWithoutFeedback> */}
-
-      <BottomSheetModalProvider>
-        <View style={{flex: 1}}>
-          <TouchableOpacity
-            onPress={() => {
-              openAdmissionSheet();
-            }}
-            style={{
-              position: 'absolute',
-              bottom: 20,
-              right: 24,
-              borderWidth: 0,
-              outline: 0,
-              width: 56,
-              height: 56,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 999,
-              backgroundColor: colors.trendHeader,
-            }}>
-            <Plus width="28" height="28" color="#fff" />
-          </TouchableOpacity>
-
-          <BottomSheetModal
-            ref={bottomSheetModalRef2}
-            name="comment"
-            index={1}
-            snapPoints={snapPoints2}
-            onChange={handleSheetChanges}
-            backdropComponent={renderBackdrop}
-            style={{
-              borderWidth: 4,
-              paddingBottom: 0,
-              marginBottom: 0,
-            }}
-            handleIndicatorStyle={{
-              backgroundColor: colors.tabBarTextActive,
-            }}
-            handleStyle={{
-              backgroundColor: colors.mealBackground,
-              borderTopRightRadius: 12,
-              borderTopLeftRadius: 12,
-            }}>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                paddingBottom: Platform.OS === 'ios' ? 64 : 48,
-                paddingHorizontal: 8,
-                backgroundColor: colors.mealBackground,
-                marginTop: Platform.OS === 'ios' ? 0 : -24,
-                borderWidth: 2,
-              }}>
-              <BottomSheetTextInput
-                id="admission2"
-                defaultValue={admission}
-                onChangeText={onChangeAdmissionComment}
-                placeholder="Write Comment..."
-                autoFocus={true}
-                blurOnSubmit={true}
-                numberOfLines={5}
-                multiline
-                scrollEnabled={false}
-                selectionColor={colors.commentInputText}
-                placeholderTextColor="#ccc"
-                style={[styles.commentInput, {color: colors.commentInputText}]}
-              />
-              <TouchableOpacity
-                style={{
-                  marginLeft: 'auto',
-                  padding: 4,
-                  marginRight: 8,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-                onPress={() => sendAdmissionComment()}
-                activeOpacity={0.8}>
-                <Send width="28" height="28" color={colors.sendIcon} />
-              </TouchableOpacity>
-            </View>
-          </BottomSheetModal>
-        </View>
-      </BottomSheetModalProvider>
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -407,6 +282,7 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
     paddingRight: 16,
+    paddingTop: 4,
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
@@ -418,23 +294,21 @@ const styles = StyleSheet.create({
     elevation: 3,
     zIndex: 3,
     position: 'absolute',
-    bottom: 10,
     left: 0,
     right: 0,
+    bottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginHorizontal: 24,
   },
   commentInput: {
+    flex: 1,
     fontSize: 16,
     paddingHorizontal: 16,
-    paddingVertical: 8,
-    textAlignVertical: 'center',
-    // borderWidth: 0.5,
-    borderColor: '#ddd',
+    paddingVertical: 2,
     borderRadius: 12,
-    height: Platform.OS === 'ios' ? 70 : 'auto',
+    height: Platform.OS === 'ios' ? 48 : 'auto',
   },
   noComment: {
     textAlign: 'center',

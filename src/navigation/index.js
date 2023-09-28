@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import {useContext} from 'react';
 import {StatusBar, View} from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {NavigationContainer} from '@react-navigation/native';
@@ -11,7 +11,6 @@ import Onboarding from '../components/Onboarding/';
 import Auth from '../screens/Auth';
 import Toast from 'react-native-toast-message';
 import {toastConfig} from '@/config/toast';
-
 
 const Navigation = () => {
   const {theme} = useContext(ThemeContext);
@@ -37,7 +36,10 @@ const Navigation = () => {
               flex: 1,
               backgroundColor: theme === 'light' ? 'white' : '#090909',
             }}>
-            <StatusBar animated={true} barStyle={theme === "light" ? "dark-content":"light-content"} />
+            <StatusBar
+              animated={true}
+              barStyle={theme === 'light' ? 'dark-content' : 'light-content'}
+            />
 
             <NavigationContainer theme={getCurrentTheme()}>
               {!token ? <Auth /> : <Tabs />}

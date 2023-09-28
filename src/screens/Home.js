@@ -6,28 +6,27 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import React, { useContext, useState, useEffect, useRef } from 'react';
-import {
-  errorMessage,
-} from '../utils/showToast';
-import { AuthContext } from '../context/Auth';
+import React, {useContext, useState, useEffect, useRef} from 'react';
+import {errorMessage} from '../utils/showToast';
+import {AuthContext} from '../context/Auth';
 import DateBox from '@/components/DateBox';
 import Header from '@/components/Header';
 import MealBox from '@/components/MealBox';
-import { useTheme } from '@react-navigation/native';
-import { getMonthlyFood } from '../api/food';
+import {useTheme} from '@react-navigation/native';
+import {getMonthlyFood} from '../api/food';
 import Loading from '../components/Loading';
-import { strings } from '../constants/localization';
+import {strings} from '../constants/localization';
+import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
 
-const { width, height } = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 const SPACING = 10;
 const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.74 : width * 0.76;
 const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
-const Home = ({ navigation }) => {
-  const { token } = useContext(AuthContext);
-  const { colors } = useTheme();
+const Home = ({navigation}) => {
+  const {token} = useContext(AuthContext);
+  const {colors} = useTheme();
   const scrollx = useRef(new Animated.Value(0)).current;
   const [loading, setLoading] = useState(false);
   const [meals, setMeals] = useState([]);
@@ -39,7 +38,6 @@ const Home = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-
   const getFoodList = async () => {
     setLoading(true);
     try {
@@ -48,8 +46,8 @@ const Home = ({ navigation }) => {
         errorMessage(strings.anErrorOccured);
       } else {
         let dataArr = response?.data;
-        dataArr.unshift({ meal: { _id: '231243' }, key: 'left-spacer' });
-        dataArr.push({ meal: { _id: '231423' }, key: 'right-spacer' });
+        dataArr.unshift({meal: {_id: '231243'}, key: 'left-spacer'});
+        dataArr.push({meal: {_id: '231423'}, key: 'right-spacer'});
 
         setMeals(dataArr);
       }
@@ -68,12 +66,13 @@ const Home = ({ navigation }) => {
         firstDate={meals[1]?.meal?.date}
         lastDate={meals[meals?.length - 2]?.meal?.date}
       />
+
       {loading ? (
-        <Loading />
+        <Loading size="small" />
       ) : (
         <>
           <View style={styles.homeInsideContainer}>
-            <Text style={[styles.mealListText, { color: colors.text }]}>
+            <Text style={[styles.mealListText, {color: colors.text}]}>
               {strings.mealList}
             </Text>
 
@@ -85,16 +84,16 @@ const Home = ({ navigation }) => {
               decelerationRate={0}
               bounces={false}
               onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { x: scrollx } } }],
-                { useNativeDriver: false },
+                [{nativeEvent: {contentOffset: {x: scrollx}}}],
+                {useNativeDriver: false},
               )}
               scrollEventThrottle={16}
               contentContainerStyle={styles.flatListContainer}
               showsHorizontalScrollIndicator={false}
-              renderItem={({ item, index }) => {
+              renderItem={({item, index}) => {
                 if (!item.meal || !item.ratingStatus) {
                   return (
-                    <View key={item?.key} style={{ width: EMPTY_ITEM_SIZE }} />
+                    <View key={item?.key} style={{width: EMPTY_ITEM_SIZE}} />
                   );
                 }
 
@@ -111,11 +110,11 @@ const Home = ({ navigation }) => {
 
                 return (
                   <View
-                    style={[styles.mealOutsideContainer, { width: ITEM_SIZE }]}
+                    style={[styles.mealOutsideContainer, {width: ITEM_SIZE}]}
                     key={item.meal._id}>
                     <Animated.View
                       style={{
-                        transform: [{ translateY }],
+                        transform: [{translateY}],
                         marginHorizontal: SPACING,
                         padding: SPACING * 2,
                         borderRadius: 34,
@@ -137,6 +136,17 @@ const Home = ({ navigation }) => {
           </View>
         </>
       )}
+      <BannerAd
+        unitId={
+          Platform.OS === 'ios'
+            ? 'ca-app-pub-6556478222911747/3994339534'
+            : 'ca-app-pub-6556478222911747/2479993601'
+        }
+        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
+      />
     </View>
   );
 };

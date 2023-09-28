@@ -1,4 +1,8 @@
 {
   "name": "aybumobile",
-  "displayName": "aybumobile"
+  "displayName": "aybumobile",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-6556478222911747~9711616367",
+    "ios_app_id": "ca-app-pub-6556478222911747~8514084760"
+  }
 }

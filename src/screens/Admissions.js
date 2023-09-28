@@ -32,6 +32,7 @@ import {
   BottomSheetModalProvider,
   BottomSheetBackdrop,
 } from '@gorhom/bottom-sheet';
+import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
 
 const Admissions = ({navigation}) => {
   const {colors} = useTheme();
@@ -86,11 +87,15 @@ const Admissions = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      initAdmissions();
-    });
-    return unsubscribe;
-  }, [navigation]);
+    initAdmissions();
+  }, []);
+
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     initAdmissions();
+  //   });
+  //   return unsubscribe;
+  // }, [navigation]);
 
   const initAdmissions = () => {
     setLoading(true);
@@ -216,8 +221,20 @@ const Admissions = ({navigation}) => {
         textStyle={{fontWeight: 'bold', fontSize: 18}}
         isBack={false}
       />
-      {loading && <Loading />}
-      {/* {loadingMore && <LoadingMore />} */}
+      {/* {loading && <Loading />} */}
+
+      <BannerAd
+        unitId={
+          Platform.OS === 'ios'
+            ? 'ca-app-pub-6556478222911747/8504715598'
+            : 'ca-app-pub-6556478222911747/8316727926'
+        }
+        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
+      />
+
       {!loading && admissions?.length == 0 ? (
         <Text style={[styles.noComment, {color: colors.noCommentText}]}>
           {strings.noAdmission1 + '\n' + strings.noAdmission2}
@@ -227,6 +244,9 @@ const Admissions = ({navigation}) => {
           data={admissions}
           keyExtractor={item => item?.post?._id}
           key={item => item?.post?._id}
+          onScroll={() => {
+            loadingMore && <LoadingMore />;
+          }}
           contentContainerStyle={{
             paddingHorizontal: 35,
             paddingTop: 24,
@@ -247,6 +267,8 @@ const Admissions = ({navigation}) => {
           onEndReached={getMoreAdmissions}
         />
       )}
+      {/* {loading && <Loading size="small" />} */}
+      {loadingMore && <LoadingMore />}
       {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{flex: 1}}>
           <View

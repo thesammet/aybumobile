@@ -1,10 +1,12 @@
-import React from 'react';
-import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+import {StyleSheet, View, ActivityIndicator} from 'react-native';
+import {useTheme} from '@react-navigation/native';
 
-const Loading = () => {
+const Loading = ({size = 'large'}) => {
+  const {colors} = useTheme();
+
   return (
     <View style={styles.loading}>
-      <ActivityIndicator size="large" color="#000" />
+      <ActivityIndicator size={size} color={colors.tabBarTextActive} />
     </View>
   );
 };
@@ -19,7 +21,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F5FCFF88',
-    opacity: 0.4,
+    opacity: 0.2,
     zIndex: 999,
     elevation: 999,
   },
