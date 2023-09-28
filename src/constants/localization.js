@@ -74,6 +74,10 @@ export let strings = new LocalizedStrings({
     downloadLinks: 'AYBÜ Mobile Download Links',
     admission: 'AYBÜ SOCIAL',
     postComments: 'Post comments',
+    trendLoadError: 'There was an error loading trends!',
+    postDeleted: 'Post Deleted!',
+    postNotDeleted: 'Failed To Delete Post!',
+    writeSomething: 'Write Something...',
   },
   tr: {
     lang: 'tr',
@@ -149,5 +153,9 @@ export let strings = new LocalizedStrings({
     downloadLinks: 'AYBÜ Mobil İndirme Linkleri',
     admission: 'AYBÜ SOSYAL',
     postComments: 'Gönderi yorumları',
+    trendLoadError: 'Trendler yüklenirken bir hata oluştu!',
+    postDeleted: 'Gönderi Silindi!',
+    postNotDeleted: 'Gönderi Silinemedi',
+    writeSomething: 'Bir şeyler yaz...',
   },
 });

@@ -43,7 +43,6 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
 
   useEffect(() => {
     getAdmissionComments();
-    console.log(admission);
   }, []);
 
   useEffect(() => {
@@ -80,54 +79,48 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
     }
   };
 
-  const getMoreAdmissionComments = async () => {
-    try {
-      let response = await getAllCommentsByPost(
-        token,
-        admission?.post?._id,
-        page,
-        4,
-      );
-      if (response.error) {
-        console.log('getAdmissionComment: ', response);
-      } else {
-        console.log('getAdmissionComment: ', response);
-        setPostComments([...postComments, ...response?.data]);
-      }
-    } catch (error) {
-      console.log('error: ', error);
-    } finally {
-    }
-  };
+  // const getMoreAdmissionComments = async () => {
+  //   try {
+  //     let response = await getAllCommentsByPost(
+  //       token,
+  //       admission?.post?._id,
+  //       page,
+  //       4,
+  //     );
+  //     if (response.error) {
+  //     } else {
+  //       setPostComments([...postComments, ...response?.data]);
+  //     }
+  //   } catch (error) {
+  //     console.log('error: ', error);
+  //   } finally {
+  //   }
+  // };
 
   const admissionRatingMethod = async () => {
     likeStatus ? setLikeCount(likeCount - 1) : setLikeCount(likeCount + 1);
     setLikeStatus(!likeStatus);
     try {
       if (type === 'inside') {
-        console.log('inside: ', admission?.post.post, admission?.post?._id);
         let response = await ratePostComment(
           token,
           admission?.post.post,
           admission?.post?._id,
         );
         if (response.error) {
-          console.log('ratePostCommentinside error: ', response);
-          errorMessage('Reaksiyon iletilemedi.');
+          //errorMessage('Reaksiyon iletilemedi.');
         } else {
           //console.log("ratePostCommentinside: ", response);
         }
       } else {
         let response = await ratePost(token, admission?.post?._id);
         if (response.error) {
-          console.log('ratePostComment: ', response);
-          errorMessage('Reaksiyon iletilemedi.');
+          //errorMessage('Reaksiyon iletilemedi.');
         } else {
-          console.log('ratePostComment: ', response);
         }
       }
     } catch (error) {
-      errorMessage('Reaksiyon iletilemedi.');
+      //errorMessage('Reaksiyon iletilemedi.');
       console.log(error);
     }
   };

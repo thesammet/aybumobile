@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import {useContext, useState, useEffect, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -12,24 +12,21 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { updateProfile } from '../api/user';
-import { AuthContext } from '../context/Auth';
-import { ProfileContext } from '../context/Profile';
-import { useTheme } from '@react-navigation/native';
+import {updateProfile} from '../api/user';
+import {AuthContext} from '../context/Auth';
+import {ProfileContext} from '../context/Profile';
+import {useTheme} from '@react-navigation/native';
 import TYPOGRAPHY from '../constants/typography';
 import Header from '../components/Header';
-import { ChevronDown, Check } from '../components/icons';
+import {ChevronDown, Check} from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
-import { sections } from '../assets/sources/sections';
-import { strings } from '../constants/localization';
-import {
-  errorMessage,
-  successMessage
-} from '../utils/showToast';
-import RNLocalize from "react-native-localize";
+import {sections} from '../assets/sources/sections';
+import {strings} from '../constants/localization';
+import {errorMessage, successMessage} from '../utils/showToast';
+import RNLocalize from 'react-native-localize';
 
-export default function ProfileEdit({ navigation }) {
-  const { token } = useContext(AuthContext);
+export default function ProfileEdit({navigation}) {
+  const {token} = useContext(AuthContext);
   const {
     username,
     faculty,
@@ -39,18 +36,18 @@ export default function ProfileEdit({ navigation }) {
     addFaculty,
     addDepartment,
     addRole,
-    addDepartmentCode
+    addDepartmentCode,
   } = useContext(ProfileContext);
 
-  const { colors } = useTheme();
+  const {colors} = useTheme();
   const bottomSheetfacultyVal = useRef();
   const bottomSheetdepartmentVal = useRef();
   const windowHeight = Dimensions.get('window').height;
   const [usernameVal, setUsernameVal] = useState(username);
   const [currentdepartment, setCurrentdepartment] = useState();
   const [departmentVal, setDepartmentVal] = useState(department);
-  const [departmentCodeVal, setDepartmentCodeVal] = useState(departmentCode)
-  const [languageCode, setLanguageCode] = useState('en')
+  const [departmentCodeVal, setDepartmentCodeVal] = useState(departmentCode);
+  const [languageCode, setLanguageCode] = useState('en');
   const [facultyVal, setFacultyVal] = useState(faculty);
   const [isValid, setValid] = useState(false);
   const [borderColor, setBorderColor] = useState('gray');
@@ -63,18 +60,20 @@ export default function ProfileEdit({ navigation }) {
 
   useEffect(() => {
     for (let i = 0; i < sections.length; i++) {
-      if (languageCode == 'tr'
-        ? sections[i].faculty.tr == facultyVal
-        : sections[i].faculty.en == facultyVal) {
+      if (
+        languageCode == 'tr'
+          ? sections[i].faculty.tr == facultyVal
+          : sections[i].faculty.en == facultyVal
+      ) {
         setCurrentdepartment(sections[i].departments);
       }
     }
   });
 
   useEffect(() => {
-    const localizeObj = RNLocalize.getLocales()
-    setLanguageCode(localizeObj[0].languageCode)
-  })
+    const localizeObj = RNLocalize.getLocales();
+    setLanguageCode(localizeObj[0].languageCode);
+  });
 
   const updateProfileMethod = async deviceId => {
     setLoading(true);
@@ -87,25 +86,21 @@ export default function ProfileEdit({ navigation }) {
     if (response.error) {
       errorMessage(strings.error, strings.anErrorOccured);
     } else {
-
       addRole(response.role);
       addUsername(usernameVal);
       addFaculty(facultyVal);
       addDepartment(departmentVal);
-      addDepartmentCode(departmentCodeVal)
+      addDepartmentCode(departmentCodeVal);
       successMessage(strings.success, strings.successUpdate);
       navigation.goBack();
     }
     setLoading(false);
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <TouchableOpacity
       onPress={() => {
-        setFacultyVal(
-          languageCode == "tr"
-            ? item.faculty.tr
-            : item.faculty.en);
+        setFacultyVal(languageCode == 'tr' ? item.faculty.tr : item.faculty.en);
         bottomSheetfacultyVal.current.close();
         setCurrentdepartment(item.departments);
         setDepartmentVal(null);
@@ -115,37 +110,43 @@ export default function ProfileEdit({ navigation }) {
           style={[
             TYPOGRAPHY.H5Regular,
             {
-              color: languageCode == "tr" ?
-                item.faculty.tr == facultyVal ? '#001A43' : '#909090'
-                : item.faculty.en == facultyVal ? '#001A43' : '#909090',
+              color:
+                languageCode == 'tr'
+                  ? item.faculty.tr == facultyVal
+                    ? '#001A43'
+                    : '#909090'
+                  : item.faculty.en == facultyVal
+                  ? '#001A43'
+                  : '#909090',
               margin: 10,
               marginRight: 20,
               flex: 1,
             },
           ]}>
-          {languageCode == "tr"
-            ? item.faculty.tr
-            : item.faculty.en}
+          {languageCode == 'tr' ? item.faculty.tr : item.faculty.en}
         </Text>
         <Check
           width={24}
           height={24}
           color={
-            languageCode == "tr" ?
-              item.faculty.tr == facultyVal ? '#0AD4EE' : '#EBEBEB'
-              : item.faculty.en == facultyVal ? '#0AD4EE' : '#EBEBEB'}
+            languageCode == 'tr'
+              ? item.faculty.tr == facultyVal
+                ? '#0AD4EE'
+                : '#EBEBEB'
+              : item.faculty.en == facultyVal
+              ? '#0AD4EE'
+              : '#EBEBEB'
+          }
         />
       </View>
     </TouchableOpacity>
   );
 
-  const renderItemdepartmentVal = ({ item }) => (
+  const renderItemdepartmentVal = ({item}) => (
     <TouchableOpacity
       onPress={() => {
-        setDepartmentVal(
-          languageCode == "tr" ?
-            item.tr : item.en);
-        setDepartmentCodeVal(item.code)
+        setDepartmentVal(languageCode == 'tr' ? item.tr : item.en);
+        setDepartmentCodeVal(item.code);
         bottomSheetdepartmentVal.current.close();
       }}>
       <View style={styles.renderItem}>
@@ -154,23 +155,32 @@ export default function ProfileEdit({ navigation }) {
             TYPOGRAPHY.H5Regular,
             {
               color:
-                languageCode == "tr" ?
-                  item.tr == departmentVal ? '#001A43' : '#909090'
-                  : item.en == departmentVal ? '#001A43' : '#909090',
+                languageCode == 'tr'
+                  ? item.tr == departmentVal
+                    ? '#001A43'
+                    : '#909090'
+                  : item.en == departmentVal
+                  ? '#001A43'
+                  : '#909090',
               margin: 10,
               marginRight: 20,
               flex: 1,
             },
           ]}>
-          {languageCode == "tr" ?
-            item.tr : item.en}
+          {languageCode == 'tr' ? item.tr : item.en}
         </Text>
         <Check
           width={24}
           height={24}
-          color={languageCode == "tr" ?
-            item.tr == departmentVal ? '#0AD4EE' : '#EBEBEB' :
-            item.en == departmentVal ? '#0AD4EE' : '#EBEBEB'}
+          color={
+            languageCode == 'tr'
+              ? item.tr == departmentVal
+                ? '#0AD4EE'
+                : '#EBEBEB'
+              : item.en == departmentVal
+              ? '#0AD4EE'
+              : '#EBEBEB'
+          }
         />
       </View>
     </TouchableOpacity>
@@ -181,11 +191,11 @@ export default function ProfileEdit({ navigation }) {
   }, [usernameVal, departmentVal, facultyVal]);
 
   return (
-    <View style={[{ backgroundColor: colors.background }, styles.container]}>
+    <View style={[{backgroundColor: colors.background}, styles.container]}>
       <Header type="editProfile" navigation={navigation} />
 
       <View
-        style={[styles.innerContainer, { backgroundColor: colors.background }]}>
+        style={[styles.innerContainer, {backgroundColor: colors.background}]}>
         <BottomSheet
           hasDraggableIcon={true}
           ref={bottomSheetfacultyVal}
@@ -198,9 +208,8 @@ export default function ProfileEdit({ navigation }) {
             data={sections}
             renderItem={renderItem}
             keyExtractor={item =>
-              languageCode == 'tr' ?
-                item.faculty.tr :
-                item.faculty.en}
+              languageCode == 'tr' ? item.faculty.tr : item.faculty.en
+            }
           />
         </BottomSheet>
         <BottomSheet
@@ -220,7 +229,7 @@ export default function ProfileEdit({ navigation }) {
         <KeyboardAvoidingView>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View>
-              <Text style={[styles.fillTheGapsText, { color: colors.text }]}>
+              <Text style={[styles.fillTheGapsText, {color: colors.text}]}>
                 {strings.canEdit}
               </Text>
               <View style={styles.infoView}>
@@ -229,7 +238,7 @@ export default function ProfileEdit({ navigation }) {
                   style={[
                     TYPOGRAPHY.H4Regular,
                     styles.input,
-                    { borderColor: borderColor, color: '#909090' },
+                    {borderColor: borderColor, color: '#909090'},
                   ]}
                   placeholder={strings.urUsername}
                   value={usernameVal}
@@ -293,7 +302,7 @@ export default function ProfileEdit({ navigation }) {
           <ActivityIndicator
             size="large"
             color="#0AD4EE"
-            style={{ marginTop: 24 }}
+            style={{marginTop: 24}}
           />
         ) : (
           <View style={styles.buttonRow}>
@@ -305,9 +314,9 @@ export default function ProfileEdit({ navigation }) {
               <View
                 style={[
                   styles.startButton,
-                  { borderColor: '#EBEBEB', marginRight: 8 },
+                  {borderColor: '#EBEBEB', marginRight: 8},
                 ]}>
-                <Text style={[styles.startText, { color: '#CECECE' }]}>
+                <Text style={[styles.startText, {color: '#CECECE'}]}>
                   {strings.cancel}
                 </Text>
               </View>
@@ -321,12 +330,12 @@ export default function ProfileEdit({ navigation }) {
               <View
                 style={[
                   styles.startButton,
-                  { borderColor: isValid ? '#0AD4EE' : '#EBEBEB' },
+                  {borderColor: isValid ? '#0AD4EE' : '#EBEBEB'},
                 ]}>
                 <Text
                   style={[
                     styles.startText,
-                    { color: isValid ? '#0AD4EE' : '#CECECE' },
+                    {color: isValid ? '#0AD4EE' : '#CECECE'},
                   ]}>
                   {strings.save}
                 </Text>

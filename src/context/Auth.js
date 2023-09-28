@@ -1,9 +1,9 @@
-import React, { useState, createContext, useEffect } from 'react';
-import { storage } from '../config/storage';
+import React, {useState, createContext, useEffect} from 'react';
+import {storage} from '../config/storage';
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({children}) => {
   const [token, setToken] = useState(null);
   const [usernameInit, setUsernameInit] = useState(null);
   const [isOnboarding, setIsOnboarding] = useState(null);
@@ -24,14 +24,13 @@ export const AuthProvider = ({ children }) => {
 
     try {
       let onboarding = storage.getString('onboarding');
-      console.log('onboarding', onboarding);
       if (onboarding === undefined) {
         setIsOnboarding(true);
       } else {
         setIsOnboarding(false);
       }
     } catch (error) {
-      console.warn(error);
+      console.log(error);
     }
   };
 
@@ -40,7 +39,7 @@ export const AuthProvider = ({ children }) => {
     try {
       storage.set('onboarding', 'false');
     } catch (error) {
-      console.warn(error);
+      console.log(error);
     }
   };
 
@@ -51,7 +50,7 @@ export const AuthProvider = ({ children }) => {
         setToken(token);
       }
     } catch (error) {
-      console.warn(error);
+      console.log(error);
     }
   };
 
@@ -62,7 +61,7 @@ export const AuthProvider = ({ children }) => {
         setUsernameInit(usernameInit);
       }
     } catch (error) {
-      console.warn(error);
+      console.log(error);
     }
   };
 
@@ -71,7 +70,7 @@ export const AuthProvider = ({ children }) => {
     try {
       storage.set('token', value);
     } catch (error) {
-      console.warn(error);
+      console.log(error);
     }
   };
 

@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Share,
-  Pressable,
-} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Share} from 'react-native';
 import React, {useContext, useState} from 'react';
 import {ThemeContext} from '../context/Theme';
 import Header from '../components/Header';

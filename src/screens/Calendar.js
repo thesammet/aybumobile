@@ -1,35 +1,30 @@
-import React, { useContext, useState, useEffect } from 'react';
+import {useContext, useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
   Dimensions,
-  ActivityIndicator,
   Text,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-import { getAcademic } from '../api/academic';
-import { AuthContext } from '../context/Auth';
-import { ProfileContext } from '../context/Profile';
-import { ThemeContext } from '@/context/Theme';
+import {useTheme} from '@react-navigation/native';
+import {getAcademic} from '../api/academic';
+import {AuthContext} from '../context/Auth';
+import {ProfileContext} from '../context/Profile';
+import {ThemeContext} from '@/context/Theme';
 import Pdf from 'react-native-pdf';
-import {
-  responsiveHeight as rh,
-} from '@/utils/responsive';
-import { strings } from '../constants/localization';
-import { ArrowLeft, Profil } from '../components/icons'
-import { handleEmail } from '../helpers/send-mail';
+import {strings} from '../constants/localization';
+import {ArrowLeft, Profil} from '../components/icons';
+import {handleEmail} from '../helpers/send-mail';
 import Loading from '../components/Loading';
 
 const Calendar = () => {
-  const { token } = useContext(AuthContext);
-  const { department } = useContext(ProfileContext);
+  const {token} = useContext(AuthContext);
+  const {department} = useContext(ProfileContext);
   const [academicData, setAcademicData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [uri, setUri] = useState(null)
-  const { colors } = useTheme();
-  const { theme } = useContext(ThemeContext);
+  const [uri, setUri] = useState(null);
+  const {colors} = useTheme();
 
   const getAcademicMethod = async () => {
     setLoading(true);
@@ -47,86 +42,101 @@ const Calendar = () => {
   }, []);
 
   return (
-    <View style={[styles.container,
-    {
-      backgroundColor: academicData?.exam
-        ? colors.background
-        : colors.headerBg
-    }]}>
-      {!academicData ?
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: academicData?.exam
+            ? colors.background
+            : colors.headerBg,
+        },
+      ]}>
+      {!academicData ? (
         <View style={styles.emptyView}>
           <View />
           <View>
-
             <Image
               source={require('@/assets/images/aybumobilelight.png')}
               style={[styles.logoView]}
             />
-
-            <Text
-              style={styles.emptyText}>
-              {department} {strings.calendarString1}{'\n'}{strings.calendarString2}
+            <Text style={styles.emptyText}>
+              {department} {strings.calendarString1}
+              {'\n'}
+              {strings.calendarString2}
             </Text>
           </View>
           <View style={styles.helpView}>
             <Profil width={24} height={24} />
             <View>
-              <Text
-                style={styles.helpAYBUText}>
-                {strings.helpAYBU}
-              </Text>
-              <TouchableOpacity
-                onPress={handleEmail}>
-                <Text
-                  style={styles.sendMailText}>
+              <Text style={styles.helpAYBUText}>{strings.helpAYBU}</Text>
+              <TouchableOpacity onPress={handleEmail}>
+                <Text style={styles.sendMailText}>
                   {strings.clickToSendMail}
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
-        :
-        academicData?.exam
-          ?
-          !uri ?
-            <View style={{ flex: 1 }}>
-              <View style={styles.typeImageView}>
-                <TouchableOpacity onPress={() => {
-                  setUri(`data:application/pdf;base64,${academicData?.exam}`)
-                }} activeOpacity={.8}>
-                  <Image source={require('../assets/images/exam.png')} style={styles.image} />
-                </TouchableOpacity>
-                <Text style={styles.examScheduleText}>{strings.examSchedule}</Text>
-              </View>
-              {
-                academicData?.content &&
-                <View style={styles.typeImageView}>
-                  <TouchableOpacity onPress={() => {
-                    setUri(`data:application/pdf;base64,${academicData?.content}`)
-                  }} activeOpacity={.8}>
-                    <Image source={require('../assets/images/calendar.png')} style={styles.image} />
-                  </TouchableOpacity>
-                  <Text style={styles.syllabusText}>{strings.syllabus}</Text>
-                </View>}
-            </View>
-            :
-            <View>
-              <TouchableOpacity onPress={() => { setUri(null) }} activeOpacity={.8} style={{ margin: 16 }}>
-                <ArrowLeft width={24} height={24} />
-              </TouchableOpacity>
-              <Pdf
-                source={{
-                  uri
+      ) : academicData?.exam ? (
+        !uri ? (
+          <View style={{flex: 1}}>
+            <View style={styles.typeImageView}>
+              <TouchableOpacity
+                onPress={() => {
+                  setUri(`data:application/pdf;base64,${academicData?.exam}`);
                 }}
-                style={styles.pdf}
-              />
+                activeOpacity={0.8}>
+                <Image
+                  source={require('../assets/images/exam.png')}
+                  style={styles.image}
+                />
+              </TouchableOpacity>
+              <Text style={styles.examScheduleText}>
+                {strings.examSchedule}
+              </Text>
             </View>
-          :
-          <Pdf
-            source={{ uri: `data:application/pdf;base64,${academicData.content}` }}
-            style={styles.pdf}
-          />
-      }
+            {academicData?.content && (
+              <View style={styles.typeImageView}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setUri(
+                      `data:application/pdf;base64,${academicData?.content}`,
+                    );
+                  }}
+                  activeOpacity={0.8}>
+                  <Image
+                    source={require('../assets/images/calendar.png')}
+                    style={styles.image}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.syllabusText}>{strings.syllabus}</Text>
+              </View>
+            )}
+          </View>
+        ) : (
+          <View>
+            <TouchableOpacity
+              onPress={() => {
+                setUri(null);
+              }}
+              activeOpacity={0.8}
+              style={{margin: 16}}>
+              <ArrowLeft width={24} height={24} />
+            </TouchableOpacity>
+            <Pdf
+              source={{
+                uri,
+              }}
+              style={styles.pdf}
+            />
+          </View>
+        )
+      ) : (
+        <Pdf
+          source={{uri: `data:application/pdf;base64,${academicData.content}`}}
+          style={styles.pdf}
+        />
+      )}
       {loading && <Loading />}
     </View>
   );
@@ -157,24 +167,24 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 12,
     marginHorizontal: 8,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   syllabusText: {
     alignSelf: 'center',
     marginTop: 4,
     color: '#001A43',
-    fontSize: 24
+    fontSize: 24,
   },
   examScheduleText: {
     alignSelf: 'center',
     marginTop: 4,
     color: '#001A43',
-    fontSize: 24
+    fontSize: 24,
   },
   helpAYBUText: {
     color: 'white',
     fontSize: 12,
-    marginHorizontal: 8
+    marginHorizontal: 8,
   },
   helpView: {
     flexDirection: 'row',
@@ -184,19 +194,19 @@ const styles = StyleSheet.create({
   typeImageView: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   logoView: {
     marginTop: 16,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   activityIndicatorView: {
     justifyContent: 'center',
-    flex: 1
+    flex: 1,
   },
   emptyView: {
     justifyContent: 'space-between',
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 export default Calendar;

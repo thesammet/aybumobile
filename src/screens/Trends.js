@@ -1,27 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-  ScrollView,
-  RefreshControl,
-} from 'react-native';
+import {useState, useEffect, useContext} from 'react';
+import {StyleSheet, View, ScrollView, RefreshControl} from 'react-native';
 import BasicHeader from '../components/BasicHeader';
-import { useTheme } from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 import TrendsBox from '../components/TrendsBox';
-import { getTrends } from '../api/food';
-import { AuthContext } from '../context/Auth';
+import {getTrends} from '../api/food';
+import {AuthContext} from '../context/Auth';
 import Loading from '../components/Loading';
-import { errorMessage } from '../utils/showToast';
-import { strings } from '../constants/localization';
+import {errorMessage} from '../utils/showToast';
+import {strings} from '../constants/localization';
 
-const Trends = ({ navigation }) => {
-  const { colors } = useTheme();
+const Trends = ({navigation}) => {
+  const {colors} = useTheme();
   const [loading, setLoading] = useState(false);
   const [trendsData, setTrendsData] = useState({});
 
-  const { token } = useContext(AuthContext);
+  const {token} = useContext(AuthContext);
 
   useEffect(() => {
     getTrendsData();
@@ -32,34 +25,33 @@ const Trends = ({ navigation }) => {
     try {
       const response = await getTrends(token);
       if (response.error) {
-        errorMessage('Trendler yüklenirken bir hata oluştu.');
+        errorMessage(string.trendLoadError);
       } else {
         setTrendsData(response?.data);
       }
     } catch (error) {
-      errorMessage('Trendler yüklenirken bir hata oluştu.');
+      errorMessage(string.trendLoadError);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <BasicHeader
-        style={{ backgroundColor: '#0AD4EE' }}
+        style={{backgroundColor: '#0AD4EE'}}
         navigation={navigation}
         text={strings.trends}
-        textStyle={{ fontWeight: 'bold', fontSize: 18 }}
+        textStyle={{fontWeight: 'bold', fontSize: 18}}
         isBack={false}
       />
-
       {loading ? (
         <Loading />
       ) : (
         <ScrollView
           style={styles.trendsBoxContainer}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingVertical: 20 }}
+          contentContainerStyle={{paddingVertical: 20}}
           refreshControl={
             <RefreshControl
               refreshing={loading}
@@ -76,7 +68,7 @@ const Trends = ({ navigation }) => {
             title={strings.mostUnfavoriteDays}
             data={trendsData?.dislikeTrend}
             navigation={navigation}
-            style={{ marginVertical: 40 }}
+            style={{marginVertical: 40}}
           />
           <TrendsBox
             title={strings.mostCommentDays}

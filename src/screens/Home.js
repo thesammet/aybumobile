@@ -18,7 +18,7 @@ import Loading from '../components/Loading';
 import {strings} from '../constants/localization';
 import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
 
-const {width, height} = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 
 const SPACING = 10;
 const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.74 : width * 0.76;

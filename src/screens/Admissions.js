@@ -19,7 +19,7 @@ import {
 import {useTheme} from '@react-navigation/native';
 import BasicHeader from '../components/BasicHeader';
 import {Send, Plus} from '../components/icons';
-import Loading from '../components/Loading';
+// import Loading from '../components/Loading';
 import {AuthContext} from '../context/Auth';
 import {errorMessage, successMessage} from '../utils/showToast';
 import {strings} from '../constants/localization';
@@ -54,7 +54,7 @@ const Admissions = ({navigation}) => {
   }, []);
 
   const handleSheetChanges = useCallback(index => {
-    console.log('handleSheetChanges', index); // 1, -1
+    // console.log('handleSheetChanges', index); // 1, -1
   }, []);
 
   const renderBackdrop = useCallback(
@@ -108,7 +108,7 @@ const Admissions = ({navigation}) => {
     onChangeAdmission('');
     setPage(0);
     getAdmissions(0);
-    console.log(admissions);
+
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
@@ -133,24 +133,24 @@ const Admissions = ({navigation}) => {
     }
   };
 
-  const getAdmissionsAfter = async givenPage => {
-    try {
-      setPage(0);
-      let response = await getAllPosts(token, givenPage, 6);
-      if (response.error) {
-        errorMessage(strings.admissionCouldntSend);
-      } else {
-        setAdmissions(null);
-        setAdmissions([...response?.data]); // push state
-        // push first
-        setPage(0);
-      }
-    } catch (error) {
-      errorMessage(strings.admissionCouldntSend);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const getAdmissionsAfter = async givenPage => {
+  //   try {
+  //     setPage(0);
+  //     let response = await getAllPosts(token, givenPage, 6);
+  //     if (response.error) {
+  //       errorMessage(strings.admissionCouldntSend);
+  //     } else {
+  //       setAdmissions(null);
+  //       setAdmissions([...response?.data]); // push state
+  //       // push first
+  //       setPage(0);
+  //     }
+  //   } catch (error) {
+  //     errorMessage(strings.admissionCouldntSend);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const getMoreAdmissions = async () => {
     setLoadingMore(true);
@@ -197,11 +197,11 @@ const Admissions = ({navigation}) => {
       if (response.error) {
         errorMessage(strings.anErrorOccured);
       } else {
-        successMessage('Gönderi silindi.');
+        successMessage(strings.postDeleted);
         getAdmissions(0);
       }
     } catch (error) {
-      errorMessage('Gönderi silinemedi.');
+      errorMessage(strings.postNotDeleted);
     }
   };
 
@@ -222,6 +222,7 @@ const Admissions = ({navigation}) => {
         isBack={false}
       />
       {/* {loading && <Loading />} */}
+      {loading && <LoadingMore />}
 
       <BannerAd
         unitId={
@@ -348,7 +349,7 @@ const Admissions = ({navigation}) => {
                 id="admission"
                 defaultValue={admission}
                 onChangeText={onChangeAdmission}
-                placeholder="Write Something..."
+                placeholder={strings.writeSomething}
                 autoFocus={true}
                 blurOnSubmit={true}
                 numberOfLines={5}

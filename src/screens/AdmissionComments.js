@@ -33,6 +33,7 @@ import {
   postCommentSend,
 } from '../api/aybu-social/post_comment';
 import {useKeyboard} from '@react-native-community/hooks';
+import BottomSheet from 'react-native-gesture-bottom-sheet';
 
 const AdmissionComments = ({route, navigation}) => {
   const {colors} = useTheme();
@@ -50,6 +51,8 @@ const AdmissionComments = ({route, navigation}) => {
     onEndReachedCalledDuringMomentum,
     setOnEndReachedCalledDuringMomentum,
   ] = useState(false);
+
+  const bottomSheet = useRef();
 
   useEffect(() => {
     initAdmissions();
@@ -93,7 +96,6 @@ const AdmissionComments = ({route, navigation}) => {
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
-        console.log('rr: ', response?.data);
         setAdmissionComments([...response?.data]); // push state
         setPage(page + 1);
       }
@@ -115,7 +117,6 @@ const AdmissionComments = ({route, navigation}) => {
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
-        console.log('rr: ', response?.data);
         setAdmissionComments([...response?.data]); // push state
         setPage(page + 1);
       }
@@ -179,11 +180,11 @@ const AdmissionComments = ({route, navigation}) => {
         postId,
         commentId,
       );
-      successMessage('Yorum silindi.');
+      successMessage(strings.postDeleted);
       getAdmissionComments(0);
     } catch (error) {
       console.log('Delete Admission Error: ', error);
-      errorMessage('Yorum silinemedi.');
+      errorMessage(strings.postNotDeleted);
     }
   };
 

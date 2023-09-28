@@ -18,14 +18,11 @@ export const postComment = async (token, comment, food_id) => {
     return json;
   } catch (error) {
     console.log('Post Comment Error: ', error);
-    return { error: true };
+    return {error: true};
   }
 };
 
-export const commentRating = async (
-  token,
-  comment,
-) => {
+export const commentRating = async (token, comment) => {
   try {
     const response = await fetch(`${baseURL}/comment-rating`, {
       method: 'POST',
@@ -34,7 +31,7 @@ export const commentRating = async (
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        comment
+        comment,
       }),
     });
 
@@ -42,31 +39,33 @@ export const commentRating = async (
     return json;
   } catch (error) {
     console.log('Post Comment Rating Error: ', error);
-    return { error: true };
+    return {error: true};
   }
 };
 
 export const getSingleFoodComment = async (token, food_id, page, limit) => {
   try {
-    const response = await fetch(`${baseURL}/comment/${food_id}?page=${page}&limit=${limit}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+    const response = await fetch(
+      `${baseURL}/comment/${food_id}?page=${page}&limit=${limit}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
 
     const json = await response.json();
     return json;
   } catch (error) {
     console.log('Get Single Food Comment Error: ', error);
-    return { error: true };
+    return {error: true};
   }
 };
 
 export const deleteComment = async (token, commentId, food) => {
   try {
-    console.log(food)
     const response = await fetch(`${baseURL}/comment/${commentId}`, {
       method: 'DELETE',
       headers: {
@@ -74,14 +73,14 @@ export const deleteComment = async (token, commentId, food) => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        food
-      })
+        food,
+      }),
     });
 
     const json = await response.json();
     return json;
   } catch (error) {
     console.log('Delete Comment Error: ', error);
-    return { error: true };
+    return {error: true};
   }
 };

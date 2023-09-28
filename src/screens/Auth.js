@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect, useRef} from 'react';
+import {useContext, useState, useEffect, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -24,7 +24,7 @@ import {ChevronDown, Check} from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
 import {sections} from '../assets/sources/sections';
 import {strings} from '../constants/localization';
-import {errorMessage, successMessage} from '../utils/showToast';
+import {errorMessage} from '../utils/showToast';
 import AppText from '../components/AppText';
 import RNLocalize from 'react-native-localize';
 
@@ -77,7 +77,6 @@ export default function Auth() {
       addDepartment(department);
       addDepartmentCode(departmentRole);
       addToken(response.token);
-
       // successMessage(strings.success, strings.registeredSuccess);
     }
     setLoading(false);
