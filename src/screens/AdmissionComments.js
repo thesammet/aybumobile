@@ -20,6 +20,7 @@ import {
   Platform,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
+
 import BasicHeader from '../components/BasicHeader';
 import {Send, Plus} from '../components/icons';
 import Loading from '../components/Loading';
@@ -51,8 +52,7 @@ const AdmissionComments = ({route, navigation}) => {
     onEndReachedCalledDuringMomentum,
     setOnEndReachedCalledDuringMomentum,
   ] = useState(false);
-
-  const bottomSheet = useRef();
+  const [adLoaded, setAdLoaded] = useState(false);
 
   useEffect(() => {
     initAdmissions();
@@ -198,7 +198,9 @@ const AdmissionComments = ({route, navigation}) => {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' && 'height'}
+      // behavior={Platform.OS === 'ios' && 'height'}
+      //behavior={Platform.OS == 'ios' ? 'padding' : null}
+      {...(Platform.OS === 'ios' && {behavior: 'padding'})}
       style={{
         flex: 1,
         position: 'relative',
@@ -215,6 +217,9 @@ const AdmissionComments = ({route, navigation}) => {
         requestOptions={{
           requestNonPersonalizedAdsOnly: true,
         }}
+        onAdLoaded={() => {
+          setAdLoaded(true);
+        }}
       />
       {loading && <Loading size="small" />}
       {!loading && admissionComments?.length == 0 ? (
@@ -230,6 +235,7 @@ const AdmissionComments = ({route, navigation}) => {
             paddingHorizontal: 35,
             paddingTop: 24,
             paddingBottom: 72,
+            marginTop: adLoaded ? 16 : 0,
           }}
           ItemSeparatorComponent={() => <View style={{height: 24}} />}
           refreshControl={
@@ -264,8 +270,8 @@ const AdmissionComments = ({route, navigation}) => {
                 backgroundColor: colors.commentInputBg,
                 bottom: keyboard.keyboardShown
                   ? Platform.OS === 'ios'
-                    ? 40
-                    : 30
+                    ? 48
+                    : 32
                   : 10,
               },
             ]}>
@@ -274,6 +280,7 @@ const AdmissionComments = ({route, navigation}) => {
               onChangeText={onChangeAdmissionComment}
               value={admissionComment}
               multiline={true}
+              autoFocus={false}
               numberOfLines={4}
               textAlignVertical="center"
               verticalAlign="center"

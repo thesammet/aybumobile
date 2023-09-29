@@ -21,6 +21,7 @@ import Loading from '../components/Loading';
 import {AuthContext} from '../context/Auth';
 import {errorMessage, successMessage} from '../utils/showToast';
 import {strings} from '../constants/localization';
+import {useKeyboard} from '@react-native-community/hooks';
 
 const Comments = ({route, navigation}) => {
   const {colors} = useTheme();
@@ -33,6 +34,12 @@ const Comments = ({route, navigation}) => {
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(0);
+  const [
+    onEndReachedCalledDuringMomentum,
+    setOnEndReachedCalledDuringMomentum,
+  ] = useState(false);
+
+  const keyboard = useKeyboard();
 
   useEffect(() => {
     initComments();
@@ -120,7 +127,7 @@ const Comments = ({route, navigation}) => {
       if (response.error) {
         //errorMessage(strings.commentCouldntSend);
       } else {
-        successMessage(strings.commentsent);
+        //successMessage(strings.commentsent);
         onChangeComment('');
         getCommentsAfter(0);
       }
@@ -134,16 +141,17 @@ const Comments = ({route, navigation}) => {
   const deleteUserComment = async id => {
     try {
       let response = await deleteComment(token, id, item?.meal?._id);
-      successMessage('Yorum silindi.');
+      successMessage(strings.postDeleted);
       getCommentsAfter(0);
     } catch (error) {
-      errorMessage('Yorum silinemedi.');
+      errorMessage(strings.postNotDeleted);
     }
   };
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' && 'height'}
+      // behavior={Platform.OS === 'ios' && 'height'}
+      {...(Platform.OS === 'ios' && {behavior: 'padding'})}
       style={{
         flex: 1,
         position: 'relative',
@@ -154,7 +162,7 @@ const Comments = ({route, navigation}) => {
         navigation={navigation}
         type="isThree"
       />
-      {loading && <Loading />}
+      {loading && <Loading size="small" />}
       {!loading && comments?.length == 0 ? (
         <Text style={[styles.noComment, {color: colors.noCommentText}]}>
           {strings.noComment1 + '\n' + strings.noComment2}
@@ -181,6 +189,9 @@ const Comments = ({route, navigation}) => {
           )}
           onEndReachedThreshold={0.2}
           onEndReached={getMoreFoodComments}
+          onMomentumScrollBegin={() => {
+            setOnEndReachedCalledDuringMomentum(true);
+          }}
         />
       )}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -188,7 +199,14 @@ const Comments = ({route, navigation}) => {
           <View
             style={[
               styles.commentInputContainer,
-              {backgroundColor: colors.commentInputBg},
+              {
+                backgroundColor: colors.commentInputBg,
+                bottom: keyboard.keyboardShown
+                  ? Platform.OS === 'ios'
+                    ? 48
+                    : 32
+                  : 10,
+              },
             ]}>
             <TextInput
               style={[styles.commentInput, {color: colors.commentInputText}]}
@@ -213,6 +231,7 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
     paddingRight: 16,
+    paddingTop: Platform.OS === 'ios' ? 4 : 0,
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
@@ -224,9 +243,9 @@ const styles = StyleSheet.create({
     elevation: 3,
     zIndex: 3,
     position: 'absolute',
-    bottom: 10,
     left: 0,
     right: 0,
+    bottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -234,9 +253,11 @@ const styles = StyleSheet.create({
   },
   commentInput: {
     flex: 1,
-    height: 48,
     fontSize: 16,
     paddingHorizontal: 16,
+    paddingVertical: 2,
+    borderRadius: 12,
+    height: Platform.OS === 'ios' ? 48 : 'auto',
   },
   noComment: {
     textAlign: 'center',

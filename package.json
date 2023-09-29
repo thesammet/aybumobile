@@ -5,6 +5,7 @@
   "scripts": {
     "android": "npx react-native run-android",
     "ios": "npx react-native run-ios",
+    "list-devices":"xcrun simctl list devices",
     "ios12": "npx react-native run-ios --simulator='iPhone 12'",
     "ios14": "npx react-native run-ios --simulator='iPhone 14'",
     "ios14pro": "npx react-native run-ios --simulator='iPhone 14 Pro'",

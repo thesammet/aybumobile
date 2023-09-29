@@ -33,6 +33,7 @@ import {
   BottomSheetBackdrop,
 } from '@gorhom/bottom-sheet';
 import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
+import {KeyboardAvoidingView} from 'react-native';
 
 const Admissions = ({navigation}) => {
   const {colors} = useTheme();
@@ -44,6 +45,7 @@ const Admissions = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [adLoaded, setAdLoaded] = useState(false);
 
   /* start bottom sheet */
   const bottomSheetModalRef = useRef(null);
@@ -216,6 +218,7 @@ const Admissions = ({navigation}) => {
   return (
     <View
       // behavior={Platform.OS === 'ios' && 'height'}
+      // behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
       style={{
         flex: 1,
         position: 'relative',
@@ -238,6 +241,9 @@ const Admissions = ({navigation}) => {
         requestOptions={{
           requestNonPersonalizedAdsOnly: true,
         }}
+        onAdLoaded={() => {
+          setAdLoaded(true);
+        }}
       />
 
       {!loading && admissions?.length == 0 ? (
@@ -256,6 +262,7 @@ const Admissions = ({navigation}) => {
             paddingHorizontal: 35,
             paddingTop: 24,
             paddingBottom: 72,
+            marginTop: adLoaded ? 16 : 0,
           }}
           ItemSeparatorComponent={() => <View style={{height: 24}} />}
           refreshControl={

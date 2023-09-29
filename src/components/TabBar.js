@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     zIndex: 3,
     elevation: 3,
-    marginBottom: Platform.OS === 'ios' ? 4 : 12,
+    marginBottom: Platform.OS === 'ios' ? 8 : 12,
   },
   tabButton: {
     alignItems: 'center',

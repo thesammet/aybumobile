@@ -16,6 +16,7 @@ import {useTheme} from '@react-navigation/native';
 import {getMonthlyFood} from '../api/food';
 import Loading from '../components/Loading';
 import {strings} from '../constants/localization';
+import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 
 const {width} = Dimensions.get('screen');
 
@@ -67,6 +68,14 @@ const Home = ({navigation}) => {
     }
   };
 
+  const getBannerUnitId = () => {
+    return __DEV__
+      ? TestIds.BANNER
+      : Platform.OS === 'ios'
+      ? 'ca-app-pub-6556478222911747/3994339534'
+      : 'ca-app-pub-6556478222911747/6655629067';
+  };
+
   return (
     <View style={styles.homeContainer}>
       <Header type="inside" />
@@ -77,7 +86,9 @@ const Home = ({navigation}) => {
       />
 
       {loading ? (
-        <Loading size="small" />
+        <View style={{flex: 1}}>
+          <Loading size="small" />
+        </View>
       ) : (
         <>
           <View style={styles.homeInsideContainer}>
@@ -145,6 +156,13 @@ const Home = ({navigation}) => {
           </View>
         </>
       )}
+      <BannerAd
+        unitId={getBannerUnitId()}
+        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
+      />
     </View>
   );
 };
@@ -155,6 +173,7 @@ const styles = StyleSheet.create({
   },
   homeInsideContainer: {
     marginTop: 36,
+    flex: 1,
   },
   mealListText: {
     fontSize: 28,
