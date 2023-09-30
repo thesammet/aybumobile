@@ -1,14 +1,15 @@
 import 'react-native-gesture-handler';
-import {useEffect} from 'react';
-import {StyleSheet, Platform} from 'react-native';
-import {AuthProvider} from '@/context/Auth';
+import { useEffect } from 'react';
+import { StyleSheet, Platform } from 'react-native';
+import { AuthProvider } from '@/context/Auth';
 import Navigation from '@/navigation';
-import {ThemeProvider} from '@/context/Theme';
-import {ProfileProvider} from './context/Profile';
+import { ThemeProvider } from '@/context/Theme';
+import { ProfileProvider } from './context/Profile';
 import SplashScreen from 'react-native-splash-screen';
-import {requestTrackingPermission} from 'react-native-tracking-transparency';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {MenuProvider} from 'react-native-popup-menu';
+import { requestTrackingPermission } from 'react-native-tracking-transparency';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { MenuProvider } from 'react-native-popup-menu';
+import { requestUserPermission, notificationListener } from '../src/utils/notificationService';
 
 const iosTrack = async () => {
   const trackingStatus = await requestTrackingPermission();
@@ -20,10 +21,12 @@ const App = () => {
   useEffect(() => {
     Platform.OS === 'ios' && SplashScreen.hide();
     Platform.OS === 'ios' && iosTrack();
+    requestUserPermission();
+    notificationListener();
   }, []);
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <MenuProvider>
         <AuthProvider>
           <ProfileProvider>
