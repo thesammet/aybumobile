@@ -72,13 +72,13 @@ const Comment = ({comment, deleteUserComment, refreshData = () => {}}) => {
   };
 
   const postComplaint = async (title = '', description = '') => {
-    console.log('comment: ', comment);
+    // console.log('comment: ', comment);
 
-    console.log('token: ', token);
-    console.log('ownerId: ', comment.comment.owner);
-    console.log('title: ', title);
-    console.log('description: ', description);
-    console.log('postId: ', comment.comment._id);
+    // console.log('token: ', token);
+    // console.log('ownerId: ', comment.comment.owner);
+    // console.log('title: ', title);
+    // console.log('description: ', description);
+    // console.log('postId: ', comment.comment._id);
 
     let response = await createComplaint(
       token,

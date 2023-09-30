@@ -54,13 +54,6 @@ const Admission = ({
   const [complaintModalVisible, setComplaintModalVisible] = useState(false);
   const [specials, setSpecials] = useState(['developer-admin', 'admin']);
 
-  const [postComments, setPostComments] = useState([]);
-  const [page, setPage] = useState(0);
-
-  useEffect(() => {
-    getAdmissionComments();
-  }, []);
-
   useEffect(() => {
     if (isFirstRun.current) {
       if (likeStatus) {
@@ -75,43 +68,6 @@ const Admission = ({
       animation.current.play(0, 19);
     }
   }, [likeStatus]);
-
-  const getAdmissionComments = async () => {
-    try {
-      let response = await getAllCommentsByPost(
-        token,
-        admission?.post?._id,
-        page,
-        4,
-      );
-      if (response.error) {
-        console.log('getAdmissionComment error: ', response);
-      } else {
-        setPostComments([...postComments, ...response?.data]);
-      }
-    } catch (error) {
-      console.log('error: ', error);
-    } finally {
-    }
-  };
-
-  // const getMoreAdmissionComments = async () => {
-  //   try {
-  //     let response = await getAllCommentsByPost(
-  //       token,
-  //       admission?.post?._id,
-  //       page,
-  //       4,
-  //     );
-  //     if (response.error) {
-  //     } else {
-  //       setPostComments([...postComments, ...response?.data]);
-  //     }
-  //   } catch (error) {
-  //     console.log('error: ', error);
-  //   } finally {
-  //   }
-  // };
 
   const admissionRatingMethod = async () => {
     likeStatus ? setLikeCount(likeCount - 1) : setLikeCount(likeCount + 1);
@@ -159,11 +115,11 @@ const Admission = ({
   };
 
   const postComplaint = async (title = '', description = '') => {
-    console.log('token: ', token);
-    console.log('ownerId: ', admission.post.owner._id);
-    console.log('title: ', title);
-    console.log('description: ', description);
-    console.log('postId: ', admission.post._id);
+    // console.log('token: ', token);
+    // console.log('ownerId: ', admission.post.owner._id);
+    // console.log('title: ', title);
+    // console.log('description: ', description);
+    // console.log('postId: ', admission.post._id);
 
     let response = await createComplaint(
       token,

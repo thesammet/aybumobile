@@ -39,7 +39,9 @@ const BasicHeader = ({
         </AyButton>
       )}
 
-      <Text style={[styles.headerText, styles.dateText, textStyle]}>
+      <Text
+        style={[styles.headerText, styles.dateText, textStyle]}
+        numberOfLines={1}>
         {text}
       </Text>
       {type === 'isThree' && (
@@ -68,10 +70,13 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: '#fff',
-    flex: 1,
+    width: 140,
+    textAlign: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   dateText: {
-    fontSize: 14,
+    fontSize: 16,
     textAlign: 'center',
   },
   dayText: {
