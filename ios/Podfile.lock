@@ -466,7 +466,7 @@ PODS:
   - RNFBApp (12.9.3):
     - Firebase/CoreOnly (= 8.8.0)
     - React-Core
-  - RNGestureHandler (2.7.1):
+  - RNGestureHandler (2.13.1):
     - React-Core
   - RNGoogleMobileAds (12.2.0):
     - Google-Mobile-Ads-SDK (= 10.10.0)
@@ -474,11 +474,12 @@ PODS:
     - React-Core
   - RNLocalize (2.2.4):
     - React-Core
-  - RNReanimated (2.11.0):
+  - RNReanimated (3.5.4):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
     - glog
+    - hermes-engine
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
@@ -488,6 +489,7 @@ PODS:
     - React-Core/RCTWebSocket
     - React-CoreModules
     - React-cxxreact
+    - React-hermes
     - React-jsi
     - React-jsiexecutor
     - React-jsinspector
@@ -799,10 +801,10 @@ SPEC CHECKSUMS:
   ReactNativeLocalization: 076497d7ca70341c751cd3b3e7c86187332a182d
   RNDeviceInfo: bf8a32acbcb875f568217285d1793b0e8588c974
   RNFBApp: 729c0666395b1953198dc4a1ec6deb8fbe1c302e
-  RNGestureHandler: b7a872907ee289ada902127f2554fa1d2c076122
+  RNGestureHandler: 38aa38413896620338948fbb5c90579a7b1c3fde
   RNGoogleMobileAds: 0f42b64d0faffc30a93fbc744ad8789e32dbe61f
   RNLocalize: 0df7970cfc60389f00eb62fd7c097dc75af3fb4f
-  RNReanimated: 8087b41c5521e9fda327ce93e248d87614cfe980
+  RNReanimated: 12a905af0de1a7f728eacebc5a6af1cc5ada64ad
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
@@ -811,4 +813,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 93f750b60a44ab1484a9471924f09e7529f721b9
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.0
