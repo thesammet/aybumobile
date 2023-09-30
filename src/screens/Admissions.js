@@ -179,7 +179,6 @@ const Admissions = ({ navigation }) => {
       let firToken = storage.getString("fcmToken")
       let response = await postSend(token, admission, firToken);
       onChangeAdmission('');
-      console.log(response)
       if (response.error) {
         errorMessage(strings.admissionCouldntSend);
       } else {
