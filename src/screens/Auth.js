@@ -290,6 +290,7 @@ export default function Auth() {
                     flexDirection: 'row',
                     alignItems: 'center',
                     marginTop: 6,
+                    marginBottom: 10,
                   }}
                   onPress={() =>
                     Linking.openURL(
@@ -367,7 +368,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'space-between',
     paddingHorizontal: 48,
-    paddingVertical: 48,
+    paddingTop: 24,
+    paddingBottom: 48,
   },
   infoView: {
     alignItems: 'center',
