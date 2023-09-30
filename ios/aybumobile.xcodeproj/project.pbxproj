@@ -539,7 +539,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = 95C8494729;
+				DEVELOPMENT_TEAM = 2K7T5T324Y;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = aybumobile/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Aybü Mobil";
@@ -554,7 +554,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.aybumobilee;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aybumobile;
 				PRODUCT_NAME = aybumobile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -571,7 +571,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = 95C8494729;
+				DEVELOPMENT_TEAM = 2K7T5T324Y;
 				INFOPLIST_FILE = aybumobile/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Aybü Mobil";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
@@ -585,7 +585,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.aybumobilee;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aybumobile;
 				PRODUCT_NAME = aybumobile;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
