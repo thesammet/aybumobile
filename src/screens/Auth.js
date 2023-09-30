@@ -12,6 +12,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Platform,
+  Linking,
 } from 'react-native';
 import {register} from '../api/user';
 import {AuthContext} from '../context/Auth';
@@ -20,13 +21,14 @@ import {useTheme} from '@react-navigation/native';
 import DeviceInfo from 'react-native-device-info';
 import TYPOGRAPHY from '../constants/typography';
 import Header from '../components/Header';
-import {ChevronDown, Check} from '../components/icons';
+import {ChevronDown, Check, ExternalLink} from '../components/icons';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
 import {sections} from '../assets/sources/sections';
 import {strings} from '../constants/localization';
 import {errorMessage} from '../utils/showToast';
 import AppText from '../components/AppText';
 import RNLocalize from 'react-native-localize';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -39,6 +41,7 @@ export default function Auth() {
   const [isValid, setValid] = useState(false);
   const [borderColor, setBorderColor] = useState('gray');
   const [languageCode, setLanguageCode] = useState('en');
+  const [termsAndConditions, setTermsAndConditions] = useState(false);
 
   const {addToken} = useContext(AuthContext);
   const {addUsername, addFaculty, addDepartment, addDepartmentCode} =
@@ -52,7 +55,7 @@ export default function Auth() {
 
   useEffect(() => {
     validMethod();
-  }, [username, department, faculty]);
+  }, [username, department, faculty, termsAndConditions]);
 
   useEffect(() => {
     const localizeObj = RNLocalize.getLocales();
@@ -60,7 +63,7 @@ export default function Auth() {
   });
 
   const validMethod = () => {
-    username.length > 0 && department && faculty
+    username.length > 0 && department && faculty && termsAndConditions
       ? setValid(true)
       : setValid(false);
   };
@@ -262,6 +265,47 @@ export default function Auth() {
                   <ChevronDown height={24} width={24} color={'#001A43'} />
                 </View>
               </TouchableOpacity>
+
+              <View
+                style={{
+                  marginTop: 20,
+                  alignItems: 'center',
+                }}>
+                <BouncyCheckbox
+                  size={25}
+                  fillColor={colors.welcomeBg}
+                  text={strings.termsApprove}
+                  textStyle={{
+                    textDecorationLine: 'none',
+                    marginLeft: -8,
+                  }}
+                  iconStyle={{borderColor: 'red'}}
+                  innerIconStyle={{borderWidth: 2}}
+                  onPress={isChecked => {
+                    setTermsAndConditions(isChecked);
+                  }}
+                />
+                <TouchableOpacity
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 6,
+                  }}
+                  onPress={() =>
+                    Linking.openURL(
+                      'https://aybumobile.com/terms-and-conditions',
+                    )
+                  }>
+                  <AppText style={{fontSize: 16, marginRight: 4}}>
+                    {strings.terms}
+                  </AppText>
+                  <ExternalLink
+                    width="20"
+                    height="20"
+                    color={colors.welcomeBg}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>

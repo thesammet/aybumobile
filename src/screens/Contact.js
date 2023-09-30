@@ -57,11 +57,19 @@ const Contact = ({navigation}) => {
         ]}>
         {contact.name}
       </Text>
-      <TouchableOpacity onPress={() => Linking.openURL(contact.linkedin)}>
+      <TouchableOpacity
+        onPress={() => Linking.openURL(contact.linkedin)}
+        activeOpacity={0.7}>
         <Text style={styles.contactLink}>LinkedIn Profili</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => handleEmailPress(contact.email)}>
-        <Text style={styles.contactLink}>E-posta Gönder</Text>
+      <TouchableOpacity
+        onPress={() => handleEmailPress(contact.email)}
+        style={{flexDirection: 'row', alignItems: 'center'}}
+        activeOpacity={0.7}>
+        <Text style={[styles.contactLink, {color: colors.text}]}>
+          {contact.email}
+        </Text>
+        <Text style={styles.contactLink}> E-posta Gönder</Text>
       </TouchableOpacity>
     </View>
   );

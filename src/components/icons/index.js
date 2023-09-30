@@ -7,6 +7,7 @@ export {default as ChevronRight} from './ChevronRight';
 export {default as Close} from './Close';
 export {default as Dot} from './Dot';
 export {default as Editor} from './Editor';
+export {default as ExternalLink} from './ExternalLink';
 export {default as Globe} from './Globe';
 export {default as HeartEmpty} from './HeartEmpty';
 export {default as Heart} from './Heart';

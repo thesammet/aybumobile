@@ -93,6 +93,8 @@ export let strings = new LocalizedStrings({
     dontWantSee: "I don't want to see that",
     makeComplaint: 'Make a Complaint',
     contact: 'CONTACT US',
+    terms: 'Terms and Conditions.',
+    termsApprove: 'I agree to the Terms and Conditions.',
   },
   tr: {
     lang: 'tr',
@@ -187,5 +189,7 @@ export let strings = new LocalizedStrings({
     dontWantSee: 'Bunu görmek istemiyorum',
     makeComplaint: 'Şikayet Et',
     contact: 'İLETİŞİME GEÇ',
+    terms: 'Şartlar ve Koşulları',
+    termsApprove: 'Şartlar ve Koşulları onaylıyorum.',
   },
 });
