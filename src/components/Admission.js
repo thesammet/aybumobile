@@ -8,10 +8,11 @@ import {
   Editor,
   SteinsGate,
   MessageCircleNew,
+  Dot,
 } from '../components/icons';
 import moment from 'moment/min/moment-with-locales';
 import {strings} from '../constants/localization';
-import {errorMessage} from '../utils/showToast';
+import {errorMessage, successMessage} from '../utils/showToast';
 import {AuthContext} from '../context/Auth';
 import AppText from '../components/AppText';
 import {ProfileContext} from '../context/Profile';
@@ -20,8 +21,22 @@ import {
   getAllCommentsByPost,
   ratePostComment,
 } from '../api/aybu-social/post_comment';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
+import ComplaintModal from './ComplaintModal';
+import {createComplaint} from '../api/user';
 
-const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
+const Admission = ({
+  type = '',
+  navigation,
+  admission,
+  deleteUserAdmission,
+  refreshData = () => {},
+}) => {
   const {colors} = useTheme();
 
   const {token} = useContext(AuthContext);
@@ -36,6 +51,7 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
     admission?.post?.commentCount,
   );
   const [modalVisible, setModalVisible] = useState(false);
+  const [complaintModalVisible, setComplaintModalVisible] = useState(false);
   const [specials, setSpecials] = useState(['developer-admin', 'admin']);
 
   const [postComments, setPostComments] = useState([]);
@@ -142,6 +158,30 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
     setModalVisible(false);
   };
 
+  const postComplaint = async (title = '', description = '') => {
+    console.log('token: ', token);
+    console.log('ownerId: ', admission.post.owner._id);
+    console.log('title: ', title);
+    console.log('description: ', description);
+    console.log('postId: ', admission.post._id);
+
+    let response = await createComplaint(
+      token,
+      admission.post.owner._id,
+      title,
+      description,
+      admission.post._id,
+    );
+
+    console.log('response: ', response);
+    if (response.error) {
+      errorMessage(strings.notSendedComplaint);
+    } else {
+      successMessage(strings.sendedComplaint);
+      refreshData();
+    }
+  };
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -149,6 +189,14 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
         pressedAdmissionComment();
       }}
       activeOpacity={0.8}>
+      <ComplaintModal
+        complaintModalVisible={complaintModalVisible}
+        setComplaintModalVisible={setComplaintModalVisible}
+        buttonBg={colors.trendHeader}
+        postComplaint={(title, description) => {
+          postComplaint(title, description);
+        }}
+      />
       <Modal
         animationType="slide"
         transparent={true}
@@ -216,12 +264,61 @@ const Admission = ({type = '', navigation, admission, deleteUserAdmission}) => {
           )}
         </View>
 
-        <Text style={[styles.commentDateText, {color: colors.dateText}]}>
-          {moment(admission?.post?.createdAt)
-            .locale(strings.lang == 'en' ? 'en' : 'tr')
-            .fromNow()}
-        </Text>
+        <View style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
+          <Text
+            style={[
+              styles.commentDateText,
+              {color: colors.dateText, marginRight: 8},
+            ]}>
+            {moment(admission?.post?.createdAt)
+              .locale(strings.lang == 'en' ? 'en' : 'tr')
+              .fromNow()}
+          </Text>
+          <Menu>
+            <MenuTrigger>
+              <Dot width="24" height="24" color={colors.tabBarTextActive} />
+            </MenuTrigger>
+
+            <MenuOptions
+              customStyles={{
+                optionsContainer: styles.menuOptionsContainer,
+              }}>
+              <MenuOption
+                onSelect={() => {
+                  postComplaint();
+                }}
+                customStyles={{
+                  optionWrapper: [
+                    styles.menuOptionWrapper,
+                    {
+                      borderBottomWidth: 1,
+                      borderBottomColor: '#f3f4f6',
+                    },
+                  ],
+                }}>
+                <Text>{strings.dontWantSee}</Text>
+              </MenuOption>
+
+              <MenuOption
+                onSelect={() => {
+                  setComplaintModalVisible(true);
+                }}
+                customStyles={{
+                  optionWrapper: [
+                    styles.menuOptionWrapper,
+                    {
+                      borderBottomWidth: 1,
+                      borderBottomColor: '#f3f4f6',
+                    },
+                  ],
+                }}>
+                <Text>{strings.makeComplaint}</Text>
+              </MenuOption>
+            </MenuOptions>
+          </Menu>
+        </View>
       </View>
+
       <View style={styles.commentBody}>
         <Text style={[styles.commentText, {color: colors.commentText}]}>
           {admission?.post?.content}
@@ -395,6 +492,31 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     marginTop: 20,
+  },
+
+  //
+
+  menuOptionsContainer: {
+    // marginTop: Platform.OS === 'ios' ? 30 : 30,
+    // marginLeft: Dimensions.get('window').width / 3,
+    marginRight: 0,
+    borderRadius: 6,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+    zIndex: 2,
+  },
+  menuOptionWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
   },
 });
 

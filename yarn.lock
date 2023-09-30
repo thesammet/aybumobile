@@ -6493,6 +6493,13 @@ react-native-device-info@^10.11.0:
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-10.11.0.tgz#2c9f378f1c3c5eb9aafa803d015b84325991a9aa"
   integrity sha512-qRzhuYOm5ZXQi5dhfJFjDq157oipxcEW/fo0QyMm5+TI6V6/+P/tju+Hif6z0rpLCf7MV7iDVRv2Kqha4D/yvQ==
 
+react-native-element-dropdown@^2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/react-native-element-dropdown/-/react-native-element-dropdown-2.10.0.tgz#f4ec2310b37ff3ba64927286ab775c0ed28b681e"
+  integrity sha512-aFjw0JbUIKGkqklHxDm8aDCZW6Q1GICP7pIHc0sllvpWpEamItzOwAMV4G1mBIKxED77Mp+nkq9p0Dhsr/faVw==
+  dependencies:
+    lodash "^4.17.21"
+
 react-native-email@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-native-email/-/react-native-email-2.1.0.tgz#d4af584b9a9e26ef67420e4cfb590e385595b208"
@@ -6553,6 +6560,11 @@ react-native-pdf@^6.6.2:
   dependencies:
     crypto-js "^3.2.0"
     deprecated-react-native-prop-types "^2.3.0"
+
+react-native-popup-menu@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/react-native-popup-menu/-/react-native-popup-menu-0.16.1.tgz#b1bb56be5c0838bbc2f532af7b1f554b7ceef566"
+  integrity sha512-xRS7mRh0exwu7Iw8PPVHdM11d13A/KzYjy0/fZx3zVtxISxPkNaDGayau6oa7HqO3Nj0oS9ulFCYjcQfG6vahA==
 
 react-native-reanimated@^2.11.0:
   version "2.11.0"

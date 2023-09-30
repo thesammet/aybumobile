@@ -1,6 +1,6 @@
 const baseURL = 'https://aybu-mobile.herokuapp.com';
-import { errorMessage } from '../utils/showToast';
-import { strings } from '../constants/localization';
+import {errorMessage} from '../utils/showToast';
+import {strings} from '../constants/localization';
 
 export const register = async (deviceId, username, department, faculty) => {
   try {
@@ -21,7 +21,7 @@ export const register = async (deviceId, username, department, faculty) => {
     return json;
   } catch (error) {
     errorMessage(strings.error, strings.anErrorOccured);
-    return { error: true };
+    return {error: true};
   }
 };
 
@@ -44,7 +44,7 @@ export const updateProfile = async (token, department, username, faculty) => {
     return json;
   } catch (error) {
     errorMessage(strings.error, strings.anErrorOccured);
-    return { error: true };
+    return {error: true};
   }
 };
 
@@ -62,7 +62,7 @@ export const getProfile = async token => {
     return json;
   } catch (error) {
     errorMessage(strings.error, strings.anErrorOccured);
-    return { error: true };
+    return {error: true};
   }
 };
 
@@ -80,7 +80,7 @@ export const userRole = async token => {
     return json;
   } catch (error) {
     errorMessage(strings.error, strings.anErrorOccured);
-    return { error: true };
+    return {error: true};
   }
 };
 
@@ -98,7 +98,7 @@ export const deleteSelf = async token => {
     return json;
   } catch (error) {
     errorMessage(strings.error, strings.anErrorOccured);
-    return { error: true };
+    return {error: true};
   }
 };
 
@@ -117,6 +117,36 @@ export const getAllUsers = async token => {
     return json;
   } catch (error) {
     errorMessage(strings.error, strings.anErrorOccured);
-    return { error: true };
+    return {error: true};
+  }
+};
+
+export const createComplaint = async (
+  token,
+  complainedUser,
+  title,
+  description,
+  postId,
+) => {
+  try {
+    const response = await fetch(`${baseURL}/users/create-complaint`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        complainedUser,
+        title,
+        description,
+        postId,
+      }),
+    });
+
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    errorMessage(strings.error, strings.anErrorOccured);
+    return {error: true};
   }
 };

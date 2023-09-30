@@ -1,31 +1,37 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import React, {useEffect, useRef, useState, useContext} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View, Modal} from 'react-native';
+import {useTheme} from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
-import { Narnia, Kratos, Editor, SteinsGate } from '../components/icons';
+import {Narnia, Kratos, Editor, SteinsGate, Dot} from '../components/icons';
 import moment from 'moment/min/moment-with-locales';
-import { strings } from '../constants/localization';
-import { errorMessage, successMessage } from '../utils/showToast';
-import { commentRating, deleteComment } from '../api/comment';
-import { AuthContext } from '../context/Auth';
+import {strings} from '../constants/localization';
+import {errorMessage, successMessage} from '../utils/showToast';
+import {commentRating, deleteComment} from '../api/comment';
+import {AuthContext} from '../context/Auth';
 import AppText from '../components/AppText';
-import { ProfileContext } from '../context/Profile';
+import {ProfileContext} from '../context/Profile';
 import AyButton from './AyButton';
+import ComplaintModal from './ComplaintModal';
+import {createComplaint} from '../api/user';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 
-const Comment = ({ comment, deleteUserComment }) => {
-  const { colors } = useTheme();
-  const { token } = useContext(AuthContext);
-  const { username, role } = useContext(ProfileContext);
+const Comment = ({comment, deleteUserComment, refreshData = () => {}}) => {
+  const {colors} = useTheme();
+  const {token} = useContext(AuthContext);
+  const {username, role} = useContext(ProfileContext);
   const animation = useRef(null);
   const isFirstRun = useRef(true);
   const [likeStatus, setLikeStatus] = useState(comment?.isLike);
   const [likeCount, setLikeCount] = useState(comment?.comment.likeCount);
   const [modalVisible, setModalVisible] = useState(false);
+  const [complaintModalVisible, setComplaintModalVisible] = useState(false);
 
-  const [specials, setSpecials] = useState([
-    'developer-admin',
-    'admin'
-  ]);
+  const [specials, setSpecials] = useState(['developer-admin', 'admin']);
 
   useEffect(() => {
     if (isFirstRun.current) {
@@ -65,9 +71,42 @@ const Comment = ({ comment, deleteUserComment }) => {
     setModalVisible(true);
   };
 
+  const postComplaint = async (title = '', description = '') => {
+    console.log('comment: ', comment);
+
+    console.log('token: ', token);
+    console.log('ownerId: ', comment.comment.owner);
+    console.log('title: ', title);
+    console.log('description: ', description);
+    console.log('postId: ', comment.comment._id);
+
+    let response = await createComplaint(
+      token,
+      comment.comment.owner,
+      title,
+      description,
+      comment.comment._id,
+    );
+
+    console.log('response: ', response);
+    if (response.error) {
+      errorMessage(strings.notSendedComplaint);
+    } else {
+      successMessage(strings.sendedComplaint);
+      refreshData();
+    }
+  };
 
   return (
     <View style={styles.container}>
+      <ComplaintModal
+        complaintModalVisible={complaintModalVisible}
+        setComplaintModalVisible={setComplaintModalVisible}
+        buttonBg={colors.trendHeader}
+        postComplaint={(title, description) => {
+          postComplaint(title, description);
+        }}
+      />
       <Modal
         animationType="slide"
         transparent={true}
@@ -77,11 +116,26 @@ const Comment = ({ comment, deleteUserComment }) => {
         }}>
         <View style={styles.centeredModalView}>
           <View style={[styles.modalView]}>
-            <TouchableOpacity style={{ borderWidth: 1, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8 }} onPress={() => setModalVisible(false)}>
-              <Text style={{ color: colors.text }}>CANCEL</Text>
+            <TouchableOpacity
+              style={{
+                borderWidth: 1,
+                paddingHorizontal: 16,
+                paddingVertical: 8,
+                borderRadius: 8,
+              }}
+              onPress={() => setModalVisible(false)}>
+              <Text style={{color: colors.text}}>CANCEL</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{ marginTop: 16, borderWidth: 1, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8 }} onPress={() => deleteUserComment(comment.comment._id)}>
-              <Text style={{ color: colors.text }}>DELETE</Text>
+            <TouchableOpacity
+              style={{
+                marginTop: 16,
+                borderWidth: 1,
+                paddingHorizontal: 16,
+                paddingVertical: 8,
+                borderRadius: 8,
+              }}
+              onPress={() => deleteUserComment(comment.comment._id)}>
+              <Text style={{color: colors.text}}>DELETE</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -99,7 +153,7 @@ const Comment = ({ comment, deleteUserComment }) => {
               <Editor width={24} height={24} style={styles.svgView} />
             )
           )}
-          <Text style={[styles.commentNameText, { color: colors.usernameText }]}>
+          <Text style={[styles.commentNameText, {color: colors.usernameText}]}>
             {comment?.username}
           </Text>
 
@@ -118,14 +172,63 @@ const Comment = ({ comment, deleteUserComment }) => {
           )}
         </View>
 
-        <Text style={[styles.commentDateText, { color: colors.dateText }]}>
-          {moment(comment?.comment.createdAt)
-            .locale(strings.lang == 'en' ? 'en' : 'tr')
-            .fromNow()}
-        </Text>
+        <View style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
+          <Text
+            style={[
+              styles.commentDateText,
+              {color: colors.dateText, marginRight: 8},
+            ]}>
+            {moment(comment?.comment.createdAt)
+              .locale(strings.lang == 'en' ? 'en' : 'tr')
+              .fromNow()}
+          </Text>
+
+          <Menu>
+            <MenuTrigger>
+              <Dot width="24" height="24" color={colors.tabBarTextActive} />
+            </MenuTrigger>
+
+            <MenuOptions
+              customStyles={{
+                optionsContainer: styles.menuOptionsContainer,
+              }}>
+              <MenuOption
+                onSelect={() => {
+                  postComplaint();
+                }}
+                customStyles={{
+                  optionWrapper: [
+                    styles.menuOptionWrapper,
+                    {
+                      borderBottomWidth: 1,
+                      borderBottomColor: '#f3f4f6',
+                    },
+                  ],
+                }}>
+                <Text>{strings.dontWantSee}</Text>
+              </MenuOption>
+
+              <MenuOption
+                onSelect={() => {
+                  setComplaintModalVisible(true);
+                }}
+                customStyles={{
+                  optionWrapper: [
+                    styles.menuOptionWrapper,
+                    {
+                      borderBottomWidth: 1,
+                      borderBottomColor: '#f3f4f6',
+                    },
+                  ],
+                }}>
+                <Text>{strings.makeComplaint}</Text>
+              </MenuOption>
+            </MenuOptions>
+          </Menu>
+        </View>
       </View>
       <View style={styles.commentBody}>
-        <Text style={[styles.commentText, { color: colors.commentText }]}>
+        <Text style={[styles.commentText, {color: colors.commentText}]}>
           {comment?.comment?.comment}
         </Text>
       </View>
@@ -142,7 +245,7 @@ const Comment = ({ comment, deleteUserComment }) => {
             loop={false}
           />
           <Text
-            style={[styles.commentLikeCount, { color: colors.dateBoxElement }]}>
+            style={[styles.commentLikeCount, {color: colors.dateBoxElement}]}>
             {likeCount}
           </Text>
         </TouchableOpacity>
@@ -270,6 +373,31 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     marginTop: 20,
+  },
+
+  //
+
+  menuOptionsContainer: {
+    // marginTop: Platform.OS === 'ios' ? 30 : 30,
+    // marginLeft: Dimensions.get('window').width / 3,
+    marginRight: 0,
+    borderRadius: 6,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+    zIndex: 2,
+  },
+  menuOptionWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
   },
 });
 

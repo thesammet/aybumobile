@@ -4,6 +4,8 @@ export {default as Check} from './Check';
 export {default as ChevronDown} from './ChevronDown';
 export {default as ChevronLeft} from './ChevronLeft';
 export {default as ChevronRight} from './ChevronRight';
+export {default as Close} from './Close';
+export {default as Dot} from './Dot';
 export {default as Editor} from './Editor';
 export {default as Globe} from './Globe';
 export {default as HeartEmpty} from './HeartEmpty';

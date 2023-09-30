@@ -36,7 +36,7 @@ import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 import {KeyboardAvoidingView} from 'react-native';
 import ComplaintModal from '../components/ComplaintModal';
 
-const Admissions = ({navigation}) => {
+const Contact = ({navigation}) => {
   const {colors} = useTheme();
   const {token} = useContext(AuthContext);
 
@@ -218,20 +218,17 @@ const Admissions = ({navigation}) => {
 
   return (
     <View
-      // behavior={Platform.OS === 'ios' && 'height'}
-      // behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
       style={{
         flex: 1,
         position: 'relative',
-      }}
-      // keyboardVerticalOffset={40}
-    >
+      }}>
       <BasicHeader
         style={{backgroundColor: colors.trendHeader}}
         navigation={navigation}
-        text={strings.admission}
+        text={strings.contact}
         textStyle={{fontWeight: 'bold', fontSize: 18}}
-        isBack={false}
+        isBack={true}
+        type="postComments"
       />
       {/* {loading && <Loading />} */}
       {loading && <LoadingMore />}
@@ -286,32 +283,32 @@ const Admissions = ({navigation}) => {
       {/* {loading && <Loading size="small" />} */}
       {loadingMore && <LoadingMore />}
       {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{flex: 1}}>
-          <View
-            style={[
-              styles.commentInputContainer,
-              {backgroundColor: colors.commentInputBg},
-            ]}>
-            <TextInput
-              style={[styles.commentInput, {color: colors.commentInputText}]}
-              onChangeText={onChangeAdmission}
-              defaultValue={admission}
-              multiline={true}
-              numberOfLines={4}
-              textAlignVertical="top"
-              // verticalAlign="center"
-              placeholder={strings.writeAdmission}
-              placeholderTextColor={colors.placeholderText}
-              keyboardType="default"
-            />
-            <TouchableOpacity
-              onPress={() => sendAdmission()}
-              activeOpacity={0.8}>
-              <Send width="24" height="24" color={colors.sendIcon} />
-            </TouchableOpacity>
+          <View style={{flex: 1}}>
+            <View
+              style={[
+                styles.commentInputContainer,
+                {backgroundColor: colors.commentInputBg},
+              ]}>
+              <TextInput
+                style={[styles.commentInput, {color: colors.commentInputText}]}
+                onChangeText={onChangeAdmission}
+                defaultValue={admission}
+                multiline={true}
+                numberOfLines={4}
+                textAlignVertical="top"
+                // verticalAlign="center"
+                placeholder={strings.writeAdmission}
+                placeholderTextColor={colors.placeholderText}
+                keyboardType="default"
+              />
+              <TouchableOpacity
+                onPress={() => sendAdmission()}
+                activeOpacity={0.8}>
+                <Send width="24" height="24" color={colors.sendIcon} />
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback> */}
+        </TouchableWithoutFeedback> */}
 
       <BottomSheetModalProvider>
         <View style={{flex: 1}}>
@@ -434,4 +431,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Admissions;
+export default Contact;

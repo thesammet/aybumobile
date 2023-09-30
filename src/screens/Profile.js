@@ -1,4 +1,11 @@
-import {View, Text, TouchableOpacity, StyleSheet, Share} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Share,
+  ScrollView,
+} from 'react-native';
 import React, {useContext, useState} from 'react';
 import {ThemeContext} from '../context/Theme';
 import Header from '../components/Header';
@@ -9,6 +16,7 @@ import ToggleButton from 'react-native-toggle-element';
 import {Sun, Moon} from '../components/icons/';
 import {useTheme} from '@react-navigation/native';
 import {strings} from '../constants/localization';
+import AppText from '../components/AppText';
 
 const Profile = ({navigation}) => {
   const {colors} = useTheme();
@@ -39,8 +47,13 @@ const Profile = ({navigation}) => {
     <View style={[styles.homeContainer, {backgroundColor: colors.background}]}>
       <Header type="inside" />
       <UsernameBox username={username} />
-      <View style={styles.innerView}>
-        <View>
+      <ScrollView
+        contentContainerStyle={styles.innerView}
+        showsVerticalScrollIndicator={false}
+        style={{
+          paddingBottom: 40,
+        }}>
+        <View style={{marginBottom: 20}}>
           <Text style={styles.fieldText}>{strings.faculty}</Text>
           <View
             style={[
@@ -127,7 +140,28 @@ const Profile = ({navigation}) => {
             </Text>
           </View>
         </TouchableOpacity>
-      </View>
+
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={{marginTop: 20}}
+          onPress={() => {
+            navigation.navigate('Contact');
+          }}>
+          <View
+            style={[
+              styles.editButton,
+              {
+                borderColor: colors.editBorderColor,
+                // backgroundColor: colors.editBackgroundColor,
+                backgroundColor: 'gold',
+              },
+            ]}>
+            <AppText style={[styles.editText, {color: '#fff'}]}>
+              {strings.contact}
+            </AppText>
+          </View>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 };
@@ -137,8 +171,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   innerView: {
-    flex: 1,
-    justifyContent: 'space-around',
+    paddingTop: 30,
+    paddingBottom: 40,
   },
   editButton: {
     borderRadius: 32,

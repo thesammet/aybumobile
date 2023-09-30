@@ -8,6 +8,7 @@ import {ProfileProvider} from './context/Profile';
 import SplashScreen from 'react-native-splash-screen';
 import {requestTrackingPermission} from 'react-native-tracking-transparency';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {MenuProvider} from 'react-native-popup-menu';
 
 const iosTrack = async () => {
   const trackingStatus = await requestTrackingPermission();
@@ -20,15 +21,18 @@ const App = () => {
     Platform.OS === 'ios' && SplashScreen.hide();
     Platform.OS === 'ios' && iosTrack();
   }, []);
+
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <AuthProvider>
-        <ProfileProvider>
-          <ThemeProvider>
-            <Navigation />
-          </ThemeProvider>
-        </ProfileProvider>
-      </AuthProvider>
+      <MenuProvider>
+        <AuthProvider>
+          <ProfileProvider>
+            <ThemeProvider>
+              <Navigation />
+            </ThemeProvider>
+          </ProfileProvider>
+        </AuthProvider>
+      </MenuProvider>
     </GestureHandlerRootView>
   );
 };

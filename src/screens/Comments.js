@@ -185,6 +185,9 @@ const Comments = ({route, navigation}) => {
             <Comment
               comment={item}
               deleteUserComment={id => deleteUserComment(id)}
+              refreshData={() => {
+                onRefresh();
+              }}
             />
           )}
           onEndReachedThreshold={0.2}
