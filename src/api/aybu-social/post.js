@@ -1,6 +1,6 @@
 const baseURL = 'https://aybu-mobile.herokuapp.com';
 
-export const postSend = async (token, content) => {
+export const postSend = async (token, content, firToken) => {
   try {
     const response = await fetch(`${baseURL}/social-post`, {
       method: 'POST',
@@ -9,7 +9,8 @@ export const postSend = async (token, content) => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        content
+        content,
+        firToken
       }),
     });
 

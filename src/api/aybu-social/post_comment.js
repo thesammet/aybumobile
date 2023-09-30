@@ -18,7 +18,7 @@ export const postCommentSend = async (token, content, post_id) => {
     return json;
   } catch (error) {
     console.log('Social Post Comment Error: ', error);
-    return {error: true};
+    return { error: true };
   }
 };
 
@@ -44,7 +44,7 @@ export const getAllCommentsByPost = async (
     return json;
   } catch (error) {
     console.log('Post Comments Posts Error: ', error);
-    return {error: true};
+    return { error: true };
   }
 };
 
@@ -59,8 +59,8 @@ export const ratePostComment = async (token, post_id, post_comment_id) => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-            post_id,
-          }),
+          post_id,
+        }),
       },
     );
 
@@ -68,7 +68,7 @@ export const ratePostComment = async (token, post_id, post_comment_id) => {
     return json;
   } catch (error) {
     console.log('Social Post Comment Rating Error: ', error);
-    return {error: true};
+    return { error: true };
   }
 };
 
@@ -96,6 +96,6 @@ export const deleteSocialPostCommentAdmin = async (
     return json;
   } catch (error) {
     console.log('Delete Social Post Comment Admin Error: ', error);
-    return {error: true};
+    return { error: true };
   }
 };
