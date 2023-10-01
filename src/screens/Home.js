@@ -17,6 +17,7 @@ import {getMonthlyFood} from '../api/food';
 import Loading from '../components/Loading';
 import {strings} from '../constants/localization';
 import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
+import AppText from '../components/AppText';
 
 const {width} = Dimensions.get('screen');
 
@@ -59,6 +60,7 @@ const Home = ({navigation}) => {
         dataArr.unshift({meal: {_id: '231243'}, key: 'left-spacer'});
         dataArr.push({meal: {_id: '231423'}, key: 'right-spacer'});
 
+        console.log(dataArr);
         setMeals(dataArr);
       }
     } catch (error) {
@@ -95,6 +97,17 @@ const Home = ({navigation}) => {
             <Text style={[styles.mealListText, {color: colors.text}]}>
               {strings.mealList}
             </Text>
+
+            {meals.length == 2 && (
+              <AppText
+                style={{
+                  textAlign: 'center',
+                  marginTop: 20,
+                  fontSize: 18,
+                }}>
+                {strings.updateweekday}
+              </AppText>
+            )}
 
             <Animated.FlatList
               data={meals}

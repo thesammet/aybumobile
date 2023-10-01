@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: '#fff',
-    width: 140,
+    width: 180,
     textAlign: 'center',
     marginLeft: 'auto',
     marginRight: 'auto',

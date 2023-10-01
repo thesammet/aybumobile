@@ -141,6 +141,41 @@ const Profile = ({navigation}) => {
           </View>
         </TouchableOpacity>
 
+        <View
+          style={{
+            height: 1,
+            backgroundColor: '#eee',
+            width: '100%',
+            marginVertical: 20,
+          }}></View>
+
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            navigation.navigate('About');
+          }}
+          style={
+            {
+              // borderWidth: 1,
+              // borderColor: '#eee',
+              // borderRadius: 10,
+              // width: '75%',
+              // marginLeft: 'auto',
+              // marginRight: 'auto',
+            }
+          }>
+          <AppText
+            style={[
+              styles.editText,
+              {
+                color: colors.text,
+                textDecorationLine: 'underline',
+              },
+            ]}>
+            {strings.abouttheapp}
+          </AppText>
+        </TouchableOpacity>
+
         <TouchableOpacity
           activeOpacity={0.7}
           style={{marginTop: 20}}

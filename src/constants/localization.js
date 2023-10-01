@@ -87,14 +87,33 @@ export let strings = new LocalizedStrings({
     selectTopic: 'Select Topic',
     whyComplaint: 'Why are you complaining?',
     send: 'Send',
-    sendedComplaint: 'Your complaint has been forwarded.',
-    notSendedComplaint: 'Your complaint could not be forwarded.',
+    sendedComplaint: 'Your request has been forwarded.',
+    notSendedComplaint: 'Your request could not be forwarded.',
     fillBlank: 'Please fill in the empty fields!',
     dontWantSee: "I don't want to see that",
-    makeComplaint: 'Make a Complaint',
+    makeComplaint: 'Make a complaint',
     contact: 'CONTACT US',
     terms: 'Terms and Conditions.',
     termsApprove: 'I agree to the Terms and Conditions.',
+    abouttheapp: 'About the App',
+    blockuser: 'Block the User',
+    welcomeaybu:
+      "Welcome! Ankara Yıldırım Beyazıt University's Mobile Application",
+    welcomedesc:
+      'Designed to maximize the student experience of Ankara Yıldırım Beyazıt University, Aybü Mobile Application has been developed to facilitate the daily life of our valued students.',
+    features: 'Features',
+    dininginfo: 'Dining Hall Information',
+    diningdesc:
+      "'What's for dinner today?' The Aybü Mobile Application tells you what's for dinner that day by reviewing the daily menus. You can also comment on the meals and discover the most popular dishes.",
+    experiencesharing: 'Experience Sharing',
+    experiencedesc:
+      "You can share your experiences and discover other students' suggestions on the app to increase interaction between students. As a social platform, Aybü Mobile App helps you make your campus life more enjoyable.",
+    schoolannouncements: 'School Announcements',
+    announcementsdesc:
+      "Quick access to the school's current announcements and important information so you don't miss out. Whichever section you selected when you logged in the page of the section opens.",
+    eula: 'End user license agreement(EULA)',
+    eulaagree: 'I agree to the end user license agreement (EULA).',
+    updateweekday: 'Updated during the week.',
   },
   tr: {
     lang: 'tr',
@@ -183,13 +202,32 @@ export let strings = new LocalizedStrings({
     selectTopic: 'Konu Seçin',
     whyComplaint: 'Neden şikayet ediyorsunuz?',
     send: 'Gönder',
-    sendedComplaint: 'Şikayetiniz İletildi.',
-    notSendedComplaint: 'Şikayetiniz iletilemedi.',
+    sendedComplaint: 'Talebiniz İletildi.',
+    notSendedComplaint: 'Talebiniz iletilemedi.',
     fillBlank: 'Lütfen boş alanları doldurunuz!',
     dontWantSee: 'Bunu görmek istemiyorum',
-    makeComplaint: 'Şikayet Et',
+    makeComplaint: 'Şikayet et',
     contact: 'İLETİŞİME GEÇ',
     terms: 'Şartlar ve Koşulları',
     termsApprove: 'Şartlar ve Koşulları onaylıyorum.',
+    abouttheapp: 'Uygulama Hakkında',
+    blockuser: 'Bu kullanıcıyı engelle',
+    welcomeaybu:
+      "Hoş Geldiniz! Ankara Yıldırım Beyazıt Üniversitesi'nin Mobil Uygulaması",
+    welcomedesc:
+      "Ankara Yıldırım Beyazıt Üniversitesi'nin öğrenci deneyimini en üst düzeye çıkarmak için tasarlanmış olan Aybü Mobil Uygulaması, siz değerli öğrencilerimizin günlük yaşantısını kolaylaştırmak üzere geliştirilmiştir.",
+    features: 'Özellikler',
+    dininginfo: 'Yemekhane Bilgileri',
+    diningdesc:
+      "'Bugün yemekte ne var?' Aybü Mobil Uygulaması, günlük yemek menülerini inceleyerek o gün yemekhanede hangi yemek olduğunu size söyler. Ayrıca, yemekler hakkında yorum yapabilir ve en sevilen yemekleri keşfedebilirsiniz.",
+    experiencesharing: 'Deneyim Paylaşımı',
+    experiencedesc:
+      'Öğrenciler arasındaki etkileşimi artırmak için uygulamada deneyimlerinizi paylaşabilir ve diğer öğrencilerin önerilerini keşfedebilirsiniz. Sosyal bir platform olarak Aybü Mobil Uygulaması, kampüs yaşamınızı daha keyifli hale getirmenize yardımcı olur.',
+    schoolannouncements: 'Okul Duyuruları',
+    announcementsdesc:
+      'Okulun güncel duyurularına hızlıca erişim sağlayarak önemli bilgileri kaçırmamanızı sağlar. Giriş yaparken hangi bölümü seçtiyseniz o bölümün sayfası açılır.',
+    eula: 'Son kullanıcı lisans sözleşmesi(EULA)',
+    eulaagree: 'Son kullanıcı lisans sözleşmesini (EULA) onaylıyorum.',
+    updateweekday: 'Hafta içi güncellenir.',
   },
 });

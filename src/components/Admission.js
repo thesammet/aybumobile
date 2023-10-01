@@ -127,6 +127,7 @@ const Admission = ({
       title,
       description,
       admission.post._id,
+      type,
     );
 
     console.log('response: ', response);
@@ -269,6 +270,22 @@ const Admission = ({
                   ],
                 }}>
                 <Text>{strings.makeComplaint}</Text>
+              </MenuOption>
+
+              <MenuOption
+                onSelect={() => {
+                  postComplaint();
+                }}
+                customStyles={{
+                  optionWrapper: [
+                    styles.menuOptionWrapper,
+                    {
+                      borderBottomWidth: 1,
+                      borderBottomColor: '#f3f4f6',
+                    },
+                  ],
+                }}>
+                <Text>{strings.blockuser}</Text>
               </MenuOption>
             </MenuOptions>
           </Menu>

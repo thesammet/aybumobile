@@ -9,6 +9,7 @@ import Loading from '../components/Loading';
 import {errorMessage} from '../utils/showToast';
 import {strings} from '../constants/localization';
 import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
+import AppText from '../components/AppText';
 
 const Trends = ({navigation}) => {
   const {colors} = useTheme();
@@ -26,12 +27,12 @@ const Trends = ({navigation}) => {
     try {
       const response = await getTrends(token);
       if (response.error) {
-        errorMessage(string.trendLoadError);
+        errorMessage(strings.trendLoadError);
       } else {
         setTrendsData(response?.data);
       }
     } catch (error) {
-      errorMessage(string.trendLoadError);
+      errorMessage(strings.trendLoadError);
     } finally {
       setLoading(false);
     }
@@ -61,6 +62,18 @@ const Trends = ({navigation}) => {
           requestNonPersonalizedAdsOnly: true,
         }}
       />
+      {trendsData?.likeTrend.length == 0 && (
+        <AppText
+          style={{
+            textAlign: 'center',
+            marginTop: 20,
+            fontSize: 18,
+            marginBottom: 24,
+          }}>
+          {strings.updateweekday}
+        </AppText>
+      )}
+
       {loading ? (
         <Loading />
       ) : (

@@ -8,6 +8,7 @@ import {ChevronLeft, ChevronRight} from './icons';
 import {useTheme} from '@react-navigation/native';
 import moment from 'moment';
 import {modifyDate} from '../helpers/day-helper';
+import AppText from './AppText';
 
 const DateBox = ({mealLastIndex, firstDate, lastDate}) => {
   const {colors} = useTheme();
@@ -23,6 +24,7 @@ const DateBox = ({mealLastIndex, firstDate, lastDate}) => {
           backgroundColor: colors.boxBg,
         },
       ]}>
+      {mealLastIndex == 2 && <AppText>---</AppText>}
       {firstDate && (
         <Text style={[styles.dateText, {color: colors.dateBoxElement}]}>
           {mealLastIndex == null

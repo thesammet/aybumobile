@@ -13,6 +13,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Linking,
+  ScrollView,
 } from 'react-native';
 import {register} from '../api/user';
 import {AuthContext} from '../context/Auth';
@@ -42,6 +43,7 @@ export default function Auth() {
   const [borderColor, setBorderColor] = useState('gray');
   const [languageCode, setLanguageCode] = useState('en');
   const [termsAndConditions, setTermsAndConditions] = useState(false);
+  const [eula, setEula] = useState(false);
 
   const {addToken} = useContext(AuthContext);
   const {addUsername, addFaculty, addDepartment, addDepartmentCode} =
@@ -55,7 +57,7 @@ export default function Auth() {
 
   useEffect(() => {
     validMethod();
-  }, [username, department, faculty, termsAndConditions]);
+  }, [username, department, faculty, termsAndConditions, eula]);
 
   useEffect(() => {
     const localizeObj = RNLocalize.getLocales();
@@ -63,7 +65,7 @@ export default function Auth() {
   });
 
   const validMethod = () => {
-    username.length > 0 && department && faculty && termsAndConditions
+    username.length > 0 && department && faculty && termsAndConditions && eula
       ? setValid(true)
       : setValid(false);
   };
@@ -177,7 +179,9 @@ export default function Auth() {
   return (
     <View style={[{backgroundColor: colors.welcomeBg}, styles.container]}>
       <Header type="outside" />
-      <View style={styles.innerContainer}>
+      <ScrollView
+        // style={styles.innerContainer}
+        contentContainerStyle={styles.innerContainer}>
         <BottomSheet
           hasDraggableIcon={true}
           ref={bottomSheetFaculty}
@@ -270,11 +274,13 @@ export default function Auth() {
                 style={{
                   marginTop: 20,
                   alignItems: 'center',
+                  flexDirection: 'row',
+                  width: '90%',
                 }}>
                 <BouncyCheckbox
                   size={25}
                   fillColor={colors.welcomeBg}
-                  text={strings.termsApprove}
+                  // text={strings.termsApprove}
                   textStyle={{
                     textDecorationLine: 'none',
                     marginLeft: -8,
@@ -296,15 +302,67 @@ export default function Auth() {
                     Linking.openURL(
                       'https://aybumobile.com/terms-and-conditions',
                     )
-                  }>
-                  <AppText style={{fontSize: 16, marginRight: 4}}>
-                    {strings.terms}
+                  }
+                  activeOpacity={0.7}>
+                  <AppText
+                    style={{
+                      fontSize: 16,
+                      marginRight: 4,
+                      textDecorationLine: 'underline',
+                    }}>
+                    {strings.termsApprove}
                   </AppText>
-                  <ExternalLink
+                  {/* <ExternalLink
                     width="20"
                     height="20"
                     color={colors.welcomeBg}
-                  />
+                  /> */}
+                </TouchableOpacity>
+              </View>
+
+              <View
+                style={{
+                  marginTop: 12,
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  width: '90%',
+                }}>
+                <BouncyCheckbox
+                  size={25}
+                  fillColor={colors.welcomeBg}
+                  // text={strings.eulaagree}
+                  textStyle={{
+                    textDecorationLine: 'none',
+                    marginLeft: -8,
+                  }}
+                  iconStyle={{borderColor: 'red'}}
+                  innerIconStyle={{borderWidth: 2}}
+                  onPress={isChecked => {
+                    setEula(isChecked);
+                  }}
+                />
+                <TouchableOpacity
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 6,
+                    marginBottom: 10,
+                  }}
+                  onPress={() => Linking.openURL('https://aybumobile.com/eula')}
+                  activeOpacity={0.7}>
+                  <AppText
+                    style={{
+                      fontSize: 16,
+                      marginRight: 4,
+                      textDecorationLine: 'underline',
+                    }}>
+                    {strings.eulaagree}
+                  </AppText>
+                  {/* <ExternalLink
+                    width="20"
+                    height="20"
+                    color={colors.welcomeBg}
+                  /> */}
                 </TouchableOpacity>
               </View>
             </View>
@@ -352,7 +410,7 @@ export default function Auth() {
             </View>
           </TouchableOpacity>
         )}
-      </View>
+      </ScrollView>
     </View>
   );
 }
