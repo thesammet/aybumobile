@@ -113,7 +113,8 @@ export let strings = new LocalizedStrings({
       "Quick access to the school's current announcements and important information so you don't miss out. Whichever section you selected when you logged in the page of the section opens.",
     eula: 'End user license agreement(EULA)',
     eulaagree: 'I agree to the end user license agreement (EULA).',
-    updateweekday: 'Updated during the week.',
+    updateweekday: `*Updated 'll be during the week.`,
+    rate: `RATE`,
   },
   tr: {
     lang: 'tr',
@@ -228,6 +229,7 @@ export let strings = new LocalizedStrings({
       'Okulun güncel duyurularına hızlıca erişim sağlayarak önemli bilgileri kaçırmamanızı sağlar. Giriş yaparken hangi bölümü seçtiyseniz o bölümün sayfası açılır.',
     eula: 'Son kullanıcı lisans sözleşmesi(EULA)',
     eulaagree: 'Son kullanıcı lisans sözleşmesini (EULA) onaylıyorum.',
-    updateweekday: 'Hafta içi güncellenir.',
+    updateweekday: '*Hafta içi güncellenecektir.',
+    rate: `PUANLA`,
   },
 });

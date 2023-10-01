@@ -370,6 +370,8 @@ PODS:
     - React-Core
   - react-native-blob-util (0.16.3):
     - React-Core
+  - react-native-in-app-review (4.3.3):
+    - React-Core
   - react-native-mmkv (2.4.3):
     - MMKV (>= 1.2.13)
     - React-Core
@@ -541,6 +543,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-admob-native-ads (from `../node_modules/react-native-admob-native-ads`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
+  - react-native-in-app-review (from `../node_modules/react-native-in-app-review`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -642,6 +645,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-admob-native-ads"
   react-native-blob-util:
     :path: "../node_modules/react-native-blob-util"
+  react-native-in-app-review:
+    :path: "../node_modules/react-native-in-app-review"
   react-native-mmkv:
     :path: "../node_modules/react-native-mmkv"
   react-native-pdf:
@@ -745,6 +750,7 @@ SPEC CHECKSUMS:
   React-logger: cffcc09e8aba8a3014be8d18da7f922802e9f19e
   react-native-admob-native-ads: 97b6667c5d4d3e5a75baf264450dbb54ba53a181
   react-native-blob-util: 4ec16cc21bfc8de8f0ddfd2c81ada00f8c34b646
+  react-native-in-app-review: db8bb167a5f238e7ceca5c242d6b36ce8c4404a4
   react-native-mmkv: 1265a348a4711097ba29c8bcefd5971f48220f2b
   react-native-pdf: 33c622cbdf776a649929e8b9d1ce2d313347c4fa
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
@@ -777,4 +783,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: dfde3f623a695367db56ce1382e8b8443810c085
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.0
