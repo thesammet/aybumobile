@@ -187,13 +187,13 @@ const Profile = ({ navigation }) => {
             </AppText>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
+        {InAppReview.isAvailable() ? <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
             // This package is only available on android version >= 21 and iOS >= 10.3
 
             // Give you result if version of device supported to rate app or not!
-            InAppReview.isAvailable();
+
 
             // trigger UI InAppreview
             InAppReview.RequestInAppReview()
@@ -247,7 +247,7 @@ const Profile = ({ navigation }) => {
               {strings.rate}
             </Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> : <View></View>}
       </ScrollView>
     </View>
   );
