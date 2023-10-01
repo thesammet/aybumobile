@@ -187,7 +187,7 @@ const Profile = ({ navigation }) => {
             </AppText>
           </View>
         </TouchableOpacity>
-        {InAppReview.isAvailable() ? <TouchableOpacity
+        {/*  {InAppReview.isAvailable() ? <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
             // This package is only available on android version >= 21 and iOS >= 10.3
@@ -247,7 +247,7 @@ const Profile = ({ navigation }) => {
               {strings.rate}
             </Text>
           </View>
-        </TouchableOpacity> : <View></View>}
+        </TouchableOpacity> : <View></View>} */}
       </ScrollView>
     </View>
   );
