@@ -100,11 +100,19 @@ const Contact = ({navigation}) => {
             styles.headerText,
             {
               color: colors.text,
+              marginBottom: 12,
             },
           ]}>
-          Uygulama ile ilgili düşünceleriniz ve fikirleriniz bizim için çok
-          değerli. Fikir ve görüşlerinizi paylaşarak bize katkıda
-          bulunabilirsiniz.
+          {strings.welcomedesc2}
+        </AppText>
+        <AppText
+          style={[
+            styles.headerText,
+            {
+              color: colors.text,
+            },
+          ]}>
+          {strings.contactText}
         </AppText>
 
         <View style={styles.contactsSection}>

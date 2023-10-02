@@ -66,10 +66,21 @@ const About = ({navigation}) => {
             styles.headerText,
             {
               color: colors.text,
-              marginBottom: 30,
+              marginBottom: 10,
             },
           ]}>
           {strings.welcomedesc}
+        </AppText>
+
+        <AppText
+          style={[
+            styles.headerText,
+            {
+              color: colors.text,
+              marginBottom: 30,
+            },
+          ]}>
+          {strings.welcomedesc2}
         </AppText>
         <AppText
           style={[

@@ -101,6 +101,8 @@ export let strings = new LocalizedStrings({
       "Welcome! Ankara Yıldırım Beyazıt University's Mobile Application",
     welcomedesc:
       'Designed to maximize the student experience of Ankara Yıldırım Beyazıt University, Aybü Mobile Application has been developed to facilitate the daily life of our valued students.',
+    welcomedesc2:
+      'We developed the application voluntarily as computer engineering students studying at Ankara Yıldırım Beyazıt University.',
     features: 'Features',
     dininginfo: 'Dining Hall Information',
     diningdesc:
@@ -115,6 +117,14 @@ export let strings = new LocalizedStrings({
     eulaagree: 'I agree to the end user license agreement (EULA).',
     updateweekday: `*Updated 'll be during the week.`,
     rate: `RATE`,
+    department: 'Department',
+    general: 'General',
+    contactText:
+      'Your thoughts and ideas about the app are very important for us valuable. Contribute to us by sharing your ideas and opinions you can be found.',
+    infoDesc:
+      'We developed the application voluntarily as computer engineering students studying at Ankara Yıldırım Beyazıt University.',
+    infoDesc2:
+      'From this page you can view announcements related to your department or school.',
   },
   tr: {
     lang: 'tr',
@@ -217,6 +227,8 @@ export let strings = new LocalizedStrings({
       "Hoş Geldiniz! Ankara Yıldırım Beyazıt Üniversitesi'nin Mobil Uygulaması",
     welcomedesc:
       "Ankara Yıldırım Beyazıt Üniversitesi'nin öğrenci deneyimini en üst düzeye çıkarmak için tasarlanmış olan Aybü Mobil Uygulaması, siz değerli öğrencilerimizin günlük yaşantısını kolaylaştırmak üzere geliştirilmiştir.",
+    welcomedesc2:
+      "Uygulamayı Ankara Yıldırım Beyazıt Üniversitesi'nde okuyan bilgisayar mühendisliği öğrencileri olarak gönüllü olarak geliştirdik.",
     features: 'Özellikler',
     dininginfo: 'Yemekhane Bilgileri',
     diningdesc:
@@ -231,5 +243,13 @@ export let strings = new LocalizedStrings({
     eulaagree: 'Son kullanıcı lisans sözleşmesini (EULA) onaylıyorum.',
     updateweekday: '*Hafta içi güncellenecektir.',
     rate: `PUANLA`,
+    department: 'Departman',
+    general: 'Genel',
+    contactText:
+      'Uygulama ile ilgili düşünceleriniz ve fikirleriniz bizim için çok değerli. Fikir ve görüşlerinizi paylaşarak bize katkıda bulunabilirsiniz.',
+    infoDesc:
+      "Uygulamayı Ankara Yıldırım Beyazıt Üniversitesi'nde okuyan bilgisayar mühendisliği öğrencileri olarak gönüllü olarak geliştirdik.",
+    infoDesc2:
+      'Bu sayfadan bölümünüz veya okul ile ilgili duyuruları görüntüleyebilirsiniz.',
   },
 });

@@ -6,6 +6,8 @@ import {
   Image,
   Text,
   ActivityIndicator,
+  Modal,
+  TouchableOpacity,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import {getAcademic} from '../api/academic';
@@ -14,13 +16,24 @@ import {ProfileContext} from '../context/Profile';
 import {ThemeContext} from '@/context/Theme';
 import {useTheme} from '@react-navigation/native';
 import {strings} from '../constants/localization';
+import DepartmentHeader from '../components/DepartmentHeader';
+import AppText from '../components/AppText';
+import {Close} from '../components/icons';
 
-const DepartmentSite = () => {
+const DepartmentSite = ({navigation}) => {
   const {token} = useContext(AuthContext);
   const {colors} = useTheme();
+
   const [isLoading, setIsLoading] = useState(false);
   const {department, departmentCode} = useContext(ProfileContext);
   const [academicData, setAcademicData] = useState([]);
+  const [activeButton, setActiveButton] = useState(1);
+  const [infoModal, setInfoModal] = useState(false);
+
+  useEffect(() => {
+    console.log('activeButton: ', activeButton);
+  }, [activeButton]);
+  console.log(academicData?.announcement);
 
   const getAcademicMethod = async () => {
     setIsLoading(true);
@@ -38,6 +51,18 @@ const DepartmentSite = () => {
     getAcademicMethod();
   }, []);
 
+  const pressDepartment = () => {
+    setActiveButton(1);
+  };
+
+  const pressGeneral = () => {
+    setActiveButton(2);
+  };
+
+  const pressInfo = () => {
+    setInfoModal(!infoModal);
+  };
+
   return (
     <SafeAreaView
       style={[
@@ -48,6 +73,55 @@ const DepartmentSite = () => {
             : colors.headerBg,
         },
       ]}>
+      <DepartmentHeader
+        navigation={navigation}
+        style={{backgroundColor: '#0AD4EE'}}
+        activeButton={activeButton}
+        pressGeneral={() => {
+          pressGeneral();
+        }}
+        pressDepartment={() => {
+          pressDepartment();
+        }}
+        pressInfo={() => {
+          pressInfo();
+        }}
+      />
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={infoModal}
+        onRequestClose={() => {
+          setInfoModal(false);
+        }}>
+        <View style={styles.centeredModalView}>
+          <View style={[styles.modalView]}>
+            <TouchableOpacity
+              style={{
+                position: 'absolute',
+                right: 12,
+                top: 12,
+              }}
+              onPress={() => setInfoModal(false)}>
+              <Close width="24" height="24" color="#000" />
+            </TouchableOpacity>
+            <View style={{paddingTop: 24}}>
+              <AppText style={{marginBottom: 8}}>{strings.infoDesc2}</AppText>
+
+              <View
+                style={{
+                  height: 1,
+                  backgroundColor: '#ddd',
+                  marginTop: 6,
+                  marginBottom: 10,
+                }}
+              />
+              <AppText>{strings.infoDesc}</AppText>
+            </View>
+          </View>
+        </View>
+      </Modal>
       {isLoading ? (
         <ActivityIndicator
           size="large"
@@ -73,7 +147,12 @@ const DepartmentSite = () => {
       ) : (
         <WebView
           originWhitelist={['*']}
-          source={{uri: academicData?.announcement}}
+          source={{
+            uri:
+              activeButton == 1
+                ? academicData?.announcement
+                : 'https://aybu.edu.tr/',
+          }}
           pullToRefreshEnabled={true}
           allowsBackForwardNavigationGestures={true}
           onLoadProgress={syntheticEvent => {
@@ -107,5 +186,57 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     marginTop: 12,
+  },
+
+  // modal
+
+  //modal
+  centeredModalView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    margin: 30,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    paddingHorizontal: 22,
+    paddingVertical: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    elevation: 5,
+    position: 'relative',
+  },
+  modalCloseContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    position: 'absolute',
+    top: 15,
+    right: 14,
+  },
+  modalHead: {
+    justifyContent: 'center',
+    marginTop: 24,
+  },
+  modalHeadText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#f20000',
+  },
+  modalBottom: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  modalBottomText: {
+    marginTop: 12,
+    lineHeight: 20,
+    color: '#171717',
   },
 });

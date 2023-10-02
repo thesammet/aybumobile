@@ -12,6 +12,7 @@ export {default as Globe} from './Globe';
 export {default as HeartEmpty} from './HeartEmpty';
 export {default as Heart} from './Heart';
 export {default as Home} from './Home';
+export {default as Info} from './Info';
 export {default as Kratos} from './Kratos';
 export {default as Loader} from './Loader';
 export {default as Meal2} from './Meal2';

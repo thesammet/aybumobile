@@ -6,29 +6,29 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import { useContext, useState, useEffect, useRef } from 'react';
-import { errorMessage } from '../utils/showToast';
-import { AuthContext } from '../context/Auth';
+import {useContext, useState, useEffect, useRef} from 'react';
+import {errorMessage} from '../utils/showToast';
+import {AuthContext} from '../context/Auth';
 import DateBox from '@/components/DateBox';
 import Header from '@/components/Header';
 import MealBox from '@/components/MealBox';
-import { useTheme } from '@react-navigation/native';
-import { getMonthlyFood } from '../api/food';
+import {useTheme} from '@react-navigation/native';
+import {getMonthlyFood} from '../api/food';
 import Loading from '../components/Loading';
-import { strings } from '../constants/localization';
-import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+import {strings} from '../constants/localization';
+import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 import AppText from '../components/AppText';
 import * as Animatable from 'react-native-animatable';
 
-const { width } = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 
 const SPACING = 10;
 const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.74 : width * 0.76;
 const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
-const Home = ({ navigation }) => {
-  const { token } = useContext(AuthContext);
-  const { colors } = useTheme();
+const Home = ({navigation}) => {
+  const {token} = useContext(AuthContext);
+  const {colors} = useTheme();
   const scrollx = useRef(new Animated.Value(0)).current;
   const [loading, setLoading] = useState(false);
   const [meals, setMeals] = useState([]);
@@ -58,8 +58,9 @@ const Home = ({ navigation }) => {
         errorMessage(strings.anErrorOccured);
       } else {
         let dataArr = response?.data;
-        dataArr.unshift({ meal: { _id: '231243' }, key: 'left-spacer' });
-        dataArr.push({ meal: { _id: '231423' }, key: 'right-spacer' });
+        console.log('dataArr', response);
+        dataArr.unshift({meal: {_id: '231243'}, key: 'left-spacer'});
+        dataArr.push({meal: {_id: '231423'}, key: 'right-spacer'});
 
         console.log(dataArr);
         setMeals(dataArr);
@@ -75,8 +76,8 @@ const Home = ({ navigation }) => {
     return __DEV__
       ? TestIds.BANNER
       : Platform.OS === 'ios'
-        ? 'ca-app-pub-6556478222911747/3994339534'
-        : 'ca-app-pub-6556478222911747/6655629067';
+      ? 'ca-app-pub-6556478222911747/3994339534'
+      : 'ca-app-pub-6556478222911747/6655629067';
   };
 
   return (
@@ -89,13 +90,13 @@ const Home = ({ navigation }) => {
       />
 
       {loading ? (
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           <Loading size="small" />
         </View>
       ) : (
         <>
           <View style={styles.homeInsideContainer}>
-            <Text style={[styles.mealListText, { color: colors.text }]}>
+            <Text style={[styles.mealListText, {color: colors.text}]}>
               {strings.mealList}
             </Text>
 
@@ -103,8 +104,7 @@ const Home = ({ navigation }) => {
               <Animatable.Text
                 animation="slideInLeft"
                 duration={1000}
-                style={{ fontSize: 20, textAlign: 'center', color: 'blue' }}
-              >
+                style={{fontSize: 20, textAlign: 'center', color: 'blue'}}>
                 {strings.updateweekday}
               </Animatable.Text>
             )}
@@ -117,16 +117,16 @@ const Home = ({ navigation }) => {
               decelerationRate={0}
               bounces={false}
               onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { x: scrollx } } }],
-                { useNativeDriver: false },
+                [{nativeEvent: {contentOffset: {x: scrollx}}}],
+                {useNativeDriver: false},
               )}
               scrollEventThrottle={16}
               contentContainerStyle={styles.flatListContainer}
               showsHorizontalScrollIndicator={false}
-              renderItem={({ item, index }) => {
+              renderItem={({item, index}) => {
                 if (!item.meal || !item.ratingStatus) {
                   return (
-                    <View key={item?.key} style={{ width: EMPTY_ITEM_SIZE }} />
+                    <View key={item?.key} style={{width: EMPTY_ITEM_SIZE}} />
                   );
                 }
 
@@ -143,11 +143,11 @@ const Home = ({ navigation }) => {
 
                 return (
                   <View
-                    style={[styles.mealOutsideContainer, { width: ITEM_SIZE }]}
+                    style={[styles.mealOutsideContainer, {width: ITEM_SIZE}]}
                     key={item.meal._id}>
                     <Animated.View
                       style={{
-                        transform: [{ translateY }],
+                        transform: [{translateY}],
                         marginHorizontal: SPACING,
                         padding: SPACING * 2,
                         borderRadius: 34,
