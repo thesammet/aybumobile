@@ -180,8 +180,8 @@ export default function Auth() {
     <View style={[{backgroundColor: colors.welcomeBg}, styles.container]}>
       <Header type="outside" />
       <ScrollView
-        // style={styles.innerContainer}
-        contentContainerStyle={styles.innerContainer}>
+        contentContainerStyle={styles.innerContainer}
+        showsVerticalScrollIndicator={false}>
         <BottomSheet
           hasDraggableIcon={true}
           ref={bottomSheetFaculty}
@@ -420,11 +420,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   innerContainer: {
-    flex: 1,
+    flexGrow: 1,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     backgroundColor: 'white',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     paddingHorizontal: 48,
     paddingTop: 24,
     paddingBottom: 48,
