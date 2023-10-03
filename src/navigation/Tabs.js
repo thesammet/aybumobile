@@ -30,7 +30,7 @@ const Tabs = () => {
       <Tab.Screen name="Trends" component={Trends} />
       <Tab.Screen name="Admissions" component={AdmissionStack} />
       {/* <Tab.Screen name="Syllabus" component={Calendar} /> */}
-      <Tab.Screen name="DepartmentSite" component={DepartmentSite} />
+      {/* <Tab.Screen name="DepartmentSite" component={DepartmentSite} /> */}
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
