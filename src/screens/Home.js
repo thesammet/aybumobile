@@ -76,8 +76,8 @@ const Home = ({navigation}) => {
     return __DEV__
       ? TestIds.BANNER
       : Platform.OS === 'ios'
-      ? 'ca-app-pub-6556478222911747/3994339534'
-      : 'ca-app-pub-6556478222911747/6655629067';
+      ? 'ca-app-pub-6305131424598853/6592592456'
+      : 'ca-app-pub-6305131424598853/9982556016';
   };
 
   return (

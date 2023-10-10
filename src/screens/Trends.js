@@ -1,23 +1,23 @@
-import { useState, useEffect, useContext } from 'react';
-import { StyleSheet, View, ScrollView, RefreshControl } from 'react-native';
+import {useState, useEffect, useContext} from 'react';
+import {StyleSheet, View, ScrollView, RefreshControl} from 'react-native';
 import BasicHeader from '../components/BasicHeader';
-import { useTheme } from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 import TrendsBox from '../components/TrendsBox';
-import { getTrends } from '../api/food';
-import { AuthContext } from '../context/Auth';
+import {getTrends} from '../api/food';
+import {AuthContext} from '../context/Auth';
 import Loading from '../components/Loading';
-import { errorMessage } from '../utils/showToast';
-import { strings } from '../constants/localization';
-import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+import {errorMessage} from '../utils/showToast';
+import {strings} from '../constants/localization';
+import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 import AppText from '../components/AppText';
 import * as Animatable from 'react-native-animatable';
 
-const Trends = ({ navigation }) => {
-  const { colors } = useTheme();
+const Trends = ({navigation}) => {
+  const {colors} = useTheme();
   const [loading, setLoading] = useState(false);
   const [trendsData, setTrendsData] = useState({});
 
-  const { token } = useContext(AuthContext);
+  const {token} = useContext(AuthContext);
 
   useEffect(() => {
     getTrendsData();
@@ -43,17 +43,17 @@ const Trends = ({ navigation }) => {
     return __DEV__
       ? TestIds.BANNER
       : Platform.OS === 'ios'
-        ? 'ca-app-pub-6556478222911747/3994339534'
-        : 'ca-app-pub-6556478222911747/2479993601';
+      ? 'ca-app-pub-6305131424598853/4730229335'
+      : 'ca-app-pub-6305131424598853/8106614984';
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <BasicHeader
-        style={{ backgroundColor: '#0AD4EE' }}
+        style={{backgroundColor: '#0AD4EE'}}
         navigation={navigation}
         text={strings.trends}
-        textStyle={{ fontWeight: 'bold', fontSize: 18 }}
+        textStyle={{fontWeight: 'bold', fontSize: 18}}
         isBack={false}
       />
       <BannerAd
@@ -67,8 +67,7 @@ const Trends = ({ navigation }) => {
         <Animatable.Text
           animation="slideInLeft"
           duration={1000}
-          style={{ fontSize: 20, textAlign: 'center', color: 'blue' }}
-        >
+          style={{fontSize: 20, textAlign: 'center', color: 'blue'}}>
           {strings.updateweekday}
         </Animatable.Text>
       )}
@@ -79,7 +78,7 @@ const Trends = ({ navigation }) => {
         <ScrollView
           style={styles.trendsBoxContainer}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingVertical: 20 }}
+          contentContainerStyle={{paddingVertical: 20}}
           refreshControl={
             <RefreshControl
               refreshing={loading}
@@ -96,7 +95,7 @@ const Trends = ({ navigation }) => {
             title={strings.mostUnfavoriteDays}
             data={trendsData?.dislikeTrend}
             navigation={navigation}
-            style={{ marginVertical: 40 }}
+            style={{marginVertical: 40}}
           />
           <TrendsBox
             title={strings.mostCommentDays}

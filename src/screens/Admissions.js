@@ -16,15 +16,15 @@ import {
   Keyboard,
   Platform,
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 import BasicHeader from '../components/BasicHeader';
-import { Send, Plus } from '../components/icons';
+import {Send, Plus} from '../components/icons';
 // import Loading from '../components/Loading';
-import { AuthContext } from '../context/Auth';
-import { errorMessage, successMessage } from '../utils/showToast';
-import { strings } from '../constants/localization';
+import {AuthContext} from '../context/Auth';
+import {errorMessage, successMessage} from '../utils/showToast';
+import {strings} from '../constants/localization';
 import Admission from '../components/Admission';
-import { deletePostAdmin, getAllPosts, postSend } from '../api/aybu-social/post';
+import {deletePostAdmin, getAllPosts, postSend} from '../api/aybu-social/post';
 import LoadingMore from '../components/LoadingMore';
 import {
   BottomSheetTextInput,
@@ -32,14 +32,14 @@ import {
   BottomSheetModalProvider,
   BottomSheetBackdrop,
 } from '@gorhom/bottom-sheet';
-import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
-import { KeyboardAvoidingView } from 'react-native';
+import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
+import {KeyboardAvoidingView} from 'react-native';
 import ComplaintModal from '../components/ComplaintModal';
-import { storage } from '../config/storage';
+import {storage} from '../config/storage';
 
-const Admissions = ({ navigation }) => {
-  const { colors } = useTheme();
-  const { token } = useContext(AuthContext);
+const Admissions = ({navigation}) => {
+  const {colors} = useTheme();
+  const {token} = useContext(AuthContext);
 
   const [admissions, setAdmissions] = useState([]);
   const [admission, onChangeAdmission] = useState('');
@@ -75,7 +75,7 @@ const Admissions = ({ navigation }) => {
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
-      () => { },
+      () => {},
     );
     const keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
@@ -176,7 +176,7 @@ const Admissions = ({ navigation }) => {
   const sendAdmission = async () => {
     setLoading(true);
     try {
-      let firToken = storage.getString("fcmToken")
+      let firToken = storage.getString('fcmToken');
       let response = await postSend(token, admission, firToken);
       onChangeAdmission('');
       if (response.error) {
@@ -213,8 +213,8 @@ const Admissions = ({ navigation }) => {
     return __DEV__
       ? TestIds.BANNER
       : Platform.OS === 'ios'
-        ? 'ca-app-pub-6556478222911747/8504715598'
-        : 'ca-app-pub-6556478222911747/8316727926';
+      ? 'ca-app-pub-6305131424598853/1541206638'
+      : 'ca-app-pub-6305131424598853/9577848449';
   };
 
   return (
@@ -225,13 +225,13 @@ const Admissions = ({ navigation }) => {
         flex: 1,
         position: 'relative',
       }}
-    // keyboardVerticalOffset={40}
+      // keyboardVerticalOffset={40}
     >
       <BasicHeader
-        style={{ backgroundColor: colors.trendHeader }}
+        style={{backgroundColor: colors.trendHeader}}
         navigation={navigation}
         text={strings.admission}
-        textStyle={{ fontWeight: 'bold', fontSize: 18 }}
+        textStyle={{fontWeight: 'bold', fontSize: 18}}
         isBack={false}
       />
       {/* {loading && <Loading />} */}
@@ -249,7 +249,7 @@ const Admissions = ({ navigation }) => {
       />
 
       {!loading && admissions?.length == 0 ? (
-        <Text style={[styles.noComment, { color: colors.noCommentText }]}>
+        <Text style={[styles.noComment, {color: colors.noCommentText}]}>
           {strings.noAdmission1 + '\n' + strings.noAdmission2}
         </Text>
       ) : (
@@ -266,11 +266,11 @@ const Admissions = ({ navigation }) => {
             paddingBottom: 72,
             marginTop: adLoaded ? 16 : 0,
           }}
-          ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
+          ItemSeparatorComponent={() => <View style={{height: 24}} />}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <Admission
               navigation={navigation}
               admission={item}
@@ -315,7 +315,7 @@ const Admissions = ({ navigation }) => {
       </TouchableWithoutFeedback> */}
 
       <BottomSheetModalProvider>
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           <TouchableOpacity
             onPress={() => {
               openAdmissionSheet();
@@ -373,7 +373,7 @@ const Admissions = ({ navigation }) => {
                 scrollEnabled={false}
                 selectionColor={colors.commentInputText}
                 placeholderTextColor="#ccc"
-                style={[styles.commentInput, { color: colors.commentInputText }]}
+                style={[styles.commentInput, {color: colors.commentInputText}]}
               />
               <TouchableOpacity
                 style={{

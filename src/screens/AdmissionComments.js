@@ -192,8 +192,8 @@ const AdmissionComments = ({route, navigation}) => {
     return __DEV__
       ? TestIds.BANNER
       : Platform.OS === 'ios'
-      ? 'ca-app-pub-6556478222911747/4303415003'
-      : 'ca-app-pub-6556478222911747/4354551746';
+      ? 'ca-app-pub-6305131424598853/7639463709'
+      : 'ca-app-pub-6305131424598853/7998556358';
   };
 
   return (
