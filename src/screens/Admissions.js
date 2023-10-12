@@ -36,6 +36,7 @@ import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 import {KeyboardAvoidingView} from 'react-native';
 import ComplaintModal from '../components/ComplaintModal';
 import {storage} from '../config/storage';
+import {admissionAndroid, admissionIos} from '../../secret';
 
 const Admissions = ({navigation}) => {
   const {colors} = useTheme();
@@ -213,8 +214,8 @@ const Admissions = ({navigation}) => {
     return __DEV__
       ? TestIds.BANNER
       : Platform.OS === 'ios'
-      ? 'ca-app-pub-6305131424598853/1541206638'
-      : 'ca-app-pub-6305131424598853/9577848449';
+      ? admissionIos
+      : admissionAndroid;
   };
 
   return (

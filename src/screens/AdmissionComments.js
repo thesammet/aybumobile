@@ -35,6 +35,7 @@ import {
 } from '../api/aybu-social/post_comment';
 import {useKeyboard} from '@react-native-community/hooks';
 import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
+import {admissionCommentAndroid, admissionCommentIos} from '../../secret';
 
 const AdmissionComments = ({route, navigation}) => {
   const {colors} = useTheme();
@@ -192,8 +193,8 @@ const AdmissionComments = ({route, navigation}) => {
     return __DEV__
       ? TestIds.BANNER
       : Platform.OS === 'ios'
-      ? 'ca-app-pub-6305131424598853/7639463709'
-      : 'ca-app-pub-6305131424598853/7998556358';
+      ? admissionCommentIos
+      : admissionCommentAndroid;
   };
 
   return (

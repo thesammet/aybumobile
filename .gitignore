@@ -63,3 +63,8 @@ buck-out/
 /ios/Pods/
 /vendor/bundle/
 android/key.properties
+
+
+.env
+.secret.js
+secret.js

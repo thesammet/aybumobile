@@ -19,6 +19,7 @@ import {strings} from '../constants/localization';
 import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 import AppText from '../components/AppText';
 import * as Animatable from 'react-native-animatable';
+import {homeAndroid, homeIos} from '../../secret';
 
 const {width} = Dimensions.get('screen');
 
@@ -76,8 +77,8 @@ const Home = ({navigation}) => {
     return __DEV__
       ? TestIds.BANNER
       : Platform.OS === 'ios'
-      ? 'ca-app-pub-6305131424598853/6592592456'
-      : 'ca-app-pub-6305131424598853/9982556016';
+      ? homeIos
+      : homeAndroid;
   };
 
   return (

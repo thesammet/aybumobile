@@ -11,6 +11,7 @@ import {strings} from '../constants/localization';
 import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 import AppText from '../components/AppText';
 import * as Animatable from 'react-native-animatable';
+import {trendsAndroid, trendsIos} from '../../secret';
 
 const Trends = ({navigation}) => {
   const {colors} = useTheme();
@@ -43,8 +44,8 @@ const Trends = ({navigation}) => {
     return __DEV__
       ? TestIds.BANNER
       : Platform.OS === 'ios'
-      ? 'ca-app-pub-6305131424598853/4730229335'
-      : 'ca-app-pub-6305131424598853/8106614984';
+      ? trendsIos
+      : trendsAndroid;
   };
 
   return (
