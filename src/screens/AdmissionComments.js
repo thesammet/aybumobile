@@ -19,30 +19,30 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
-import {useTheme} from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 
 import BasicHeader from '../components/BasicHeader';
-import {Send, Plus} from '../components/icons';
+import { Send, Plus } from '../components/icons';
 import Loading from '../components/Loading';
-import {AuthContext} from '../context/Auth';
-import {errorMessage, successMessage} from '../utils/showToast';
-import {strings} from '../constants/localization';
+import { AuthContext } from '../context/Auth';
+import { errorMessage, successMessage } from '../utils/showToast';
+import { strings } from '../constants/localization';
 import Admission from '../components/Admission';
 import {
   deleteSocialPostCommentAdmin,
   getAllCommentsByPost,
   postCommentSend,
 } from '../api/aybu-social/post_comment';
-import {useKeyboard} from '@react-native-community/hooks';
-import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
-import {admissionCommentAndroid, admissionCommentIos} from '../../secret';
+import { useKeyboard } from '@react-native-community/hooks';
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+import { admissionCommentAndroid, admissionCommentIos } from '../../secret';
 
-const AdmissionComments = ({route, navigation}) => {
-  const {colors} = useTheme();
+const AdmissionComments = ({ route, navigation }) => {
+  const { colors } = useTheme();
   const keyboard = useKeyboard();
 
-  const {token} = useContext(AuthContext);
-  const {admission} = route.params;
+  const { token } = useContext(AuthContext);
+  const { admission } = route.params;
 
   const [admissionComments, setAdmissionComments] = useState([]);
   const [admissionComment, onChangeAdmissionComment] = useState('');
@@ -193,15 +193,15 @@ const AdmissionComments = ({route, navigation}) => {
     return __DEV__
       ? TestIds.BANNER
       : Platform.OS === 'ios'
-      ? admissionCommentIos
-      : admissionCommentAndroid;
+        ? admissionCommentIos
+        : admissionCommentAndroid;
   };
 
   return (
     <KeyboardAvoidingView
       // behavior={Platform.OS === 'ios' && 'height'}
       //behavior={Platform.OS == 'ios' ? 'padding' : null}
-      {...(Platform.OS === 'ios' && {behavior: 'padding'})}
+      {...(Platform.OS === 'ios' && { behavior: 'padding' })}
       style={{
         flex: 1,
         position: 'relative',
@@ -224,7 +224,7 @@ const AdmissionComments = ({route, navigation}) => {
       />
       {loading && <Loading size="small" />}
       {!loading && admissionComments?.length == 0 ? (
-        <Text style={[styles.noComment, {color: colors.noCommentText}]}>
+        <Text style={[styles.noComment, { color: colors.noCommentText }]}>
           {strings.noAdmission1 + '\n' + strings.noAdmission2}
         </Text>
       ) : (
@@ -238,11 +238,11 @@ const AdmissionComments = ({route, navigation}) => {
             paddingBottom: 72,
             marginTop: adLoaded ? 16 : 0,
           }}
-          ItemSeparatorComponent={() => <View style={{height: 24}} />}
+          ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <Admission
               type="inside"
               navigation={navigation}
@@ -263,7 +263,7 @@ const AdmissionComments = ({route, navigation}) => {
         />
       )}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <View
             style={[
               styles.commentInputContainer,
@@ -277,7 +277,7 @@ const AdmissionComments = ({route, navigation}) => {
               },
             ]}>
             <TextInput
-              style={[styles.commentInput, {color: colors.commentInputText}]}
+              style={[styles.commentInput, { color: colors.commentInputText }]}
               onChangeText={onChangeAdmissionComment}
               value={admissionComment}
               multiline={true}
